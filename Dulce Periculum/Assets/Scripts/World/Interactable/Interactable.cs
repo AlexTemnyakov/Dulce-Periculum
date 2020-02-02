@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damage : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
-    public int DAMAGE;
-
     void Start()
     {
-        GameObject.FindObjectOfType<Interactable>();
+
     }
 
     void Update()
     {
-        
+
     }
+
+    public abstract void Interact();
 }

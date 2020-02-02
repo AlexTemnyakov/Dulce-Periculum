@@ -7,8 +7,8 @@ public class CameraHandler : MonoBehaviour
     public  float      DIST_FROM_PLAYER;
     public  float      ANGLE;
     public  float      HEIGHT;
-    private const
-            float      PLAYER_HEIGHT_OFFSET = 3f;
+    //private const
+    //        float      PLAYER_HEIGHT_OFFSET = 3f;
     private const
             float      CHANGE_POS_SPEED     = 0.5f;
 
@@ -67,8 +67,8 @@ public class CameraHandler : MonoBehaviour
 
         foreach (Vector3 v in pointsToCheck)
         {
-            dir = Quaternion.Euler(v) * (position - (player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET));
-            if (Physics.Raycast(player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET, dir, out hit, dist))
+            dir = Quaternion.Euler(v) * (position - (player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET));
+            if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, dir, out hit, dist))
             {
                 if (hit.transform.gameObject.tag.Equals("Player"))
                 {
@@ -87,36 +87,20 @@ public class CameraHandler : MonoBehaviour
 
     private bool IsInsideObject()
     {
-        Vector3[] directions = {
-                                    player.transform.forward,
-                                    Quaternion.Euler(0, 72, 0) * player.transform.forward,
-                                    Quaternion.Euler(0, 144, 0) * player.transform.forward,
-                                    Quaternion.Euler(0, 216, 0) * player.transform.forward,
-                                    Quaternion.Euler(0, 288, 0) * player.transform.forward,
-                                    /*player.transform.forward,
-                                    player.transform.right,
-                                    -player.transform.forward,
-                                    -player.transform.right,*/
-                               };
+        Vector3[]  directions = { Quaternion.Euler(-20, 0, 0) * player.transform.up,
+                                  player.transform.up,
+                                  -player.transform.up };
         RaycastHit hit;
         int        count = 0;
 
-        //Debug.DrawRay(player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET, player.transform.forward * DIST_FROM_PLAYER * 2);
-        //Debug.DrawRay(player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET, Quaternion.Euler(0, 72, 0) * player.transform.forward * DIST_FROM_PLAYER * 2);
-        //Debug.DrawRay(player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET, Quaternion.Euler(0, 144, 0) * player.transform.forward * DIST_FROM_PLAYER * 2);
-        //Debug.DrawRay(player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET, Quaternion.Euler(0, 216, 0) * player.transform.forward * DIST_FROM_PLAYER * 2);
-        //Debug.DrawRay(player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET, Quaternion.Euler(0, 288, 0) * player.transform.forward * DIST_FROM_PLAYER * 2);
-
         foreach (Vector3 d in directions)
         {
-            if (Physics.Raycast(player.transform.position + Vector3.up * PLAYER_HEIGHT_OFFSET, d, out hit, DIST_FROM_PLAYER * 2))
+            if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, d, out hit, DIST_FROM_PLAYER * 10f, LayerMask.GetMask("Buildings")))
             {
-                if (hit.transform.gameObject.tag.Equals("Player"))
-                    continue;
                 count += 1;
             }
         }
 
-        return count >= 4 ? true : false;
+        return count >= directions.Length ? true : false;
     }
 }

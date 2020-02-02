@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Utils : MonoBehaviour
 {
+    public static float PLAYER_HEIGHT_OFFSET = 3.0f;
+
+    public static int   BUILDINGS_LAYER = 10;
+
     public static IEnumerator WaitForAnimation(Animation animation)
     {
         while (animation.isPlaying)

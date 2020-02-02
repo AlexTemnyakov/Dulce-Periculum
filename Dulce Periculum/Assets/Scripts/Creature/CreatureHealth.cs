@@ -22,9 +22,9 @@ public class CreatureHealth : MonoBehaviour
             return;
 
         Damage d = other.GetComponentInParent<Damage>();
-        print("Hit, damage=" + d.GetDamage() + ", health=" + HEALTH);
+        HEALTH  -= d.DAMAGE;
 
-        HEALTH -= d.GetDamage();
+        print("Hit, damage=" + d.DAMAGE + ", health=" + HEALTH);
 
         if (HEALTH <= 0)
         {
