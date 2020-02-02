@@ -18,6 +18,9 @@ public class CreatureHealth : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (gameObject.layer == other.gameObject.layer)
+            return;
+
         Damage d = other.GetComponentInParent<Damage>();
         print("Hit, damage=" + d.GetDamage() + ", health=" + HEALTH);
 
@@ -25,7 +28,6 @@ public class CreatureHealth : MonoBehaviour
 
         if (HEALTH <= 0)
         {
-            print("qqq");
             Destroy(gameObject);
         }
     }

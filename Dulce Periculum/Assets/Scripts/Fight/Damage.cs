@@ -16,5 +16,8 @@ public class Damage : MonoBehaviour
         
     }
 
-    public int GetDamage() { return DAMAGE; }
+    public int GetDamage()
+    {
+        return DAMAGE;
+    }
 }
