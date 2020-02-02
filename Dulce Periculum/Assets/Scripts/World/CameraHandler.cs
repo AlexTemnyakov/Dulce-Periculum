@@ -7,8 +7,6 @@ public class CameraHandler : MonoBehaviour
     public  float      DIST_FROM_PLAYER;
     public  float      ANGLE;
     public  float      HEIGHT;
-    //private const
-    //        float      PLAYER_HEIGHT_OFFSET = 3f;
     private const
             float      CHANGE_POS_SPEED     = 0.5f;
 
@@ -58,8 +56,8 @@ public class CameraHandler : MonoBehaviour
     {
         Vector3[]  pointsToCheck = {
                                             Vector3.zero,
-                                        new Vector3(0, -15, 0),
-                                        new Vector3(0, 15, 0)
+                                        new Vector3(0, -10, 0),
+                                        new Vector3(0, 10, 0)
                                     };
         Vector3    newPos = position;
         Vector3    dir;

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 4916304073289652230}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 303.01758, y: -74.92439, z: 179.20435}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 4916304072251577276}
   - {fileID: 4916304073910116808}
@@ -744,16 +744,6 @@ PrefabInstance:
     - target: {fileID: 6350565587710055851, guid: fdddb37c69b19444b986f135bf437700,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463026069154088777, guid: fdddb37c69b19444b986f135bf437700,
-        type: 3}
-      propertyPath: m_ShadowRadius
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463026069154088777, guid: fdddb37c69b19444b986f135bf437700,
-        type: 3}
-      propertyPath: m_DrawHalo
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6356194763894262497, guid: fdddb37c69b19444b986f135bf437700,
@@ -1533,16 +1523,6 @@ PrefabInstance:
     - target: {fileID: 6350565587710055851, guid: fdddb37c69b19444b986f135bf437700,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463026069154088777, guid: fdddb37c69b19444b986f135bf437700,
-        type: 3}
-      propertyPath: m_ShadowRadius
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463026069154088777, guid: fdddb37c69b19444b986f135bf437700,
-        type: 3}
-      propertyPath: m_DrawHalo
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6356194763894262497, guid: fdddb37c69b19444b986f135bf437700,

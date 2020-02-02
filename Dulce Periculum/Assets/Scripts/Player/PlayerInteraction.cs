@@ -25,6 +25,7 @@ public class PlayerInteraction : MonoBehaviour
                     interactable = hit.transform.gameObject.GetComponent<Interactable>();
                     if (interactable)
                     {
+                        print("Interact");
                         interactable.Interact();
                     }
                 }

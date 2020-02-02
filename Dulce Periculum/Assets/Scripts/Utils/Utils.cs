@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Utils : MonoBehaviour
 {
-    public static float PLAYER_HEIGHT_OFFSET = 3.0f;
+    public static float PLAYER_HEIGHT_OFFSET = 1.0f;
 
     public static int   BUILDINGS_LAYER = 10;
 

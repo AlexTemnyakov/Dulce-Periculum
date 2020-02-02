@@ -388,6 +388,7 @@ GameObject:
   - component: {fileID: 2044958651909700277}
   - component: {fileID: 728389997}
   - component: {fileID: 728389998}
+  - component: {fileID: 87285993}
   m_Layer: 8
   m_Name: Knight
   m_TagString: Player
@@ -404,7 +405,7 @@ Transform:
   m_GameObject: {fileID: 4301144470771311764}
   m_LocalRotation: {x: 0, y: -0.9954629, z: 0, w: 0.09515094}
   m_LocalPosition: {x: 915.89075, y: 0, z: 709.07764}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4301144470771087592}
   - {fileID: 4301144470771087586}
@@ -462,10 +463,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SENSITIVITY: 10
-  FORWARD_SPEED: 3
-  BACKWARD_SPEED: 3
-  SIDE_SPEED: 2
-  ACCELERATION: 4
+  FORWARD_SPEED: 2.5
+  BACKWARD_SPEED: 2
+  SIDE_SPEED: 1.5
+  ACCELERATION: 3
 --- !u!114 &53489547318238377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,6 +534,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DAMAGE: 10
+--- !u!114 &87285993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301144470771311764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59452d8c446631146bdba2da5beab9f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  INTERACTION_DISTANCE: 3
 --- !u!1 &4301144470771311766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,8 +1443,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 4301144470771087586}
   m_AABB:
-    m_Center: {x: 0.015150785, y: 1.780688, z: -0.039257288}
-    m_Extent: {x: 0.8026737, y: 0.99069524, z: 0.56582654}
+    m_Center: {x: 0.009090483, y: 1.068413, z: -0.023554385}
+    m_Extent: {x: 0.48160428, y: 0.5944172, z: 0.3394959}
   m_DirtyAABB: 0
 --- !u!183 &4301144470771311815
 Cloth:
