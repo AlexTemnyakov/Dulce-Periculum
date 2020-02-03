@@ -13,7 +13,8 @@ public class CreatureHealth : MonoBehaviour
 
     void Update()
     {
-        
+        if (!IsAlive())
+            Die();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -25,10 +26,15 @@ public class CreatureHealth : MonoBehaviour
         HEALTH  -= d.DAMAGE;
 
         print("Hit, damage=" + d.DAMAGE + ", health=" + HEALTH);
+    }
 
-        if (HEALTH <= 0)
-        {
-            Destroy(gameObject);
-        }
+    public bool IsAlive()
+    {
+        return HEALTH > 0;
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

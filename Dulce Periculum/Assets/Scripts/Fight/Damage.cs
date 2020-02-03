@@ -8,7 +8,7 @@ public class Damage : MonoBehaviour
 
     void Start()
     {
-        GameObject.FindObjectOfType<Interactable>();
+
     }
 
     void Update()

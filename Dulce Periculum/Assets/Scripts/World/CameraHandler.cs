@@ -66,13 +66,13 @@ public class CameraHandler : MonoBehaviour
         foreach (Vector3 v in pointsToCheck)
         {
             dir = Quaternion.Euler(v) * (position - (player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET));
-            if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, dir, out hit, dist))
+            if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, dir, out hit, dist, LayerMask.GetMask("Buildings")))
             {
-                if (hit.transform.gameObject.tag.Equals("Player"))
+                /*if (hit.transform.gameObject.tag.Equals("Player"))
                 {
                     continue;
                 }
-                else
+                else*/
                 {
                     newPos = hit.point - dir.normalized * 2;
                     break;

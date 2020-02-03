@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public  float               ACCELERATION;
 
     private const
-            float               RUN_ROT_ANGLE   = 0.2f;
+            float               RUN_ROT_ANGLE   = 0.3f;
     private const
             float               SPEED_DEVIATION = 0.99f;
     private const

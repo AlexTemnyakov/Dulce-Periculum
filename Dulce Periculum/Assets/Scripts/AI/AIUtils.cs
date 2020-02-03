@@ -22,7 +22,7 @@ public class AIUtils : MonoBehaviour
     }
 
     public float DistanceToPlayer(Vector3 position) { return Vector3.Distance(position, player.transform.position); }
-    public bool  IsPlayerVisible(Vector3 position, float visibility, float visionAngle, float playerHeightOffset)
+    public bool  IsPlayerVisible(Vector3 position, Vector3 forward, float visibility, float visionAngle, float playerHeightOffset)
     {
         RaycastHit hit;
         Vector3    playerDirection = player.transform.position - position;
@@ -30,12 +30,8 @@ public class AIUtils : MonoBehaviour
         //Debug.DrawRay(position, playerDirection * visibility + Vector3.up * playerHeightOffset, Color.black);
         if (Physics.Raycast(position, playerDirection * visibility + Vector3.up * playerHeightOffset, out hit, visibility))
         {
-            if (hit.transform.gameObject == player && Vector3.Angle(playerDirection, position) < visionAngle)
+            if (hit.transform.gameObject == player && Vector3.Angle(playerDirection, forward) <= visionAngle)
                 return true;
-        }
-        else
-        {
-            //print("NOT VISIBLE");
         }
 
         return false;
