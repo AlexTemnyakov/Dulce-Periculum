@@ -30,5 +30,6 @@ https://assetstore.unity.com/packages/3d/animations/magic-pack-36269
 https://assetstore.unity.com/packages/3d/animations/melee-axe-pack-35320
 https://assetstore.unity.com/packages/3d/animations/the-woman-warrior-33230
 https://assetstore.unity.com/packages/3d/props/weapons/fantasy-medieval-weapon-154210
+https://assetstore.unity.com/packages/tools/terrain/terrain-toolkit-2017-83490
 
 https://www.textures.com/download/pbr0544/138580
