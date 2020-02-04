@@ -36,6 +36,8 @@ public class PlayerAttack : MonoBehaviour
                 animator.SetInteger("Hit", hitNum);
 
                 hitNum = (hitNum + 1) % HIT_TYPES_COUNT;
+
+                StartCoroutine(WaitForCooldown());
             }
             else
             {
@@ -53,11 +55,21 @@ public class PlayerAttack : MonoBehaviour
     public IEnumerator WaitForCooldown()
     {
         waitingForCooldown                        = true;
-        WEAPON.GetComponent<Collider>().isTrigger = false;
 
         yield return new WaitForSeconds(COOLDOWN_TIME);
 
         waitingForCooldown                        = false;
         WEAPON.GetComponent<Collider>().isTrigger = true;
+    }
+
+    public void EnableTrigger()
+    {
+        WEAPON.GetComponent<Collider>().isTrigger = true;
+    }
+
+    public void DisableTrigger()
+    {
+        if (waitingForCooldown)
+            WEAPON.GetComponent<Collider>().isTrigger = false;
     }
 }

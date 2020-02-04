@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 496045433}
   - component: {fileID: 417005444}
   - component: {fileID: 417005446}
+  - component: {fileID: 447139629}
   m_Layer: 9
   m_Name: Goblin_Ranger_R1
   m_TagString: Untagged
@@ -767,7 +768,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4837174957831810008}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4c563e0e617ae24289a72cd434eff86, type: 3}
   m_Name: 
@@ -800,6 +801,18 @@ CapsuleCollider:
   m_Height: 1.7
   m_Direction: 1
   m_Center: {x: 0, y: 0.7, z: 0}
+--- !u!114 &447139629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4837174957831810008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e7517d28329fb4c8ea41a8ee10e25b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4837174957831810010
 GameObject:
   m_ObjectHideFlags: 0

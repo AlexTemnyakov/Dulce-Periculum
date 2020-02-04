@@ -31,6 +31,7 @@ https://assetstore.unity.com/packages/3d/animations/melee-axe-pack-35320
 https://assetstore.unity.com/packages/3d/animations/the-woman-warrior-33230
 https://assetstore.unity.com/packages/3d/props/weapons/fantasy-medieval-weapon-154210
 https://assetstore.unity.com/packages/tools/terrain/terrain-toolkit-2017-83490
+https://assetstore.unity.com/packages/3d/environments/urban/victorain-cathedral-large-church-22208
 
 https://freesound.org
 

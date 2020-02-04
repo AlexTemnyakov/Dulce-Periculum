@@ -10,9 +10,9 @@ public enum MaterialSound
 
 public class HitSound : MonoBehaviour
 {
-    //public  HitSoundHandler HIT_SOUND_HANDLER;
     public  MaterialSound THIS_MATERIAL;
     public  AudioClip     METAL_METAL;
+    public  AudioClip     METAL_CREATURE;
 
     private AudioSource   audioSource;
 
@@ -28,6 +28,33 @@ public class HitSound : MonoBehaviour
 
     public void PlayHitSound(MaterialSound other)
     {
-        audioSource.PlayOneShot(METAL_METAL);
+        switch (THIS_MATERIAL)
+        {
+            case MaterialSound.METAL:
+            {
+                switch (other)
+                {
+                    case MaterialSound.METAL:
+                        audioSource.PlayOneShot(METAL_METAL);
+                        break;
+                    case MaterialSound.CREATURE:
+                        audioSource.PlayOneShot(METAL_CREATURE);
+                        break;
+                }
+            } break;
+
+            case MaterialSound.CREATURE:
+            {
+                switch (other)
+                {
+                    case MaterialSound.METAL:
+                        audioSource.PlayOneShot(METAL_CREATURE);
+                        break;
+                    case MaterialSound.CREATURE:
+                        audioSource.PlayOneShot(METAL_METAL);
+                        break;
+                }
+            } break;
+        }
     }
 }
