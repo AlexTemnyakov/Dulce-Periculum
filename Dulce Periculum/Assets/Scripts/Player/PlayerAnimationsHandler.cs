@@ -23,4 +23,12 @@ public class PlayerAnimationsHandler : MonoBehaviour
         SWORD_SHEATHED.SetActive(true);
         SWORD_UNSHEATHED.SetActive(false);
     }
+
+    public void WeaponHitSound()
+    {
+        if (SWORD_UNSHEATHED.activeInHierarchy)
+        {
+            SWORD_UNSHEATHED.GetComponent<AudioSource>().Play();
+        }
+    }
 }

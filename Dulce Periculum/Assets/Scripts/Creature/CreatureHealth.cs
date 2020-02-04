@@ -22,10 +22,12 @@ public class CreatureHealth : MonoBehaviour
         if (gameObject.layer == other.gameObject.layer)
             return;
 
-        Damage d = other.GetComponentInParent<Damage>();
-        HEALTH  -= d.DAMAGE;
-
-        print("Hit, damage=" + d.DAMAGE + ", health=" + HEALTH);
+        Damage d = other.GetComponent<Damage>();
+        if (d)
+        {
+            HEALTH -= d.DAMAGE;
+            print("Hit, damage=" + d.DAMAGE + ", health=" + HEALTH);
+        }
     }
 
     public bool IsAlive()

@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public  float     HIDE_SWORD_TIME;
-    public  float     COOLDOWN_TIME;
-    public GameObject WEAPON;
+    public  float      HIDE_SWORD_TIME;
+    public  float      COOLDOWN_TIME;
+    public  GameObject WEAPON;
 
     private const
-            int       HIT_TYPES_COUNT  = 6;
+            int        HIT_TYPES_COUNT  = 6;
 
-    private Animator  animator;
-    private float     deltaTime;
-    private int       hitNum;
-    private bool      waitingForCooldown;
+    private Animator   animator;
+    private float      deltaTime;
+    private int        hitNum;
+    private bool       waitingForCooldown;
 
     void Start()
     {

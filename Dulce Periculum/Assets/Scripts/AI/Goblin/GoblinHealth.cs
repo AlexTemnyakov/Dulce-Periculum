@@ -12,4 +12,18 @@ public class GoblinHealth : CreatureHealth
             a.SetTrigger("Death");
         }
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (gameObject.layer == other.gameObject.layer)
+            return;
+
+        Damage d = other.GetComponent<Damage>();
+        if (d)
+        {
+            HEALTH -= d.DAMAGE;
+            other.GetComponent<HitSound>().PlayHitSound(MaterialSound.CREATURE);
+            print("Hit, damage=" + d.DAMAGE + ", health=" + HEALTH);
+        }
+    }
 }
