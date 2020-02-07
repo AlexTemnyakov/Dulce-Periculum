@@ -22,34 +22,29 @@ public class MusicManager : MonoBehaviour
 
         if (enemyNearPlayer)
         {
-            print("Enemy near");
             audioSource.volume = Mathf.Lerp(audioSource.volume, 0, Time.deltaTime);
         }
         else
         {
-            print("No enemy near");
             audioSource.volume = Mathf.Lerp(audioSource.volume, maxVolume, Time.deltaTime);
         }
     }
 
     private IEnumerator FindEnemiesNearPlayer()
     {
-        GameObject [] objects = FindObjectsOfType(typeof(GameObject)) as GameObject [];
-        GameObject    player  = GameObject.FindGameObjectWithTag("Player");
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("Enemy") as GameObject[]; 
+        GameObject   player  = GameObject.FindGameObjectWithTag("Player");
 
         for (int i = 0; i < objects.Length; i++)
         {
-            if (objects[i].layer == LayerMask.NameToLayer("Enemies"))
+            if (Vector3.Distance(player.transform.position, objects[i].transform.position) < MUSIC_DIST)
             {
-                if (Vector3.Distance(player.transform.position, objects[i].transform.position) < MUSIC_DIST)
-                {
-                    enemyNearPlayer = true;
-                    break;
-                }
-                else
-                {
-                    enemyNearPlayer = false;
-                }
+                enemyNearPlayer = true;
+                break;
+            }
+            else
+            {
+                enemyNearPlayer = false;
             }
 
             yield return null;
