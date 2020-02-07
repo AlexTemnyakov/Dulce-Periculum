@@ -113,24 +113,21 @@ public class GoblinBrains : MonoBehaviour
 
     private void Run()
     {
-        //agent.enabled = true;
-        agent.speed   = SPEED * ACCELERATION;
+        agent.speed = SPEED * ACCELERATION;
         animator.SetFloat("Speed", agent.speed);
     }
 
     private void Walk()
     {
-        //agent.enabled = true;
-        agent.speed   = SPEED;
+        agent.speed = SPEED;
         animator.SetFloat("Speed", agent.speed);
     }
 
     private void Stand()
     {
         agent.ResetPath();
-        agent.speed   = 0;
+        agent.speed = 0;
         animator.SetFloat("Speed", agent.speed);
-        //agent.enabled = false;
     }
 
     private void RotateToPlayer()
