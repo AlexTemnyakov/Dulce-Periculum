@@ -773,21 +773,21 @@ ModelImporter:
       curves: []
       events:
       - time: 0.07932692
-        functionName: EnableTrigger
+        functionName: SwordEnableHandler
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.2333333
-        functionName: SwordMovingSound
+        functionName: SwordSwingSoundHandler
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.9158654
-        functionName: DisableTrigger
+        functionName: SwordDisableHandler
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

@@ -13,17 +13,18 @@ public class GoblinHealth : CreatureHealth
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    override public void OnTriggerEnter(Collider other)
     {
         if (gameObject.layer == other.gameObject.layer)
             return;
 
-        Damage d = other.GetComponent<Damage>();
-        if (d)
+        Weapon w = other.GetComponent<Weapon>();
+        if (w && !w.hit)
         {
-            HEALTH -= d.DAMAGE;
-            other.GetComponent<HitSound>().PlayHitSound(MaterialSound.CREATURE);
-            print("Hit, damage=" + d.DAMAGE + ", health=" + HEALTH);
+            HEALTH -= w.DAMAGE;
+            w.hit   = true;
+            other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
+            print("Hit, damage=" + w.DAMAGE + ", health=" + HEALTH);
         }
     }
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CreatureHealth : MonoBehaviour
 {
-    public float HEALTH;
+    public MaterialSound THIS_MATERIAL;
+    public float         HEALTH;
 
     void Start()
     {
@@ -17,16 +18,18 @@ public class CreatureHealth : MonoBehaviour
             Die();
     }
 
-    public void OnTriggerEnter(Collider other)
+    virtual public void OnTriggerEnter(Collider other)
     {
         if (gameObject.layer == other.gameObject.layer)
             return;
 
-        Damage d = other.GetComponent<Damage>();
-        if (d)
+        Weapon w = other.GetComponent<Weapon>();
+        if (w && !w.hit)
         {
-            HEALTH -= d.DAMAGE;
-            print("Hit, damage=" + d.DAMAGE + ", health=" + HEALTH);
+            HEALTH -= w.DAMAGE;
+            w.hit   = true;
+            other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
+            print("Hit, damage=" + w.DAMAGE + ", health=" + HEALTH);
         }
     }
 

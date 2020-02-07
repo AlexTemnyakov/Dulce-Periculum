@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 4450754509608649280}
   - component: {fileID: 976224429}
   - component: {fileID: 1369890203}
-  - component: {fileID: 1369890209}
-  - component: {fileID: 1369890210}
+  - component: {fileID: 1703505783}
+  - component: {fileID: 1703505784}
   m_Layer: 8
   m_Name: bastardsword_unsheathed
   m_TagString: Player
@@ -208,7 +208,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1369890209
+--- !u!114 &1703505783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,25 +217,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 2139242281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c563e0e617ae24289a72cd434eff86, type: 3}
+  m_Script: {fileID: 11500000, guid: bf2059b57f1eaf24690899c1c5bdaf6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DAMAGE: 10
---- !u!114 &1369890210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139242281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92d462524d72d4340bf97bdce7829e37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  THIS_MATERIAL: 0
   METAL_METAL: {fileID: 8300000, guid: ebcbb664018f947728cb9b67468b0f48, type: 3}
   METAL_CREATURE: {fileID: 8300000, guid: ebe2ea6311c10f14a83349d0059e29a3, type: 3}
+--- !u!114 &1703505784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139242281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d59580e0f80259479374ee216cbfab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DAMAGE: 15
+  hit: 0
+  SHEATHED: {fileID: 4301144470771311820}
+  UNSHEATHED: {fileID: 2139242281}
+  MOVING_SOUND: {fileID: 8300000, guid: 52fa067c25c5c401b811eb86d142287e, type: 3}
+  SHEATHE_SOUND: {fileID: 8300000, guid: 1e1f9ae893727714a84e0c2c522a9259, type: 3}
+  UNSHEATHE_SOUND: {fileID: 8300000, guid: 1e1f9ae893727714a84e0c2c522a9259, type: 3}
 --- !u!1 &4301144470771311744
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +536,8 @@ GameObject:
   - component: {fileID: 2044958651909700277}
   - component: {fileID: 87285993}
   - component: {fileID: 235160193}
-  - component: {fileID: 366411180}
+  - component: {fileID: 83882194}
+  - component: {fileID: 83882193}
   m_Layer: 8
   m_Name: Knight
   m_TagString: Player
@@ -589,7 +595,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.7
+  m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
@@ -622,9 +628,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5328ab61d5a332845a4f2211dd99ab6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HIDE_SWORD_TIME: 5
   COOLDOWN_TIME: 1
-  WEAPON: {fileID: 2139242281}
+  HIDE_SWORD_TIME: 5
+  SWORD: {fileID: 2139242281}
 --- !u!136 &2044958651909700277
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -634,7 +640,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 4301144470771311764}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.4
   m_Height: 2.1
   m_Direction: 1
@@ -664,8 +670,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8757b0adae2df458e60a7b3883e41e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  THIS_MATERIAL: 0
   HEALTH: 100
---- !u!114 &366411180
+--- !u!54 &83882194
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301144470771311764}
+  serializedVersion: 2
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &83882193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -674,14 +697,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4301144470771311764}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d59580e0f80259479374ee216cbfab1, type: 3}
+  m_Script: {fileID: 11500000, guid: b4407bf5b29c02f4a99027039a6cc92e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SHEATHED: {fileID: 4301144470771311820}
-  UNSHEATHED: {fileID: 2139242281}
-  MOVING_SOUND: {fileID: 8300000, guid: 52fa067c25c5c401b811eb86d142287e, type: 3}
-  SHEATHE_SOUND: {fileID: 8300000, guid: 1e1f9ae893727714a84e0c2c522a9259, type: 3}
-  UNSHEATHE_SOUND: {fileID: 8300000, guid: 1e1f9ae893727714a84e0c2c522a9259, type: 3}
 --- !u!1 &4301144470771311766
 GameObject:
   m_ObjectHideFlags: 0

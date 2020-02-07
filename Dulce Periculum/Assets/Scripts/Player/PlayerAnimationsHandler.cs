@@ -4,31 +4,37 @@ using UnityEngine;
 
 public class PlayerAnimationsHandler : MonoBehaviour
 {
-    public GameObject SWORD_UNSHEATHED;
-    public GameObject SWORD_SHEATHED;
+    private PlayerFight fight;
+    private Sword       sword;
 
     void Start()
     {
-        SheathSword();
+        fight = GetComponent<PlayerFight>();
+        sword = fight.SWORD.GetComponent<Sword>();
     }
 
-    public void UnsheathSword()
+    public void UnsheatheSwordHandler()
     {
-        SWORD_SHEATHED.SetActive(false);
-        SWORD_UNSHEATHED.SetActive(true);
+        sword.UnsheatheSword();
     }
 
-    public void SheathSword()
+    public void SheatheSwordHandler()
     {
-        SWORD_SHEATHED.SetActive(true);
-        SWORD_UNSHEATHED.SetActive(false);
+        sword.SheatheSword();
     }
 
-    public void WeaponHitSound()
+    public void SwordSwingSoundHandler()
     {
-        if (SWORD_UNSHEATHED.activeInHierarchy)
-        {
-            SWORD_UNSHEATHED.GetComponent<AudioSource>().Play();
-        }
+        sword.SwordSwingSound();
+    }
+
+    public void SwordEnableHandler()
+    {
+        sword.SwordEnable();
+    }
+
+    public void SwordDisableHandler()
+    {
+        sword.SwordDisable();
     }
 }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerFight : Fight
 {
     public  float      HIDE_SWORD_TIME;
-    public  float      COOLDOWN_TIME;
-    public  GameObject WEAPON;
+    public  GameObject SWORD;
 
     private const
             int        HIT_TYPES_COUNT  = 6;
@@ -14,19 +13,17 @@ public class PlayerAttack : MonoBehaviour
     private Animator   animator;
     private float      deltaTime;
     private int        hitNum;
-    private bool       waitingForCooldown;
 
     void Start()
     {
-        animator           = GetComponent<Animator>();
-        deltaTime          = 0;
-        hitNum             = 0;
-        waitingForCooldown = false;
+        animator  = GetComponent<Animator>();
+        deltaTime = 0;
+        hitNum    = 0;
     }
 
     void Update()
     {
-        if (!waitingForCooldown)
+        if (!SWORD.GetComponent<Weapon>().IsWaitingForCooldown())
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -37,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
 
                 hitNum = (hitNum + 1) % HIT_TYPES_COUNT;
 
-                StartCoroutine(WaitForCooldown());
+                SWORD.GetComponent<Weapon>().WaitForCooldown(COOLDOWN_TIME);
             }
             else
             {
@@ -50,26 +47,5 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
-    }
-
-    public IEnumerator WaitForCooldown()
-    {
-        waitingForCooldown                        = true;
-
-        yield return new WaitForSeconds(COOLDOWN_TIME);
-
-        waitingForCooldown                        = false;
-        WEAPON.GetComponent<Collider>().isTrigger = true;
-    }
-
-    public void EnableTrigger()
-    {
-        WEAPON.GetComponent<Collider>().isTrigger = true;
-    }
-
-    public void DisableTrigger()
-    {
-        if (waitingForCooldown)
-            WEAPON.GetComponent<Collider>().isTrigger = false;
     }
 }

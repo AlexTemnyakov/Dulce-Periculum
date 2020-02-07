@@ -30,11 +30,18 @@ public class Sword : Weapon
         SHEATHED.GetComponent<AudioSource>().PlayOneShot(SHEATHE_SOUND);
     }
 
-    public void SwordMovingSound()
+    public void SwordSwingSound()
     {
-        //if (UNSHEATHED.activeInHierarchy)
-        {
-            UNSHEATHED.GetComponent<AudioSource>().PlayOneShot(MOVING_SOUND);
-        }
+        UNSHEATHED.GetComponent<AudioSource>().PlayOneShot(MOVING_SOUND);
+    }
+
+    public void SwordEnable()
+    {
+        hit = false;
+    }
+
+    public void SwordDisable()
+    {
+        hit = true;
     }
 }

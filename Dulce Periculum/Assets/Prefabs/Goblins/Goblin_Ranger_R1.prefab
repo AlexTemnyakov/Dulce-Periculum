@@ -8,7 +8,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4236613791614775973}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -29,6 +29,132 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.050675284, y: 0.28974885, z: 0.32}
   m_Center: {x: 0.000030494242, y: -0.034972534, z: 0.49}
+--- !u!82 &895909352
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4236613791614775973}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &895909353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4236613791614775973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f657002808418794fbc3dd0659da473c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  METAL_METAL: {fileID: 8300000, guid: 0caaff8243d125b48bf954c103b3e1f6, type: 3}
+  METAL_CREATURE: {fileID: 8300000, guid: 0caaff8243d125b48bf954c103b3e1f6, type: 3}
+--- !u!114 &895909355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4236613791614775973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e7517d28329fb4c8ea41a8ee10e25b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DAMAGE: 1
+  hit: 0
+  AXE: {fileID: 4236613791614775973}
+  SWING_SOUND: {fileID: 8300000, guid: a8ad1a44f4e21c748bc49507d6b5b988, type: 3}
 --- !u!1 &4837174957831809952
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,10 +786,10 @@ GameObject:
   - component: {fileID: 4395675565181614980}
   - component: {fileID: 8785595111705885488}
   - component: {fileID: 8785595111705885491}
-  - component: {fileID: 496045433}
   - component: {fileID: 417005444}
   - component: {fileID: 417005446}
-  - component: {fileID: 447139629}
+  - component: {fileID: 1086562452}
+  - component: {fileID: 1086562444}
   m_Layer: 9
   m_Name: Goblin_Ranger_R1
   m_TagString: Untagged
@@ -747,7 +873,6 @@ MonoBehaviour:
   VISIBILITY: 60
   VISION_ANGLE: 90
   ATTACK_DIST: 2
-  COOLDOWN_TIME: 3
   WEAPON: {fileID: 4236613791614775973}
 --- !u!114 &8785595111705885491
 MonoBehaviour:
@@ -761,19 +886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4e29ac269b4bc43904244fb970f37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &496045433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4837174957831810008}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c563e0e617ae24289a72cd434eff86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DAMAGE: 3
 --- !u!114 &417005444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,7 +898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e72acad3d48634ab0c5f7b62c79d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HEALTH: 30
+  THIS_MATERIAL: 1
+  HEALTH: 100
 --- !u!136 &417005446
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -801,7 +914,23 @@ CapsuleCollider:
   m_Height: 1.7
   m_Direction: 1
   m_Center: {x: 0, y: 0.7, z: 0}
---- !u!114 &447139629
+--- !u!54 &1086562452
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4837174957831810008}
+  serializedVersion: 2
+  m_Mass: 40
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1086562444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -810,9 +939,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4837174957831810008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e7517d28329fb4c8ea41a8ee10e25b, type: 3}
+  m_Script: {fileID: 11500000, guid: fc3280d2614e80f4ca23ad3c3cdb1a93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  COOLDOWN_TIME: 1
+  AXE: {fileID: 4236613791614775973}
 --- !u!1 &4837174957831810010
 GameObject:
   m_ObjectHideFlags: 0

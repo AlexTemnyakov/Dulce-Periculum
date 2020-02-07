@@ -14,8 +14,8 @@ public class GoblinBrains : MonoBehaviour
     public  float          VISIBILITY;
     public  float          VISION_ANGLE;
     public  float          ATTACK_DIST;
-    public  float          COOLDOWN_TIME;
     public  GameObject     WEAPON;
+
     private const
             float          NEW_TARGET_DIST      = 10;
     private const
@@ -27,22 +27,20 @@ public class GoblinBrains : MonoBehaviour
     private GameObject     player;
     private Animator       animator;
     private CreatureHealth health;
+    private GoblinFight    fight;
     private Vector3        startPoint;
-    private int            hitNum;
-    private bool           waitingForCooldown;
 
     void Start()
     {
         NavMeshHit hit;
 
-        agent              = GetComponent<NavMeshAgent>();
-        player             = GameObject.FindGameObjectWithTag("Player");
-        animator           = GetComponent<Animator>();
-        health             = GetComponent<CreatureHealth>();
-        agent.speed        = SPEED ;
-        startPoint         = transform.position;
-        hitNum             = 0;
-        waitingForCooldown = false;
+        agent       = GetComponent<NavMeshAgent>();
+        player      = GameObject.FindGameObjectWithTag("Player");
+        animator    = GetComponent<Animator>();
+        health      = GetComponent<CreatureHealth>();
+        fight       = GetComponent<GoblinFight>();
+        agent.speed = SPEED ;
+        startPoint  = transform.position;
 
         if (NavMesh.SamplePosition(startPoint, out hit, 10, NavMesh.AllAreas))
         {
@@ -65,7 +63,7 @@ public class GoblinBrains : MonoBehaviour
         {
             Stand();
             RotateToPlayer();
-            Attack();
+            fight.Attack();
         }
         else
         {
@@ -113,17 +111,6 @@ public class GoblinBrains : MonoBehaviour
         return targetPoint;
     }
 
-    private void Attack()
-    {
-        if (!waitingForCooldown)
-        {
-            animator.SetInteger("Hit", hitNum);
-            animator.SetTrigger("Attack");
-
-            hitNum = (hitNum + 1) % HIT_TYPES_COUNT;
-        }
-    }
-
     private void Run()
     {
         //agent.enabled = true;
@@ -166,16 +153,5 @@ public class GoblinBrains : MonoBehaviour
         {
             Debug.LogError("Goblin, a problem with the navmesh, he can not find player's position.");
         }
-    }
-
-    public IEnumerator WaitForCooldown()
-    {
-        waitingForCooldown                        = true;
-        WEAPON.GetComponent<Collider>().isTrigger = false;
-
-        yield return new WaitForSeconds(COOLDOWN_TIME);
-
-        waitingForCooldown                        = false;
-        WEAPON.GetComponent<Collider>().isTrigger = true;
     }
 }
