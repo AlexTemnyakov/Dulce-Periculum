@@ -32,6 +32,10 @@ https://assetstore.unity.com/packages/3d/animations/the-woman-warrior-33230
 https://assetstore.unity.com/packages/3d/props/weapons/fantasy-medieval-weapon-154210
 https://assetstore.unity.com/packages/tools/terrain/terrain-toolkit-2017-83490
 https://assetstore.unity.com/packages/3d/environments/urban/victorain-cathedral-large-church-22208
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/fire-spell-effects-36825
+https://assetstore.unity.com/packages/3d/characters/humanoids/female-warrior-princess-44041#content
+https://assetstore.unity.com/packages/3d/characters/humanoids/all-star-character-collection-43181
+https://assetstore.unity.com/packages/vfx/shaders/dissolve-edge-92681
 
 https://freesound.org
 
