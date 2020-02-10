@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Village
   - Fire
+  - AI Utils
   layers:
   - Default
   - TransparentFX

@@ -7,7 +7,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Animator))]
 public class GoblinBrains : MonoBehaviour
 {
-    public  AIUtils        AI_UTILS;
     public  float          SPEED;
     public  float          ACCELERATION;
     public  float          MAX_DIST_FROM_START;
@@ -23,17 +22,18 @@ public class GoblinBrains : MonoBehaviour
     private const
             int            HIT_TYPES_COUNT      = 2;
 
+    private AIUtils        AI_Utils;
     private NavMeshAgent   agent;
     private GameObject     player;
     private Animator       animator;
     private CreatureHealth health;
     private GoblinFight    fight;
     private Vector3        startPoint;
+    private GameObject     target;
 
     void Start()
     {
-        NavMeshHit hit;
-
+        AI_Utils    = GameObject.FindGameObjectWithTag("AI Utils").GetComponent<AIUtils>();
         agent       = GetComponent<NavMeshAgent>();
         player      = GameObject.FindGameObjectWithTag("Player");
         animator    = GetComponent<Animator>();
@@ -42,16 +42,7 @@ public class GoblinBrains : MonoBehaviour
         agent.speed = SPEED ;
         startPoint  = transform.position;
 
-        if (NavMesh.SamplePosition(startPoint, out hit, 10, NavMesh.AllAreas))
-        {
-            startPoint = hit.position;
-            agent.SetDestination(CreateTargetPoint());
-        }
-        else
-        {
-            Debug.LogError("Goblin, a problem with the navmesh.");
-            Destroy(gameObject);
-        }
+        agent.SetDestination(CreateTargetPoint());
     }
 
     void Update()
@@ -59,15 +50,16 @@ public class GoblinBrains : MonoBehaviour
         if (!health.IsAlive())
             return;
 
-        if (AI_UTILS.IsPlayerAtAttackDistance(transform.position, ATTACK_DIST))
+        if (AI_Utils.IsPlayerAtAttackDistance(transform.position, ATTACK_DIST))
         {
             Stand();
-            RotateToPlayer();
+            RotateTo(player.transform.position);
             fight.Attack();
         }
         else
         {
-            if (AI_UTILS.IsPlayerVisible(transform.position, transform.forward, VISIBILITY, VISION_ANGLE, PLAYER_HEIGHT_OFFSET))
+            
+            if (AI_Utils.IsPlayerVisible(transform.position, transform.forward, VISIBILITY, VISION_ANGLE))
             {
                 SetPlayerAsTarget();
                 Run();
@@ -130,12 +122,12 @@ public class GoblinBrains : MonoBehaviour
         animator.SetFloat("Speed", agent.speed);
     }
 
-    private void RotateToPlayer()
+    private void RotateTo(Vector3 point)
     {
-        Vector3 playerDir;
+        Vector3 dir;
 
-        playerDir         = player.transform.position - transform.position;
-        transform.forward = Vector3.Lerp(transform.forward, playerDir, 0.5f);
+        dir               = point - transform.position;
+        transform.forward = Vector3.Lerp(transform.forward, dir, 0.5f);
     }
 
     private void SetPlayerAsTarget()
@@ -149,6 +141,37 @@ public class GoblinBrains : MonoBehaviour
         else
         {
             Debug.LogError("Goblin, a problem with the navmesh, he can not find player's position.");
+        }
+    }
+
+    private bool IsTargetAtAttackDistance()
+    {
+        if (!target.activeInHierarchy)
+            return false;      
+        else
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position, target.transform.position - transform.position, out hit, ATTACK_DIST, LayerMask.NameToLayer("Buildings")))
+                return true;
+            else
+                return false;
+        }
+    }
+
+    private void GoToTarget()
+    {
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(target.transform.position, out hit, 10, NavMesh.AllAreas))
+        {
+            startPoint = hit.position;
+            agent.SetDestination(CreateTargetPoint());
+        }
+        else
+        {
+            Debug.LogError("Goblin, a problem with the navmesh.");
+            //Destroy(gameObject);
         }
     }
 }
