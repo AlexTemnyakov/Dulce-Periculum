@@ -50,9 +50,7 @@ public class GoblinBrains : MonoBehaviour
         if (!health.IsAlive())
             return;
 
-        //Debug.DrawLine(transform.position, target.transform.position, Color.red);
-
-        if (AI_Utils.IsPlayerAtAttackDistance(transform.position, ATTACK_DIST))
+        if (AI_Utils.IsPlayerAtAttackDistance(transform.position, ATTACK_DIST * 1.1f))
         {
             Stand();
             RotateTo(player.transform.position);
@@ -65,7 +63,6 @@ public class GoblinBrains : MonoBehaviour
                 if (!target || !target.activeInHierarchy)
                 {
                     target = AI_Utils.GetHouseInVillage();
-                    //target = GameObject.FindGameObjectWithTag("Village");
 
                     if (target)
                     {
@@ -73,7 +70,7 @@ public class GoblinBrains : MonoBehaviour
                     }
                     else
                     {
-                        ACTION = GoblinAction.ATTACK_PLAYER;
+                        Stand();
                     }
                 }
                 else
@@ -92,20 +89,13 @@ public class GoblinBrains : MonoBehaviour
             }
             else if (ACTION == GoblinAction.ATTACK_PLAYER)
             {
-                if (AI_Utils.IsPlayerVisible(transform.position, transform.forward, VISIBILITY, VISION_ANGLE))
+                if (target != player)
                 {
-                    SetAsAgentTarget(player.transform.position);
-                    Run();
+                    target = player;
                 }
-                else
-                {
-                    if (agent.remainingDistance < 1)
-                    {
-                        agent.SetDestination(CreateTargetPoint());
-                    }
 
-                    Walk();
-                }
+                SetAsAgentTarget(player.transform.position);
+                Run();
             }
         }
     }
@@ -116,21 +106,10 @@ public class GoblinBrains : MonoBehaviour
         int        angle;
         Vector3    vector;
         Vector3    targetPoint;
-        NavMeshHit hit;
 
         angle       = Random.Range(0, 360);
         vector      = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 1) * 20;
         targetPoint = transform.position + vector;
-
-        if (NavMesh.SamplePosition(targetPoint, out hit, 10, NavMesh.AllAreas))
-        {
-            if (Vector3.Distance(startPoint, hit.position) < MAX_DIST_FROM_START)
-                targetPoint = hit.position;
-        }
-        else
-        {
-            Debug.LogError("Goblin, a problem with the navmesh, he can not find a new position.");
-        }
 
         return targetPoint;
     }

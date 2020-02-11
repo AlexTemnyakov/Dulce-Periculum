@@ -23,7 +23,38 @@ public class BuildingHealth : MonoBehaviour
     void LateUpdate()
     {
         if (HEALTH <= 0)
+        {
+            StartCoroutine(Destruct());
+        }
+    }
+
+    private IEnumerator Destruct()
+    {
+        Transform[] children = GetComponentsInChildren<Transform>();
+        int start = children.Length > 1 ? 1 : 0; 
+        if (children.Length < 1)
+        {
             Destroy(gameObject);
+        }
+        else
+        {
+            for (int i = 1; i < children.Length; i++)
+            {
+                if (!children[i].gameObject.GetComponent<Rigidbody>())
+                {
+                    children[i].gameObject.AddComponent<Rigidbody>();
+                    children[i].gameObject.GetComponent<Rigidbody>().mass = 500;
+                    //children[i].gameObject.GetComponent<Rigidbody>().useGravity = true;
+                    //children[i].gameObject.GetComponent<Rigidbody>().AddForce(Vector3.down * 0.01f + Vector3.right * 0.01f);
+                }
+
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            yield return new WaitForSeconds(5.0f);
+
+            Destroy(gameObject);
+        }
     }
 
     public void Hit(BuildingHitRegistrator source, float damage)
