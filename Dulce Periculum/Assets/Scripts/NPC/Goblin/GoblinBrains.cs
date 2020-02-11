@@ -7,8 +7,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Animator))]
 public class GoblinBrains : MonoBehaviour
 {
+    public  GoblinAction   ACTION;
     public  float          SPEED;
     public  float          ACCELERATION;
+    public  float          ROTATION_SPEED;
     public  float          MAX_DIST_FROM_START;
     public  float          VISIBILITY;
     public  float          VISION_ANGLE;
@@ -41,14 +43,14 @@ public class GoblinBrains : MonoBehaviour
         fight       = GetComponent<GoblinFight>();
         agent.speed = SPEED ;
         startPoint  = transform.position;
-
-        agent.SetDestination(CreateTargetPoint());
     }
 
     void Update()
     {
         if (!health.IsAlive())
             return;
+
+        //Debug.DrawLine(transform.position, target.transform.position, Color.red);
 
         if (AI_Utils.IsPlayerAtAttackDistance(transform.position, ATTACK_DIST))
         {
@@ -58,20 +60,52 @@ public class GoblinBrains : MonoBehaviour
         }
         else
         {
-            
-            if (AI_Utils.IsPlayerVisible(transform.position, transform.forward, VISIBILITY, VISION_ANGLE))
+            if (ACTION == GoblinAction.ATTACK_VILLAGE)
             {
-                SetPlayerAsTarget();
-                Run();
-            }
-            else
-            {
-                if (agent.remainingDistance < 1)
+                if (!target || !target.activeInHierarchy)
                 {
-                    agent.SetDestination(CreateTargetPoint());
-                }
+                    target = AI_Utils.GetHouseInVillage();
+                    //target = GameObject.FindGameObjectWithTag("Village");
 
-                Walk();
+                    if (target)
+                    {
+                        SetAsAgentTarget(target.transform.position);
+                    }
+                    else
+                    {
+                        ACTION = GoblinAction.ATTACK_PLAYER;
+                    }
+                }
+                else
+                {
+                    if (IsTargetAtAttackDistance())
+                    {
+                        Stand();
+                        RotateTo(target.transform.position);
+                        fight.Attack();
+                    }
+                    else
+                    {
+                        Run();
+                    }
+                }
+            }
+            else if (ACTION == GoblinAction.ATTACK_PLAYER)
+            {
+                if (AI_Utils.IsPlayerVisible(transform.position, transform.forward, VISIBILITY, VISION_ANGLE))
+                {
+                    SetAsAgentTarget(player.transform.position);
+                    Run();
+                }
+                else
+                {
+                    if (agent.remainingDistance < 1)
+                    {
+                        agent.SetDestination(CreateTargetPoint());
+                    }
+
+                    Walk();
+                }
             }
         }
     }
@@ -83,8 +117,6 @@ public class GoblinBrains : MonoBehaviour
         Vector3    vector;
         Vector3    targetPoint;
         NavMeshHit hit;
-
-        targetPoint = startPoint;
 
         angle       = Random.Range(0, 360);
         vector      = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 1) * 20;
@@ -127,51 +159,54 @@ public class GoblinBrains : MonoBehaviour
         Vector3 dir;
 
         dir               = point - transform.position;
-        transform.forward = Vector3.Lerp(transform.forward, dir, 0.5f);
+        dir.y             = transform.forward.y;
+        transform.forward = Vector3.Lerp(transform.forward, dir.normalized, Time.deltaTime * ROTATION_SPEED);
     }
 
-    private void SetPlayerAsTarget()
+    private void SetAsAgentTarget(Vector3 position)
     {
         NavMeshHit hit;
 
-        if (NavMesh.SamplePosition(player.transform.position, out hit, 10, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(position, out hit, 10, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
         }
         else
         {
-            Debug.LogError("Goblin, a problem with the navmesh, he can not find player's position.");
+            Debug.LogError("Goblin, a problem with the navmesh.");
+            Debug.Break();
         }
     }
 
     private bool IsTargetAtAttackDistance()
     {
-        if (!target.activeInHierarchy)
-            return false;      
+        // If the target object has been disappeared from the world.
+        if (!target || !target.activeInHierarchy)
+        {
+            return false;
+        }
         else
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(transform.position, target.transform.position - transform.position, out hit, ATTACK_DIST, LayerMask.NameToLayer("Buildings")))
-                return true;
-            else
+            // If the target object is to far. It is possible that the raycast hits another building in the world, 
+            // so this situation must be avoided.
+            if (Vector3.Distance(transform.position, target.transform.position) > 20)
+            {
                 return false;
-        }
-    }
+            }
+            else
+            {
+                RaycastHit hit;
 
-    private void GoToTarget()
-    {
-        NavMeshHit hit;
-
-        if (NavMesh.SamplePosition(target.transform.position, out hit, 10, NavMesh.AllAreas))
-        {
-            startPoint = hit.position;
-            agent.SetDestination(CreateTargetPoint());
-        }
-        else
-        {
-            Debug.LogError("Goblin, a problem with the navmesh.");
-            //Destroy(gameObject);
+                // Vector3.up * 2 is used because transform.position is on ground, it must be lifted.
+                if (Physics.Raycast(transform.position + Vector3.up * 2, target.transform.position - transform.position, out hit, ATTACK_DIST, LayerMask.GetMask("Buildings")))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

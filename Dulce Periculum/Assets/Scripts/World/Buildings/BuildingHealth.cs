@@ -10,7 +10,8 @@ public class BuildingHealth : MonoBehaviour
     void Start()
     {
         Transform[] children = GetComponentsInChildren<Transform>();
-        for (int i = 1; i < children.Length; i++)
+        int         start    = children.Length > 1 ? 1 : 0;
+        for (int i = start; i < children.Length; i++)
         {
             if (children[i].GetComponent<Collider>())
             {

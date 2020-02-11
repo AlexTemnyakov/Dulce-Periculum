@@ -9,6 +9,13 @@ public class BuildingHitRegistrator : MonoBehaviour
     void Start()
     {
         buildingHealth = GetComponentInParent<BuildingHealth>();
+        if (!buildingHealth)
+        {
+            buildingHealth = GetComponent<BuildingHealth>();
+            if (!buildingHealth)
+                Debug.LogError("The building can't be destroyed.");
+        }
+
     }
 
 

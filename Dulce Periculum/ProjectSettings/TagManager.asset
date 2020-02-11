@@ -9,6 +9,7 @@ TagManager:
   - Village
   - Fire
   - AI Utils
+  - Utils
   layers:
   - Default
   - TransparentFX

@@ -52,17 +52,17 @@ public class AIUtils : MonoBehaviour
 
     public GameObject GetHouseInVillage()
     {
-        if (village.Count == 0)
+        if (village == null || village.Count == 0)
             return null;
 
-        return village[0];
+        return village[Random.Range(0, village.Count)];
     }
 
     private IEnumerator CheckVillage()
     {
         for (int i = village.Count - 1; i >= 0; i--)
         {
-            if (!village[i].activeSelf)
+            if (!village[i] || !village[i].activeInHierarchy)
             {
                 village.RemoveAt(i);
             }
