@@ -37,6 +37,9 @@ public class MusicManager : MonoBehaviour
 
         for (int i = 0; i < objects.Length; i++)
         {
+            if (!objects[i] || !objects[i].activeInHierarchy)
+                continue;
+
             if (Vector3.Distance(player.transform.position, objects[i].transform.position) < MUSIC_DIST)
             {
                 enemyNearPlayer = true;

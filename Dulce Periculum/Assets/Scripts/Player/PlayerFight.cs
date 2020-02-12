@@ -8,7 +8,7 @@ public class PlayerFight : Fight
     public  GameObject SWORD;
 
     private const
-            int        HIT_TYPES_COUNT  = 6;
+            int        HIT_TYPES_COUNT  = 4;
 
     private Animator   animator;
     private float      deltaTime;

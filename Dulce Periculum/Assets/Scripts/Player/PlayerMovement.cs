@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Range(0, 10f)]
     public  float               SENSITIVITY;
     public  float               FORWARD_SPEED;
     public  float               BACKWARD_SPEED;
     public  float               SIDE_SPEED;
     public  float               ACCELERATION;
+    [Range(0, 0.3f)]
+    public  float               RUN_ROT_SPEED;
 
-    private const
-            float               RUN_ROT_ANGLE   = 0.3f;
     private const
             float               SPEED_DEVIATION = 0.99f;
     private const
@@ -42,7 +43,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Rotate()
     {
-        transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X"), 0) * Time.deltaTime * SENSITIVITY);
+        if (curSpeed < FORWARD_SPEED)
+            transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X"), 0) * Time.deltaTime * SENSITIVITY);
+        else
+            transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X"), 0) * Time.deltaTime * SENSITIVITY / 2);
     }
 
     private void Move()
@@ -94,7 +98,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (curSpeed > FORWARD_SPEED)
             {
-                transform.Rotate(Vector3.up, RUN_ROT_ANGLE);
+                transform.forward = Vector3.Lerp(transform.forward, Quaternion.Euler(0, 1, 0) * transform.forward, RUN_ROT_SPEED);
+                //transform.Rotate(Vector3.up, RUN_ROT_SPEED);
             }
             else
             {
@@ -107,7 +112,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (curSpeed > FORWARD_SPEED)
             {
-                transform.Rotate(Vector3.up, -RUN_ROT_ANGLE);
+                transform.forward = Vector3.Lerp(transform.forward, Quaternion.Euler(0, -1, 0) * transform.forward, RUN_ROT_SPEED);
+                //transform.Rotate(Vector3.up, -RUN_ROT_SPEED);
             }
             else
             {

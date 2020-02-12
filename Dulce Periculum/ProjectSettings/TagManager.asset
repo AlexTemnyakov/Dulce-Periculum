@@ -10,6 +10,7 @@ TagManager:
   - Fire
   - AI Utils
   - Utils
+  - Settings
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Enemies
   - Buildings
   - FireLayer
-  - 
+  - Terrain
   - 
   - 
   - 

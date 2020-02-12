@@ -36,7 +36,12 @@ https://assetstore.unity.com/packages/vfx/particles/fire-explosions/fire-spell-e
 https://assetstore.unity.com/packages/3d/characters/humanoids/female-warrior-princess-44041#content
 https://assetstore.unity.com/packages/3d/characters/humanoids/all-star-character-collection-43181
 https://assetstore.unity.com/packages/vfx/shaders/dissolve-edge-92681
+https://assetstore.unity.com/packages/audio/sound-fx/foley/blood-sfx-pack-16107
+https://assetstore.unity.com/packages/vfx/shaders/lux-physically-based-shader-framework-16000
+
 
 https://freesound.org
 
 https://www.textures.com/download/pbr0544/138580
+
+http://getwallpapers.com/collection/hd-medieval-wallpaper

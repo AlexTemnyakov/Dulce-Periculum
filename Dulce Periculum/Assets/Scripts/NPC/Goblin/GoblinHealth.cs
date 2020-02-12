@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class GoblinHealth : CreatureHealth
 {
+    void Start()
+    {
+        Settings s    = GameObject.FindGameObjectWithTag("Settings").GetComponent<Settings>();
+        maxHealth     = s.GOBLIN_HEALTH;
+        currentHealth = maxHealth;
+    }
+
     void Update()
     {
         if (!IsAlive())
@@ -21,10 +28,10 @@ public class GoblinHealth : CreatureHealth
         Weapon w = other.GetComponent<Weapon>();
         if (w && !w.hit)
         {
-            HEALTH -= w.DAMAGE;
+            currentHealth -= w.DAMAGE;
             w.hit   = true;
             other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
-            print("Hit, damage=" + w.DAMAGE + ", health=" + HEALTH);
+            print("Hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
         }
     }
 }

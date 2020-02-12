@@ -25,8 +25,8 @@ public class GoblinBrains : MonoBehaviour
             int            HIT_TYPES_COUNT      = 2;
 
     private AIUtils        AI_Utils;
-    private NavMeshAgent   agent;
     private GameObject     player;
+    private NavMeshAgent   agent;
     private Animator       animator;
     private CreatureHealth health;
     private GoblinFight    fight;
@@ -36,8 +36,8 @@ public class GoblinBrains : MonoBehaviour
     void Start()
     {
         AI_Utils    = GameObject.FindGameObjectWithTag("AI Utils").GetComponent<AIUtils>();
-        agent       = GetComponent<NavMeshAgent>();
         player      = GameObject.FindGameObjectWithTag("Player");
+        agent       = GetComponent<NavMeshAgent>();
         animator    = GetComponent<Animator>();
         health      = GetComponent<CreatureHealth>();
         fight       = GetComponent<GoblinFight>();
@@ -48,7 +48,11 @@ public class GoblinBrains : MonoBehaviour
     void Update()
     {
         if (!health.IsAlive())
+        {
+            agent.ResetPath();
+            Stand();
             return;
+        }
 
         if (AI_Utils.IsPlayerAtAttackDistance(transform.position, ATTACK_DIST * 1.1f))
         {
@@ -128,7 +132,6 @@ public class GoblinBrains : MonoBehaviour
 
     private void Stand()
     {
-        agent.ResetPath();
         agent.speed = 0;
         animator.SetFloat("Speed", agent.speed);
     }

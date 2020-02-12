@@ -8,7 +8,16 @@ public class CameraHandler : MonoBehaviour
     public  float      ANGLE;
     public  float      HEIGHT;
     private const
-            float      CHANGE_POS_SPEED     = 0.5f;
+            float      CHANGE_POS_SPEED     = 0.1f;
+
+    // How long the object should shake for.
+    public float shakeDurationStart;
+    private float shakeDuration = 0f;
+
+    // Amplitude of the shake. A larger value shakes the camera harder.
+    public float shakeAmount = 0.7f;
+    public float decreaseFactor = 1.0f;
+
 
     private GameObject player;
     private Vector3    newPos;
@@ -66,17 +75,11 @@ public class CameraHandler : MonoBehaviour
         foreach (Vector3 v in pointsToCheck)
         {
             dir = Quaternion.Euler(v) * (position - (player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET));
-            if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, dir, out hit, dist, LayerMask.GetMask("Buildings")))
+            if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, dir, out hit, dist, LayerMask.GetMask("Buildings", "Terrain")))
             {
-                /*if (hit.transform.gameObject.tag.Equals("Player"))
-                {
-                    continue;
-                }
-                else*/
-                {
-                    newPos = hit.point - dir.normalized * 2;
-                    break;
-                }
+                print(hit.transform.gameObject.layer);
+                newPos = hit.point - dir.normalized * 2;
+                break;
             }
         }
 

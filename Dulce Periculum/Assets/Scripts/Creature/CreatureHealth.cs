@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CreatureHealth : MonoBehaviour
 {
-    public MaterialSound THIS_MATERIAL;
-    public float         HEALTH;
+    public    MaterialSound THIS_MATERIAL;
+
+    protected float         maxHealth;
+    protected float         currentHealth;
 
     void Start()
     {
-        
+        maxHealth = currentHealth = 0;
     }
 
     void Update()
@@ -26,16 +28,16 @@ public class CreatureHealth : MonoBehaviour
         Weapon w = other.GetComponent<Weapon>();
         if (w && !w.hit)
         {
-            HEALTH -= w.DAMAGE;
+            currentHealth -= w.DAMAGE;
             w.hit   = true;
             other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
-            print("Hit, damage=" + w.DAMAGE + ", health=" + HEALTH);
+            print("Hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
         }
     }
 
     public bool IsAlive()
     {
-        return HEALTH > 0;
+        return currentHealth > 0;
     }
 
     private void Die()
