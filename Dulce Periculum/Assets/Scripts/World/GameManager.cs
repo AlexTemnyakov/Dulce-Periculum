@@ -5,17 +5,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private GameObject       player;
-    private List<GameObject> village;
-    private List<GameObject> enemies;
+    private List<GameObject> houses        = new List<GameObject>();
+    private List<GameObject> housesToSteal = new List<GameObject>();
+    private List<GameObject> enemies       = new List<GameObject>();
 
     void Start()
     {
-        GameObject[] tmp;
-
         player  = GameObject.FindGameObjectWithTag("Player");
         // Find all buildings in the village.
-        tmp     = GameObject.FindGameObjectsWithTag("Village");
-        village = new List<GameObject>(tmp);
+        houses.AddRange(GameObject.FindGameObjectsWithTag("Village"));
+        housesToSteal.AddRange(houses);
         // Find all enemies.
         enemies = new List<GameObject>();
         enemies.AddRange(GameObject.FindGameObjectsWithTag("Goblin"));
@@ -29,24 +28,30 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         StartCoroutine(CheckEnemies());
-        StartCoroutine(CheckVillage());
+        StartCoroutine(CheckHouses());
+        StartCoroutine(CheckHousesToSteal());
     }
 
-    public GameObject GetHouseInVillage()
+    private IEnumerator CheckHouses()
     {
-        if (village == null || village.Count == 0)
-            return null;
-
-        return village[Random.Range(0, village.Count)];
-    }
-
-    private IEnumerator CheckVillage()
-    {
-        for (int i = village.Count - 1; i >= 0; i--)
+        for (int i = houses.Count - 1; i >= 0; i--)
         {
-            if (!village[i] || !village[i].activeInHierarchy)
+            if (!houses[i])
             {
-                village.RemoveAt(i);
+                houses.RemoveAt(i);
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator CheckHousesToSteal()
+    {
+        for (int i = housesToSteal.Count - 1; i >= 0; i--)
+        {
+            if (!housesToSteal[i] || housesToSteal[i].GetComponent<House>().Stealed)
+            {
+                houses.RemoveAt(i);
             }
 
             yield return null;
@@ -63,6 +68,28 @@ public class GameManager : MonoBehaviour
             }
 
             yield return null;
+        }
+    }
+
+    public GameObject House
+    {
+        get
+        {
+            if (houses == null || houses.Count == 0)
+                return null;
+
+            return houses[Random.Range(0, houses.Count)];
+        }
+    }
+
+    public GameObject HouseToSteal
+    {
+        get
+        {
+            if (housesToSteal == null || housesToSteal.Count == 0)
+                return null;
+
+            return housesToSteal[Random.Range(0, housesToSteal.Count)];
         }
     }
 

@@ -8,34 +8,23 @@ using UnityEngine.AI;
 public class GoblinBrains : EnemyBrains
 {
     public  GoblinAction   ACTION;
-    public  float          SPEED;
-    public  float          ACCELERATION;
-    public  float          ROTATION_SPEED;
-    public  float          MAX_DIST_FROM_START;
     public  GameObject     WEAPON;
 
-    private const
-            float          NEW_TARGET_DIST      = 10;
-    private const
-            float          PLAYER_HEIGHT_OFFSET = 200.0f;
     private const
             int            HIT_TYPES_COUNT      = 2;
 
     // Components.
-    private NavMeshAgent   agent;
     private Animator       animator;
     private CreatureHealth health;
     private GoblinFight    fight;
     // Information for remembering at the start.
     private Vector3        startPoint;
-    private GameObject     target;
     // Stealing.
     private StealingAction stealingAction;
 
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
-        agent       = GetComponent<NavMeshAgent>();
         animator    = GetComponent<Animator>();
         health      = GetComponent<CreatureHealth>();
         fight       = GetComponent<GoblinFight>();
@@ -73,120 +62,76 @@ public class GoblinBrains : EnemyBrains
         }
     }
 
-    // Create a random point within the maximum distance from the starting point.
-    private Vector3 CreateTargetPoint()
-    {
-        int        angle;
-        Vector3    vector;
-        Vector3    targetPoint;
-
-        angle       = Random.Range(0, 360);
-        vector      = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 1) * 20;
-        targetPoint = transform.position + vector;
-
-        return targetPoint;
-    }
-
-    private void Run()
+    override protected void Run()
     {
         agent.speed = SPEED * ACCELERATION;
         animator.SetFloat("Speed", agent.speed);
     }
 
-    private void Walk()
+    override protected void Walk()
     {
         agent.speed = SPEED;
         animator.SetFloat("Speed", agent.speed);
     }
 
-    private void Stand()
+    override protected void Stand()
     {
         agent.speed = 0;
         animator.SetFloat("Speed", agent.speed);
     }
 
-    private void RotateTo(Vector3 point)
-    {
-        Vector3 dir;
-
-        dir               = point - transform.position;
-        dir.y             = transform.forward.y;
-        transform.forward = Vector3.Lerp(transform.forward, dir.normalized, Time.deltaTime * ROTATION_SPEED);
-    }
-
-    private void SetAsAgentTarget(Vector3 position)
-    {
-        NavMeshHit hit;
-
-        if (NavMesh.SamplePosition(position, out hit, 10, NavMesh.AllAreas))
-        {
-            agent.SetDestination(hit.position);
-        }
-        else
-        {
-            Debug.LogError("Goblin, a problem with the navmesh.");
-            Debug.Break();
-        }
-    }
-
-    private bool IsTargetAtAttackDistance()
-    {
-        // If the target object has been disappeared from the world.
-        if (!target || !target.activeInHierarchy)
-        {
-            return false;
-        }
-        else
-        {
-            // If the target object is to far. It is possible that the raycast hits another building in the world, 
-            // so this situation must be avoided.
-            if (Vector3.Distance(transform.position, target.transform.position) > 20)
-            {
-                return false;
-            }
-            else
-            {
-                RaycastHit hit;
-
-                // Vector3.up * 2 is used because transform.position is on ground, it must be lifted.
-                if (Physics.Raycast(transform.position + Vector3.up * 2, target.transform.position - transform.position, out hit, ATTACK_DIST, LayerMask.GetMask("Buildings")))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-    }
-
     private void Steal()
     {
-        if (stealingAction == null || stealingAction.Building != target)
+        if (stealingAction == null || stealingAction.House == null)
         {
-            stealingAction = new StealingAction(target);
+            target = gameManager.HouseToSteal;
+
+            if (target)
+                stealingAction = new StealingAction(target);
+            else
+            {
+                target = gameManager.Player;
+                ACTION = GoblinAction.ATTACKING_PLAYER;
+            }
         }
 
-        switch (stealingAction.State)
+        switch (stealingAction.NextState())
         {
-            case StealingState.START:
+            case StealingState.BRAKE_DOOR:
             {
-                if (stealingAction.Door)
+                if (!target || target != stealingAction.Door)
                 {
-                    SetAsAgentTarget(stealingAction.Door.transform.position);
-                    stealingAction.State = StealingState.OPEN_DOOR;
+                    target = stealingAction.Door;
+                    SetAsAgentTarget(target.transform.position);
+                    Run();
                 }
-                else
+                else if (IsTargetAtAttackDistance())
                 {
-
+                    Stand();
+                    RotateTo(target.transform.position);
+                    fight.Attack();
                 }
             } break;
 
-            case StealingState.OPEN_DOOR:
+            case StealingState.STEAL_STUFF:
             {
-
+                if (!target || !target.CompareTag("Stuff") || !target.transform.IsChildOf(stealingAction.House.transform))
+                {
+                    target = stealingAction.StuffPeace;
+                    SetAsAgentTarget(target.transform.position);
+                    Run();
+                }
+                else if (IsTargetAtAttackDistance())
+                {
+                    print("attack dist");
+                    Stand();
+                    RotateTo(target.transform.position);
+                }
             } break;
+
+            default:
+                print("error");
+                break;
         }
     }
 
@@ -212,7 +157,7 @@ public class GoblinBrains : EnemyBrains
     {
         if (!target || !target.activeInHierarchy)
         {
-            target = gameManager.GetHouseInVillage();
+            target = gameManager.House;
 
             if (target)
             {

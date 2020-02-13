@@ -13,6 +13,7 @@ TagManager:
   - Settings
   - Game Manager
   - Goblin
+  - Stuff
   layers:
   - Default
   - TransparentFX

@@ -623,6 +623,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 188958, guid: 2082f115d38a4a94fabde959cb0bfd45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 117736, guid: 2082f115d38a4a94fabde959cb0bfd45, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
@@ -769,7 +773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 129354, guid: 2082f115d38a4a94fabde959cb0bfd45, type: 3}
       propertyPath: m_NavMeshLayer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 129354, guid: 2082f115d38a4a94fabde959cb0bfd45, type: 3}
       propertyPath: m_Layer
@@ -1036,7 +1040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GOBLIN_PREFAB: {fileID: 4837174957831810008, guid: fe3759e25e2fec24da33196ba7f6b3da,
     type: 3}
-  START_COUNT_OF_GOBLINS: 5
+  START_COUNT_OF_GOBLINS: 1
 --- !u!4 &446277894
 Transform:
   m_ObjectHideFlags: 0
@@ -1045,7 +1049,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446277892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1698, y: 89.39, z: 428.89}
+  m_LocalPosition: {x: 1668.57, y: 89.39, z: 335.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1470,7 +1474,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2010638083}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &713139904
+--- !u!114 &713139905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1479,11 +1483,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 713139901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbc9f3b2c3103647bd1d53e7353f760, type: 3}
+  m_Script: {fileID: 11500000, guid: 542976879b3d8c74f8fcf3cc6da00180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HEALTH: 50
-  HIT_DAMAGE: 2
 --- !u!1 &801314342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,11 +1715,11 @@ GameObject:
   - component: {fileID: 961890589}
   m_Layer: 10
   m_Name: Gold
-  m_TagString: Untagged
+  m_TagString: Stuff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &961890589
 Transform:
   m_ObjectHideFlags: 0
@@ -1725,12 +1727,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961890588}
-  m_LocalRotation: {x: -0.0056607127, y: 0.707084, z: 0.7070843, w: 0.0056607123}
-  m_LocalPosition: {x: -22.683, y: 0.306, z: 12.643}
-  m_LocalScale: {x: 0.22093235, y: 3.4007566, z: 0.05665255}
+  m_LocalRotation: {x: -0.7062798, y: 0.034193154, z: 0.034193184, w: 0.70627946}
+  m_LocalPosition: {x: 3.1556952, y: 0.50608826, z: -1.1655402}
+  m_LocalScale: {x: 0.22093254, y: 3.4007595, z: 0.056652594}
   m_Children: []
-  m_Father: {fileID: 1246394043}
-  m_RootOrder: 17
+  m_Father: {fileID: 713139903}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &972542777 stripped
 GameObject:
@@ -2493,11 +2495,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1246394042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbc9f3b2c3103647bd1d53e7353f760, type: 3}
+  m_Script: {fileID: 11500000, guid: 542976879b3d8c74f8fcf3cc6da00180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HEALTH: 50
-  HIT_DAMAGE: 2
 --- !u!1001 &1347840591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2524,6 +2524,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: e3e7869774731504f99d7df44892ab0d, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e3e7869774731504f99d7df44892ab0d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e3e7869774731504f99d7df44892ab0d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2697,6 +2701,10 @@ PrefabInstance:
     - target: {fileID: 103614, guid: 1e132733b84047940b6a9043814d6ee2, type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 103614, guid: 1e132733b84047940b6a9043814d6ee2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 122252, guid: 1e132733b84047940b6a9043814d6ee2, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3164,6 +3172,10 @@ PrefabInstance:
     - target: {fileID: 100006, guid: 35fa29dffd83f1d47a6ff8c91e60439c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 35fa29dffd83f1d47a6ff8c91e60439c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 35fa29dffd83f1d47a6ff8c91e60439c, type: 3}
       propertyPath: m_Layer
@@ -3952,6 +3964,10 @@ PrefabInstance:
     - target: {fileID: 182358, guid: c98af42ce7aec0543a054d041fe33418, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 182358, guid: c98af42ce7aec0543a054d041fe33418, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 443350, guid: c98af42ce7aec0543a054d041fe33418, type: 3}
       propertyPath: m_LocalPosition.x

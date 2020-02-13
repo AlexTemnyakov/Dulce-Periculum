@@ -5,49 +5,71 @@ using UnityEngine;
 public enum StealingState
 { 
     START,
-    OPEN_DOOR,
+    BRAKE_DOOR,
     STEAL_STUFF
 }
 
 public class StealingAction
 {
-    private bool          completed;
-    private StealingState state;
-    private GameObject    building;
-    private GameObject    door;
+    private BehaviourTreeSelector behaviour = new BehaviourTreeSelector();
+    private bool                  completed = false;
+    private StealingState         state     = StealingState.START;
+    private GameObject            building  = null;
+    private GameObject            door      = null;
+    private List<GameObject>      stuff     = new List<GameObject>();
 
     public StealingAction(GameObject __building)
     {
-        completed = false;
-        state     = StealingState.START;
-        building  = __building;
-        door      = null;
+        building = __building;
 
         foreach (Transform child in building.transform)
         {
-            if (child.CompareTag("Door"))
-                door = child.gameObject;
+            if (child.CompareTag("Interactable"))
+                if (child.GetComponent<Door>())
+                    door = child.gameObject;
+            if (child.CompareTag("Stuff"))
+                stuff.Add(child.gameObject);
         }
+
+        // Break door node.
+        behaviour.AddNode(new BehaviourTreeAction(() =>
+        {
+            if (completed)
+                return BehaviourTreeNodeStatus.FAILURE;
+
+            if (door)
+            {
+                state = StealingState.BRAKE_DOOR;
+                return BehaviourTreeNodeStatus.SUCCESS;
+            }
+            else
+            {
+                return BehaviourTreeNodeStatus.FAILURE;
+            }
+        }));
+
+        // Steal stuff node.
+        behaviour.AddNode(new BehaviourTreeAction(() =>
+        {
+            if (completed)
+                return BehaviourTreeNodeStatus.FAILURE;
+
+            if (stuff.Count > 0)
+            {
+                state = StealingState.STEAL_STUFF;
+                return BehaviourTreeNodeStatus.SUCCESS;
+            }
+            else
+            {
+                return BehaviourTreeNodeStatus.FAILURE;
+            }
+        }));
     }
 
-    /*public StealingState NextState()
+    public StealingState NextState()
     {
-        if (state == StealingState.START)
-        {
-            state = StealingState.OPEN_DOOR;
-        }
-        if (state == StealingState.OPEN_DOOR)
-        {
-
-        }
-    }*/
-
-    public GameObject Building
-    {
-        get
-        {
-            return building;
-        }
+        behaviour.Execute();
+        return state;
     }
 
     public StealingState State
@@ -56,9 +78,13 @@ public class StealingAction
         {
             return state;
         }
-        set
+    }
+
+    public GameObject House
+    {
+        get
         {
-            state = value;
+            return building;
         }
     }
 
@@ -67,6 +93,22 @@ public class StealingAction
         get
         {
             return door;
+        }
+    }
+
+    public GameObject StuffPeace
+    {
+        get
+        {
+            for (int i = stuff.Count - 1; i >= 0; i--)
+            {
+                if (!stuff[i] || !stuff[i].transform.IsChildOf(building.transform))
+                    stuff.RemoveAt(i);
+                else
+                    return stuff[i];
+            }
+
+            return null;
         }
     }
 }

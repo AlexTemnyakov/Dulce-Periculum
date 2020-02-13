@@ -33,11 +33,13 @@ public class GoblinsManager : MonoBehaviour
             instance                  = Instantiate(GOBLIN_PREFAB, position, Quaternion.identity);
             instance.transform.parent = transform;
 
-            // One half attacks the player, other half attacks the village.
+            instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.STEALING;
+
+            /*// One half attacks the player, other half attacks the village.
             if (i < START_COUNT_OF_GOBLINS / 2)
                 instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACKING_PLAYER;
             else
-                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACKING_VILLAGE;
+                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACKING_VILLAGE;*/
 
             goblins.Add(instance);
         }
@@ -52,7 +54,7 @@ public class GoblinsManager : MonoBehaviour
     {
         for (int i = goblins.Count - 1; i >= 0; i--)
         {
-            if (!goblins[i] || !goblins[i].activeInHierarchy)
+            if (!goblins[i])
             {
                 goblins.RemoveAt(i);
             }
