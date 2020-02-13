@@ -616,6 +616,7 @@ MonoBehaviour:
   BACKWARD_SPEED: 2
   SIDE_SPEED: 1.5
   ACCELERATION: 4
+  RUN_ROT_SPEED: 0
 --- !u!114 &53489547318238377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +672,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   THIS_MATERIAL: 0
-  HEALTH: 100
 --- !u!54 &83882194
 Rigidbody:
   m_ObjectHideFlags: 0

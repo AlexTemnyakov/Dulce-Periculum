@@ -81,7 +81,6 @@ public class VillagerBrains : MonoBehaviour
 
     private void Walk()
     {
-        print("Walk");
         agent.speed = SPEED;
         animator.SetFloat("Speed", agent.speed);
     }

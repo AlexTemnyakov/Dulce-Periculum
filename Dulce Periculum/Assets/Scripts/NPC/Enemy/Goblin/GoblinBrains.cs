@@ -5,16 +5,13 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
-public class GoblinBrains : MonoBehaviour
+public class GoblinBrains : EnemyBrains
 {
     public  GoblinAction   ACTION;
     public  float          SPEED;
     public  float          ACCELERATION;
     public  float          ROTATION_SPEED;
     public  float          MAX_DIST_FROM_START;
-    public  float          VISIBILITY;
-    public  float          VISION_ANGLE;
-    public  float          ATTACK_DIST;
     public  GameObject     WEAPON;
 
     private const
@@ -24,19 +21,20 @@ public class GoblinBrains : MonoBehaviour
     private const
             int            HIT_TYPES_COUNT      = 2;
 
-    private AIUtils        AI_Utils;
-    private GameObject     player;
+    // Components.
     private NavMeshAgent   agent;
     private Animator       animator;
     private CreatureHealth health;
     private GoblinFight    fight;
+    // Information for remembering at the start.
     private Vector3        startPoint;
     private GameObject     target;
+    // Stealing.
+    private StealingAction stealingAction;
 
     void Start()
     {
-        AI_Utils    = GameObject.FindGameObjectWithTag("AI Utils").GetComponent<AIUtils>();
-        player      = GameObject.FindGameObjectWithTag("Player");
+        gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
         agent       = GetComponent<NavMeshAgent>();
         animator    = GetComponent<Animator>();
         health      = GetComponent<CreatureHealth>();
@@ -54,52 +52,23 @@ public class GoblinBrains : MonoBehaviour
             return;
         }
 
-        if (AI_Utils.IsPlayerAtAttackDistance(transform.position, ATTACK_DIST * 1.1f))
+        if (IsPlayerAtAttackDistance())
         {
-            Stand();
-            RotateTo(player.transform.position);
-            fight.Attack();
+            AttackPlayer();
         }
         else
         {
-            if (ACTION == GoblinAction.ATTACK_VILLAGE)
+            if (ACTION == GoblinAction.STEALING)
             {
-                if (!target || !target.activeInHierarchy)
-                {
-                    target = AI_Utils.GetHouseInVillage();
-
-                    if (target)
-                    {
-                        SetAsAgentTarget(target.transform.position);
-                    }
-                    else
-                    {
-                        Stand();
-                    }
-                }
-                else
-                {
-                    if (IsTargetAtAttackDistance())
-                    {
-                        Stand();
-                        RotateTo(target.transform.position);
-                        fight.Attack();
-                    }
-                    else
-                    {
-                        Run();
-                    }
-                }
+                Steal();
             }
-            else if (ACTION == GoblinAction.ATTACK_PLAYER)
+            else if (ACTION == GoblinAction.ATTACKING_VILLAGE)
             {
-                if (target != player)
-                {
-                    target = player;
-                }
-
-                SetAsAgentTarget(player.transform.position);
-                Run();
+                AttackVillage();
+            }
+            else if (ACTION == GoblinAction.ATTACKING_PLAYER)
+            {
+                GoToPlayer();
             }
         }
     }
@@ -188,6 +157,83 @@ public class GoblinBrains : MonoBehaviour
                 {
                     return false;
                 }
+            }
+        }
+    }
+
+    private void Steal()
+    {
+        if (stealingAction == null || stealingAction.Building != target)
+        {
+            stealingAction = new StealingAction(target);
+        }
+
+        switch (stealingAction.State)
+        {
+            case StealingState.START:
+            {
+                if (stealingAction.Door)
+                {
+                    SetAsAgentTarget(stealingAction.Door.transform.position);
+                    stealingAction.State = StealingState.OPEN_DOOR;
+                }
+                else
+                {
+
+                }
+            } break;
+
+            case StealingState.OPEN_DOOR:
+            {
+
+            } break;
+        }
+    }
+
+    private void AttackPlayer()
+    {
+        Stand();
+        RotateTo(gameManager.Player.transform.position);
+        fight.Attack();
+    }
+
+    private void GoToPlayer()
+    {
+        if (target != gameManager.Player)
+        {
+            target = gameManager.Player;
+        }
+
+        SetAsAgentTarget(gameManager.Player.transform.position);
+        Run();
+    }
+
+    private void AttackVillage()
+    {
+        if (!target || !target.activeInHierarchy)
+        {
+            target = gameManager.GetHouseInVillage();
+
+            if (target)
+            {
+                SetAsAgentTarget(target.transform.position);
+            }
+            else
+            {
+                Stand();
+            }
+        }
+        else
+        {
+            if (IsTargetAtAttackDistance())
+            {
+                Stand();
+                RotateTo(target.transform.position);
+                fight.Attack();
+            }
+            else
+            {
+                Run();
             }
         }
     }

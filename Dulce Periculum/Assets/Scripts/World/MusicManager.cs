@@ -7,11 +7,13 @@ public class MusicManager : MonoBehaviour
     public  float       MUSIC_DIST;
 
     private bool        enemyNearPlayer = false;
+    private GameManager gameManager;
     private AudioSource audioSource;
     private float       maxVolume;
 
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
         audioSource = Camera.main.GetComponent<AudioSource>();
         maxVolume   = audioSource.volume;
     }
@@ -32,15 +34,14 @@ public class MusicManager : MonoBehaviour
 
     private IEnumerator FindEnemiesNearPlayer()
     {
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Enemy") as GameObject[]; 
-        GameObject   player  = GameObject.FindGameObjectWithTag("Player");
+        GameObject player  = GameObject.FindGameObjectWithTag("Player");
 
-        for (int i = 0; i < objects.Length; i++)
+        foreach (GameObject o in gameManager.Enemies)
         {
-            if (!objects[i] || !objects[i].activeInHierarchy)
+            if (!o || !o.activeInHierarchy)
                 continue;
 
-            if (Vector3.Distance(player.transform.position, objects[i].transform.position) < MUSIC_DIST)
+            if (Vector3.Distance(player.transform.position, o.transform.position) < MUSIC_DIST)
             {
                 enemyNearPlayer = true;
                 break;

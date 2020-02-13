@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIUtils : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private GameObject       player;
     private List<GameObject> village;
+    private List<GameObject> enemies;
 
     void Start()
     {
         GameObject[] tmp;
 
         player  = GameObject.FindGameObjectWithTag("Player");
+        // Find all buildings in the village.
         tmp     = GameObject.FindGameObjectsWithTag("Village");
         village = new List<GameObject>(tmp);
+        // Find all enemies.
+        enemies = new List<GameObject>();
+        enemies.AddRange(GameObject.FindGameObjectsWithTag("Goblin"));
 
         if (!player)
         {
@@ -23,31 +28,8 @@ public class AIUtils : MonoBehaviour
 
     void Update()
     {
+        StartCoroutine(CheckEnemies());
         StartCoroutine(CheckVillage());
-    }
-
-    public float DistanceToPlayer(Vector3 position) { return Vector3.Distance(position, player.transform.position); }
-    public bool  IsPlayerVisible(Vector3 position, Vector3 forward, float visibility, float visionAngle)
-    {
-        RaycastHit hit;
-        Vector3    playerDirection = player.transform.position - position;
-
-        //Debug.DrawRay(position, playerDirection * visibility + Vector3.up * playerHeightOffset, Color.black);
-        if (Physics.Raycast(position, playerDirection * visibility + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, out hit, visibility))
-        {
-            if (hit.transform.gameObject == player && Vector3.Angle(playerDirection, forward) <= visionAngle)
-                return true;
-        }
-
-        return false;
-    }
-
-    public bool IsPlayerAtAttackDistance(Vector3 position, float attackDistance)
-    {
-        if (DistanceToPlayer(position) < attackDistance)
-            return true;
-        else
-            return false;
     }
 
     public GameObject GetHouseInVillage()
@@ -68,6 +50,35 @@ public class AIUtils : MonoBehaviour
             }
 
             yield return null;
+        }
+    }
+
+    private IEnumerator CheckEnemies()
+    {
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            if (!enemies[i] || !enemies[i].activeInHierarchy)
+            {
+                enemies.RemoveAt(i);
+            }
+
+            yield return null;
+        }
+    }
+
+    public GameObject Player
+    {
+        get
+        {
+            return player;
+        }
+    }
+
+    public List<GameObject> Enemies
+    {
+        get
+        {
+            return enemies;
         }
     }
 }

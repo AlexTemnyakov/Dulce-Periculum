@@ -11,6 +11,8 @@ TagManager:
   - AI Utils
   - Utils
   - Settings
+  - Game Manager
+  - Goblin
   layers:
   - Default
   - TransparentFX

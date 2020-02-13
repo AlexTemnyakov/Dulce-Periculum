@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class GoblinsManager : MonoBehaviour
 {
-    public  GameObject GOBLIN_PREFAB;
-    public  int        START_COUNT_OF_GOBLINS;
+    public  GameObject       GOBLIN_PREFAB;
+    public  int              START_COUNT_OF_GOBLINS;
 
     private const
-            int        MAX_COUNT_OF_GOBLINS   = 5;
+            int              MAX_COUNT_OF_GOBLINS   = 5;
 
-    void Start()
+    private List<GameObject> goblins;
+
+    void Awake()
     {
         int angle = 360 / START_COUNT_OF_GOBLINS;
 
         if (START_COUNT_OF_GOBLINS > MAX_COUNT_OF_GOBLINS)
             START_COUNT_OF_GOBLINS = MAX_COUNT_OF_GOBLINS;
+
+        goblins = new List<GameObject>();
 
         for (int i = 0; i < START_COUNT_OF_GOBLINS; i++)
         {
@@ -31,15 +35,29 @@ public class GoblinsManager : MonoBehaviour
 
             // One half attacks the player, other half attacks the village.
             if (i < START_COUNT_OF_GOBLINS / 2)
-                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACK_PLAYER;
+                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACKING_PLAYER;
             else
-                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACK_VILLAGE;
-        }
+                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACKING_VILLAGE;
 
+            goblins.Add(instance);
+        }
     }
 
     void Update()
     {
-        
+        CheckGoblins();
+    }
+
+    private IEnumerator CheckGoblins()
+    {
+        for (int i = goblins.Count - 1; i >= 0; i--)
+        {
+            if (!goblins[i] || !goblins[i].activeInHierarchy)
+            {
+                goblins.RemoveAt(i);
+            }
+
+            yield return null;
+        }
     }
 }
