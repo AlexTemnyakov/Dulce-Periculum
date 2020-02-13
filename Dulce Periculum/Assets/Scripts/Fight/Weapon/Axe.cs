@@ -24,11 +24,11 @@ public class Axe : Weapon
 
     public void AxeEnable()
     {
-        hit = false;
+        hit = true;
     }
 
     public void AxeDisable()
     {
-        hit = true;
+        hit = false;
     }
 }

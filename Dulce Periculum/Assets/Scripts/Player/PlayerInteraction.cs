@@ -13,16 +13,18 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        RaycastHit   hit;
         Interactable interactable;
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (Physics.Raycast(transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, transform.forward, out hit, INTERACTION_DISTANCE))
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET,
+                                                            INTERACTION_DISTANCE - transform.forward.magnitude);
+            foreach (Collider c in hitColliders)
             {
-                if (hit.transform.gameObject.tag.Equals("Interactable"))
+                print(c.gameObject);
+                if (c.gameObject.CompareTag("Interactable"))
                 {
-                    interactable = hit.transform.gameObject.GetComponent<Interactable>();
+                    interactable = c.gameObject.GetComponent<Interactable>();
                     if (interactable)
                     {
                         print("Interact");

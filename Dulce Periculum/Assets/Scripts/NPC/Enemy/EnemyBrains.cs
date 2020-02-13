@@ -58,31 +58,34 @@ public class EnemyBrains : MonoBehaviour
     protected bool IsTargetAtAttackDistance()
     {
         // If the target object has been disappeared from the world.
-        if (!target)
+        if (!target || !target.activeInHierarchy)
         {
             return false;
         }
         else
         {
-            RaycastHit hit;
+            Vector3 v = target.transform.position - transform.position;
+            v.y = 0;
+            return Vector3.Distance(transform.position, target.transform.position) <= ATTACK_DIST;/* && Vector3.Angle(transform.forward, target.transform.position) <= 60;*/
+            /*RaycastHit hit;
 
             Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.green, ATTACK_DIST);
 
             if (Physics.Raycast(transform.position, target.transform.position - transform.position, out hit, ATTACK_DIST, LayerMask.GetMask("Buildings")))
             {
-                return hit.transform.gameObject == target;
+                return true;
             }
             else
             {
                 return false;
-            }
+            }*/
         }
     }
 
     protected bool IsTargetAtInteractionDistance()
     {
         // If the target object has been disappeared from the world.
-        if (!target)
+        if (!target || !target.activeInHierarchy)
         {
             return false;
         }

@@ -6,6 +6,7 @@ public class GoblinsManager : MonoBehaviour
 {
     public  GameObject       GOBLIN_PREFAB;
     public  int              START_COUNT_OF_GOBLINS;
+    public  GameObject       runAwayPoint;
 
     private const
             int              MAX_COUNT_OF_GOBLINS   = 5;
@@ -33,7 +34,10 @@ public class GoblinsManager : MonoBehaviour
             instance                  = Instantiate(GOBLIN_PREFAB, position, Quaternion.identity);
             instance.transform.parent = transform;
 
-            instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.STEALING;
+            instance.GetComponent<GoblinBrains>().action       = GoblinAction.STEALING;
+            instance.GetComponent<GoblinBrains>().runAwayPoint = runAwayPoint.transform.position 
+                                                               + shift 
+                                                               + Vector3.down * Utils.GetHeight(runAwayPoint.transform.position + shift);
 
             /*// One half attacks the player, other half attacks the village.
             if (i < START_COUNT_OF_GOBLINS / 2)
@@ -54,7 +58,7 @@ public class GoblinsManager : MonoBehaviour
     {
         for (int i = goblins.Count - 1; i >= 0; i--)
         {
-            if (!goblins[i])
+            if (!goblins[i] || !goblins[i].activeInHierarchy)
             {
                 goblins.RemoveAt(i);
             }

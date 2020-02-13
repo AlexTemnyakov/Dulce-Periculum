@@ -37,11 +37,11 @@ public class Sword : Weapon
 
     public void SwordEnable()
     {
-        hit = false;
+        hit = true;
     }
 
     public void SwordDisable()
     {
-        hit = true;
+        hit = false;
     }
 }

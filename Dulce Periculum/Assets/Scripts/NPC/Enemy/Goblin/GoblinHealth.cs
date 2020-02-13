@@ -26,10 +26,10 @@ public class GoblinHealth : CreatureHealth
             return;
 
         Weapon w = other.GetComponent<Weapon>();
-        if (w && !w.hit)
+        if (w && w.hit)
         {
             currentHealth -= w.DAMAGE;
-            w.hit   = true;
+            w.hit          = false;
             other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
             print("Hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
         }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Door : Interactable
 {
+    public  float      HEALTH;
+
     private bool       closed;
     private bool       moving;
     private Quaternion targetRotation;
@@ -18,6 +20,9 @@ public class Door : Interactable
 
     void Update()
     {
+        if (HEALTH <= 0)
+            Destroy(gameObject);
+
         if (moving)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 0.05f);
@@ -44,14 +49,17 @@ public class Door : Interactable
         moving = true;
     }
 
-    IEnumerator RotateMe(Vector3 byAngles, float inTime)
+    public void OnTriggerEnter(Collider other)
     {
-        var fromAngle = transform.rotation;
-        var toAngle = Quaternion.Euler(transform.eulerAngles + byAngles);
-        for (var t = 0f; t < 1; t += Time.deltaTime / inTime)
+        Weapon w = other.GetComponent<Weapon>();
+        if (w && w.hit)
         {
-            transform.rotation = Quaternion.Slerp(fromAngle, toAngle, t);
-            yield return null;
+            HEALTH -= w.DAMAGE;
+            w.hit   = false;
+            //other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
+            print("Hit, damage=" + w.DAMAGE + ", health=" + HEALTH);
         }
     }
+
+
 }

@@ -7,13 +7,15 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Animator))]
 public class GoblinBrains : EnemyBrains
 {
-    public  GoblinAction   ACTION;
-    public  GameObject     WEAPON;
+    public  GoblinAction   action;
+    public  GameObject     weapon;
+    public  Vector3        runAwayPoint;
 
     private const
             int            HIT_TYPES_COUNT      = 2;
 
     // Components.
+    //private GoblinsManager goblinsManager;
     private Animator       animator;
     private CreatureHealth health;
     private GoblinFight    fight;
@@ -24,6 +26,7 @@ public class GoblinBrains : EnemyBrains
 
     void Start()
     {
+        //goblinsManager = gameObject.GetComponentInParent<GoblinsManager>();
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
         animator    = GetComponent<Animator>();
         health      = GetComponent<CreatureHealth>();
@@ -47,17 +50,21 @@ public class GoblinBrains : EnemyBrains
         }
         else
         {
-            if (ACTION == GoblinAction.STEALING)
+            if (action == GoblinAction.STEALING)
             {
                 Steal();
             }
-            else if (ACTION == GoblinAction.ATTACKING_VILLAGE)
+            else if (action == GoblinAction.ATTACKING_VILLAGE)
             {
                 AttackVillage();
             }
-            else if (ACTION == GoblinAction.ATTACKING_PLAYER)
+            else if (action == GoblinAction.ATTACKING_PLAYER)
             {
                 GoToPlayer();
+            }
+            else if (action == GoblinAction.RUNNING_AWAY)
+            {
+
             }
         }
     }
@@ -87,19 +94,21 @@ public class GoblinBrains : EnemyBrains
             target = gameManager.HouseToSteal;
 
             if (target)
+            {
                 stealingAction = new StealingAction(target);
+            }
             else
             {
-                target = gameManager.Player;
-                ACTION = GoblinAction.ATTACKING_PLAYER;
+                action = GoblinAction.RUNNING_AWAY;
+                return;
             }
         }
 
         switch (stealingAction.NextState())
         {
-            case StealingState.BRAKE_DOOR:
+            case StealingState.BREAK_DOOR:
             {
-                if (!target || target != stealingAction.Door)
+                if (target != stealingAction.Door)
                 {
                     target = stealingAction.Door;
                     SetAsAgentTarget(target.transform.position);
@@ -115,7 +124,7 @@ public class GoblinBrains : EnemyBrains
 
             case StealingState.STEAL_STUFF:
             {
-                if (!target || !target.CompareTag("Stuff") || !target.transform.IsChildOf(stealingAction.House.transform))
+                if (target != stealingAction.StuffPeace)
                 {
                     target = stealingAction.StuffPeace;
                     SetAsAgentTarget(target.transform.position);
@@ -123,14 +132,16 @@ public class GoblinBrains : EnemyBrains
                 }
                 else if (IsTargetAtAttackDistance())
                 {
-                    print("attack dist");
                     Stand();
                     RotateTo(target.transform.position);
+                    Destroy(target);
                 }
             } break;
 
             default:
-                print("error");
+                print("Not enter/Run away");
+                stealingAction.Finish();
+                stealingAction = null;
                 break;
         }
     }
@@ -181,5 +192,10 @@ public class GoblinBrains : EnemyBrains
                 Run();
             }
         }
+    }
+
+    private void RunAway()
+    {
+
     }
 }

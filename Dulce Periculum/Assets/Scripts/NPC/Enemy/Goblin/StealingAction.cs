@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum StealingState
 { 
-    START,
-    BRAKE_DOOR,
+    NONE,
+    BREAK_DOOR,
     STEAL_STUFF
 }
 
@@ -13,7 +13,7 @@ public class StealingAction
 {
     private BehaviourTreeSelector behaviour = new BehaviourTreeSelector();
     private bool                  completed = false;
-    private StealingState         state     = StealingState.START;
+    private StealingState         state     = StealingState.NONE;
     private GameObject            building  = null;
     private GameObject            door      = null;
     private List<GameObject>      stuff     = new List<GameObject>();
@@ -35,11 +35,14 @@ public class StealingAction
         behaviour.AddNode(new BehaviourTreeAction(() =>
         {
             if (completed)
-                return BehaviourTreeNodeStatus.FAILURE;
-
-            if (door)
             {
-                state = StealingState.BRAKE_DOOR;
+                state = StealingState.NONE;
+                return BehaviourTreeNodeStatus.FAILURE;
+            }
+
+            if (door && door.activeInHierarchy)
+            {
+                state = StealingState.BREAK_DOOR;
                 return BehaviourTreeNodeStatus.SUCCESS;
             }
             else
@@ -52,7 +55,10 @@ public class StealingAction
         behaviour.AddNode(new BehaviourTreeAction(() =>
         {
             if (completed)
+            {
+                state = StealingState.NONE;
                 return BehaviourTreeNodeStatus.FAILURE;
+            }
 
             if (stuff.Count > 0)
             {
@@ -61,6 +67,7 @@ public class StealingAction
             }
             else
             {
+                completed = true;
                 return BehaviourTreeNodeStatus.FAILURE;
             }
         }));
@@ -70,6 +77,11 @@ public class StealingAction
     {
         behaviour.Execute();
         return state;
+    }
+
+    public void Finish()
+    {
+        building.GetComponent<House>().Stealed = true;
     }
 
     public StealingState State

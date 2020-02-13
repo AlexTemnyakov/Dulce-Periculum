@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         StartCoroutine(CheckEnemies());
-        StartCoroutine(CheckHouses());
+        //StartCoroutine(CheckHouses());
         StartCoroutine(CheckHousesToSteal());
     }
 
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = houses.Count - 1; i >= 0; i--)
         {
-            if (!houses[i])
+            if (!houses[i] || !houses[i].activeInHierarchy)
             {
                 houses.RemoveAt(i);
             }
@@ -49,9 +49,12 @@ public class GameManager : MonoBehaviour
     {
         for (int i = housesToSteal.Count - 1; i >= 0; i--)
         {
-            if (!housesToSteal[i] || housesToSteal[i].GetComponent<House>().Stealed)
+            if (i >= housesToSteal.Count)
+                break;
+
+            if (!housesToSteal[i] || !housesToSteal[i].activeInHierarchy || housesToSteal[i].GetComponent<House>().Stealed)
             {
-                houses.RemoveAt(i);
+                housesToSteal.RemoveAt(i);
             }
 
             yield return null;
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour
             if (houses == null || houses.Count == 0)
                 return null;
 
-            return houses[Random.Range(0, houses.Count)];
+            return houses[Random.Range(0, houses.Count - 1)];
         }
     }
 
