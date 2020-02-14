@@ -15,15 +15,15 @@ public class EnemyBrains : MonoBehaviour
     public    float        ROTATION_SPEED;
     public    float        NEW_TARGET_DIST;
 
+    protected bool         waiting     = false;
     protected GameManager  gameManager;
     protected NavMeshAgent agent;
-    protected GameObject   target;
+    protected GameObject   target      = null;
 
     void Awake()
     {
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
         agent       = GetComponent<NavMeshAgent>();
-        target      = null;
     }
 
     void Update()
@@ -49,7 +49,7 @@ public class EnemyBrains : MonoBehaviour
 
     protected bool IsPlayerAtAttackDistance()
     {
-        if (DistanceToPlayer() < ATTACK_DIST)
+        if (DistanceToPlayer() <= ATTACK_DIST)
             return true;
         else
             return false;
@@ -64,9 +64,21 @@ public class EnemyBrains : MonoBehaviour
         }
         else
         {
-            Vector3 v = target.transform.position - transform.position;
-            v.y = 0;
+            /*Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET,
+                                                            ATTACK_DIST - transform.forward.magnitude);
+            foreach (Collider c in hitColliders)
+            {
+                if (c.gameObject == target)
+                {
+                    return true;
+                }
+            }
+
+            return false;*/
+
             return Vector3.Distance(transform.position, target.transform.position) <= ATTACK_DIST;/* && Vector3.Angle(transform.forward, target.transform.position) <= 60;*/
+            
+        
             /*RaycastHit hit;
 
             Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.green, ATTACK_DIST);
@@ -156,5 +168,12 @@ public class EnemyBrains : MonoBehaviour
     virtual protected void Stand()
     {
         agent.speed = 0;
+    }
+
+    protected  IEnumerator WaitFor(float seconds)
+    {
+        waiting = true;
+        yield return new WaitForSeconds(seconds);
+        waiting = false;
     }
 }

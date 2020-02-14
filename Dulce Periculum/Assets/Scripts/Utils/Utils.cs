@@ -19,4 +19,9 @@ public class Utils : MonoBehaviour
             return int.MaxValue;
         }
     }
+
+    public static IEnumerator WaitFor(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
 }

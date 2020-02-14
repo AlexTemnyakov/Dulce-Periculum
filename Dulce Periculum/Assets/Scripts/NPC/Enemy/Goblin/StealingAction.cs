@@ -11,7 +11,7 @@ public enum StealingState
 
 public class StealingAction
 {
-    private BehaviourTreeSelector behaviour = new BehaviourTreeSelector();
+    private SelectorBT behaviour = new SelectorBT();
     private bool                  completed = false;
     private StealingState         state     = StealingState.NONE;
     private GameObject            building  = null;
@@ -32,43 +32,43 @@ public class StealingAction
         }
 
         // Break door node.
-        behaviour.AddNode(new BehaviourTreeAction(() =>
+        behaviour.AddNode(new ActionBT(() =>
         {
             if (completed)
             {
                 state = StealingState.NONE;
-                return BehaviourTreeNodeStatus.FAILURE;
+                return NodeStatusBT.FAILURE;
             }
 
             if (door && door.activeInHierarchy)
             {
                 state = StealingState.BREAK_DOOR;
-                return BehaviourTreeNodeStatus.SUCCESS;
+                return NodeStatusBT.SUCCESS;
             }
             else
             {
-                return BehaviourTreeNodeStatus.FAILURE;
+                return NodeStatusBT.FAILURE;
             }
         }));
 
         // Steal stuff node.
-        behaviour.AddNode(new BehaviourTreeAction(() =>
+        behaviour.AddNode(new ActionBT(() =>
         {
             if (completed)
             {
                 state = StealingState.NONE;
-                return BehaviourTreeNodeStatus.FAILURE;
+                return NodeStatusBT.FAILURE;
             }
 
             if (stuff.Count > 0)
             {
                 state = StealingState.STEAL_STUFF;
-                return BehaviourTreeNodeStatus.SUCCESS;
+                return NodeStatusBT.SUCCESS;
             }
             else
             {
                 completed = true;
-                return BehaviourTreeNodeStatus.FAILURE;
+                return NodeStatusBT.FAILURE;
             }
         }));
     }

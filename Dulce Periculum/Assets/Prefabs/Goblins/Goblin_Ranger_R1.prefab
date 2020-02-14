@@ -844,7 +844,7 @@ NavMeshAgent:
   m_Radius: 0.3
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 9
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -871,12 +871,11 @@ MonoBehaviour:
   MAX_DIST_FROM_START: 30
   VISIBILITY: 60
   VISION_ANGLE: 90
-  ATTACK_DIST: 2
+  ATTACK_DIST: 2.6
   INTERACT_DIST: 3
   ROTATION_SPEED: 10
   NEW_TARGET_DIST: 20
-  ACTION: 1
-  WEAPON: {fileID: 4236613791614775973}
+  runAwayPoint: {fileID: 0}
 --- !u!114 &8785595111705885491
 MonoBehaviour:
   m_ObjectHideFlags: 0

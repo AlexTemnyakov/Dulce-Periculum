@@ -21,7 +21,6 @@ public class PlayerInteraction : MonoBehaviour
                                                             INTERACTION_DISTANCE - transform.forward.magnitude);
             foreach (Collider c in hitColliders)
             {
-                print(c.gameObject);
                 if (c.gameObject.CompareTag("Interactable"))
                 {
                     interactable = c.gameObject.GetComponent<Interactable>();

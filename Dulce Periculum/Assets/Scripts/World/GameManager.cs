@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
         player  = GameObject.FindGameObjectWithTag("Player");
         // Find all buildings in the village.
         houses.AddRange(GameObject.FindGameObjectsWithTag("Village"));
-        housesToSteal.AddRange(houses);
+        foreach (GameObject g in houses)
+            if (g.GetComponent<House>())
+                housesToSteal.Add(g);
         // Find all enemies.
         enemies = new List<GameObject>();
         enemies.AddRange(GameObject.FindGameObjectsWithTag("Goblin"));

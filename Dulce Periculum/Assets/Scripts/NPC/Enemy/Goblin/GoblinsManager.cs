@@ -24,24 +24,25 @@ public class GoblinsManager : MonoBehaviour
 
         for (int i = 0; i < START_COUNT_OF_GOBLINS; i++)
         {
-            Vector3    position, shift;
-            GameObject instance;
+            Vector3               position, shift;
+            GameObject            instance;
+            GoblinBrains          brains;
 
-            shift      = Quaternion.Euler(0, angle * i, 0) * new Vector3(1, 0, 1) * 20;
-            position   = transform.position + shift;
-            position   = position + Vector3.down * Utils.GetHeight(position);
+            shift    = Quaternion.Euler(0, angle * i, 0) * new Vector3(1, 0, 1) * 20;
+            position = transform.position + shift;
+            position = position + Vector3.down * Utils.GetHeight(position);
 
             instance                  = Instantiate(GOBLIN_PREFAB, position, Quaternion.identity);
             instance.transform.parent = transform;
 
-            instance.GetComponent<GoblinBrains>().action       = GoblinAction.STEALING;
-            instance.GetComponent<GoblinBrains>().runAwayPoint = runAwayPoint;
+            brains              = instance.GetComponent<GoblinBrains>();
+            brains.runAwayPoint = runAwayPoint;
 
-            /*// One half attacks the player, other half attacks the village.
+            // One half attacks the player, other half attacks the village.
             if (i < START_COUNT_OF_GOBLINS / 2)
-                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACKING_PLAYER;
+                brains.Initialize(GoblinType.ATTACKER);
             else
-                instance.GetComponent<GoblinBrains>().ACTION = GoblinAction.ATTACKING_VILLAGE;*/
+                brains.Initialize(GoblinType.STEALER);
 
             goblins.Add(instance);
         }
@@ -49,19 +50,43 @@ public class GoblinsManager : MonoBehaviour
 
     void Update()
     {
-        CheckGoblins();
+        StartCoroutine(CheckGoblins());
     }
 
     private IEnumerator CheckGoblins()
     {
+        int              stealersCount    = 0;
+        int              runningAwayCount = 0;
+        List<GameObject> attackers        = new List<GameObject>();
+
         for (int i = goblins.Count - 1; i >= 0; i--)
         {
             if (!goblins[i] || !goblins[i].activeInHierarchy)
             {
                 goblins.RemoveAt(i);
             }
+            else
+            {
+                if (goblins[i].GetComponent<GoblinBrains>().Type == GoblinType.ATTACKER)
+                    attackers.Add(goblins[i]);
+                if (goblins[i].GetComponent<GoblinBrains>().Type == GoblinType.STEALER)
+                    stealersCount++;
+                if (goblins[i].GetComponent<GoblinBrains>().Action == GoblinAction.RUNNING_AWAY)
+                    runningAwayCount++;
+            }
 
             yield return null;
+        }
+
+        if (stealersCount == runningAwayCount)
+        {
+            foreach (GameObject g in attackers)
+            {
+                if (g && g.activeInHierarchy)
+                    g.GetComponent<GoblinBrains>().ForceRunAway();
+
+                yield return null;
+            }
         }
     }
 }
