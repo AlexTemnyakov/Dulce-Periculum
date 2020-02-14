@@ -836,6 +836,7 @@ MonoBehaviour:
   GOBLIN_PREFAB: {fileID: 4837174957831810008, guid: fe3759e25e2fec24da33196ba7f6b3da,
     type: 3}
   START_COUNT_OF_GOBLINS: 1
+  runAwayPoint: {fileID: 721375671}
 --- !u!4 &446277894
 Transform:
   m_ObjectHideFlags: 0
@@ -1262,6 +1263,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542976879b3d8c74f8fcf3cc6da00180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &721375671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 721375672}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &721375672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721375671}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1577.976, y: 89.36, z: 227.64}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &801314342
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,9 +35,7 @@ public class GoblinsManager : MonoBehaviour
             instance.transform.parent = transform;
 
             instance.GetComponent<GoblinBrains>().action       = GoblinAction.STEALING;
-            instance.GetComponent<GoblinBrains>().runAwayPoint = runAwayPoint.transform.position 
-                                                               + shift 
-                                                               + Vector3.down * Utils.GetHeight(runAwayPoint.transform.position + shift);
+            instance.GetComponent<GoblinBrains>().runAwayPoint = runAwayPoint;
 
             /*// One half attacks the player, other half attacks the village.
             if (i < START_COUNT_OF_GOBLINS / 2)

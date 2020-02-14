@@ -9,7 +9,7 @@ public class GoblinBrains : EnemyBrains
 {
     public  GoblinAction   action;
     public  GameObject     weapon;
-    public  Vector3        runAwayPoint;
+    public  GameObject     runAwayPoint;
 
     private const
             int            HIT_TYPES_COUNT      = 2;
@@ -44,7 +44,28 @@ public class GoblinBrains : EnemyBrains
             return;
         }
 
-        if (IsPlayerAtAttackDistance())
+        if (action == GoblinAction.RUNNING_AWAY)
+        {
+            RunAway();
+        }
+        else if (IsPlayerAtAttackDistance())
+        {
+            AttackPlayer();
+        }
+        else if(action == GoblinAction.STEALING)
+        {
+            Steal();
+        }
+        else if (action == GoblinAction.ATTACKING_VILLAGE)
+        {
+            AttackVillage();
+        }
+        else if (action == GoblinAction.ATTACKING_PLAYER)
+        {
+            GoToPlayer();
+        }
+
+        /*if (IsPlayerAtAttackDistance())
         {
             AttackPlayer();
         }
@@ -62,11 +83,7 @@ public class GoblinBrains : EnemyBrains
             {
                 GoToPlayer();
             }
-            else if (action == GoblinAction.RUNNING_AWAY)
-            {
-
-            }
-        }
+        }*/
     }
 
     override protected void Run()
@@ -196,6 +213,12 @@ public class GoblinBrains : EnemyBrains
 
     private void RunAway()
     {
+        if (target != runAwayPoint)
+        {
+            target = runAwayPoint;
+            SetAsAgentTarget(runAwayPoint.transform.position);
+        }
 
+        Run();
     }
 }
