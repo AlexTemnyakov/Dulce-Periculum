@@ -24,9 +24,9 @@ public class GoblinsManager : MonoBehaviour
 
         for (int i = 0; i < START_COUNT_OF_GOBLINS; i++)
         {
-            Vector3               position, shift;
-            GameObject            instance;
-            GoblinBrains          brains;
+            Vector3      position, shift;
+            GameObject   instance;
+            GoblinBrains brains;
 
             shift    = Quaternion.Euler(0, angle * i, 0) * new Vector3(1, 0, 1) * 20;
             position = transform.position + shift;

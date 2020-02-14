@@ -1,0 +1,27 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class InverterBT : NodeBT
+{
+    private NodeBT node;
+
+    public InverterBT(NodeBT __node)
+    {
+        node = __node;
+    }
+
+    public override NodeStatusBT Execute()
+    {
+        switch (node.Execute())
+        {
+            case NodeStatusBT.SUCCESS:
+                return NodeStatusBT.FAILURE;
+            case NodeStatusBT.FAILURE:
+                return NodeStatusBT.SUCCESS;
+            case NodeStatusBT.RUNNING:
+            default:
+                return NodeStatusBT.RUNNING;
+        }
+    }
+}

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ControlNodeBT : NodeBT
+public abstract class CompositeBT : NodeBT
 {
     protected List<NodeBT> nodes = new List<NodeBT>();
 
-    public ControlNodeBT()
+    public CompositeBT()
     {
 
     }
 
-    public ControlNodeBT(List<NodeBT> __nodes)
+    public CompositeBT(List<NodeBT> __nodes)
     {
         nodes = __nodes;
     }

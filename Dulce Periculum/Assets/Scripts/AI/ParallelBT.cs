@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectorBT : CompositeBT
+public class ParallelBT : CompositeBT
 {
     public override NodeStatusBT Execute()
     {
+        bool runningChild = false;
+
         foreach (NodeBT n in nodes)
         {
             NodeStatusBT status = n.Execute();
@@ -13,11 +15,15 @@ public class SelectorBT : CompositeBT
             switch (status)
             {
                 case NodeStatusBT.SUCCESS:
+                    continue;
+                case NodeStatusBT.FAILURE:
+                    return NodeStatusBT.FAILURE;
                 case NodeStatusBT.RUNNING:
-                    return status;
+                    runningChild = true;
+                    continue;
             }
         }
 
-        return NodeStatusBT.FAILURE;
+        return runningChild ? NodeStatusBT.RUNNING : NodeStatusBT.SUCCESS;
     }
 }

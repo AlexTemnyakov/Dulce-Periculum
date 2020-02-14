@@ -19,9 +19,9 @@ public class GoblinBrains : EnemyBrains
     // Information for remembering at the start.
     private Vector3        startPoint;
     // Stealing.
-    private StealingAction stealingAction = null;
+    private StealingHandler stealingAction = null;
     //Behaviour.
-    private ControlNodeBT  behaviour      = null;  
+    private CompositeBT    behaviour      = null;  
     private bool           initialized    = false;
     private GoblinType     type           = GoblinType.STEALER;
     private GoblinAction   action         = GoblinAction.STEALING;
@@ -55,7 +55,7 @@ public class GoblinBrains : EnemyBrains
 
     public void Initialize(GoblinType __type)
     {
-        type      = __type;
+        type = __type;
         switch (type)
         {
             case GoblinType.ATTACKER:
@@ -68,18 +68,27 @@ public class GoblinBrains : EnemyBrains
                 break;
 
             case GoblinType.STEALER:
+                SelectorBT subnodeA = new SelectorBT(), 
+                           subnodeB = new SelectorBT();
                 behaviour = new SelectorBT();
+
+                subnodeA.AddNode(CreateAttackPlayerNode());
+                subnodeA.AddNode(CreateStealNode());
+                subnodeA.AddNode(CreateRunAwayNode());
+
                 behaviour.AddNode(CreateDieNode());
                 behaviour.AddNode(CreateWaitNode());
-                behaviour.AddNode(CreateAttackPlayerNode());
-                behaviour.AddNode(CreateStealNode());
-                behaviour.AddNode(CreateRunAwayNode());
+                behaviour.AddNode(subnodeA);
+                behaviour.AddNode(subnodeB);
+                //behaviour.AddNode(CreateAttackPlayerNode());
+                //behaviour.AddNode(CreateStealNode());
+                //behaviour.AddNode(CreateRunAwayNode());
                 break;
         }
         initialized = true;
     }
 
-    public void Initialize(ControlNodeBT __behaviour)
+    public void Initialize(CompositeBT __behaviour)
     {
         type        = GoblinType.CUSTOM;
         behaviour   = __behaviour;
@@ -104,120 +113,29 @@ public class GoblinBrains : EnemyBrains
         animator.SetFloat("Speed", agent.speed);
     }
 
-    protected NodeStatusBT Steal()
+    protected void AttackPlayer()
     {
-        // Initialize this action.
-        if (stealingAction == null || stealingAction.House == null)
-        {
-            target = gameManager.HouseToSteal;
-
-            if (target)
-            {
-                stealingAction = new StealingAction(target);
-                return NodeStatusBT.SUCCESS;
-            }
-            else
-            {
-                action = GoblinAction.RUNNING_AWAY;
-                return NodeStatusBT.FAILURE;
-            }
-        }
-
-        // Complete this action. The action is running.
-        switch (stealingAction.NextState())
-        {
-            case StealingState.BREAK_DOOR:
-            {
-                if (target != stealingAction.Door)
-                {
-                    target = stealingAction.Door;
-                    SetAsAgentTarget(target.transform.position);
-                    Run();
-                }
-                else if (IsTargetAtAttackDistance())
-                {
-                    Stand();
-                    RotateTo(target.transform.position);
-                    fight.Attack();
-                }
-            }
-            break;
-
-            case StealingState.STEAL_STUFF:
-            {
-                if (target != stealingAction.StuffPeace)
-                {
-                    target = stealingAction.StuffPeace;
-                    SetAsAgentTarget(target.transform.position);
-                    Run();
-                }
-                else if (IsTargetAtAttackDistance())
-                {
-                    Stand();
-                    RotateTo(target.transform.position);
-                    Destroy(target);
-                    StartCoroutine(WaitFor(2));
-                }
-            }
-            break;
-
-            default:
-                stealingAction.Finish();
-                stealingAction = null;
-                Stand();
-                agent.ResetPath();
-                break;
-        }
-
-        return NodeStatusBT.RUNNING;
+        Stand();
+        RotateTo(gameManager.Player.transform.position);
+        fight.Attack();
     }
 
-    protected NodeStatusBT AttackPlayer()
-    {
-        if (IsPlayerAtAttackDistance())
-        {
-            Stand();
-            RotateTo(gameManager.Player.transform.position);
-            fight.Attack();
-
-            return NodeStatusBT.SUCCESS;
-        }
-        else
-        {
-            return NodeStatusBT.FAILURE;
-        }
-    }
-
-    protected NodeStatusBT GoToPlayer()
+    protected void GoToPlayer()
     {
         target = gameManager.Player;
         SetAsAgentTarget(gameManager.Player.transform.position);
         Run();
-
-        return NodeStatusBT.RUNNING;
     }
 
-    protected NodeStatusBT RunAway()
+    protected void RunAway()
     {
         if (target != runAwayPoint)
         {
             target = runAwayPoint;
             SetAsAgentTarget(runAwayPoint.transform.position);
-
-            return NodeStatusBT.SUCCESS;
-        }
-        else if (Vector3.Distance(transform.position, runAwayPoint.transform.position) <= 10)
-        {
-            //StartWander();
-
-            return NodeStatusBT.RUNNING;
         }
         else
-        {
             Run();
-
-            return NodeStatusBT.RUNNING;
-        }
     }
 
     public ActionBT CreateDieNode()
@@ -249,30 +167,91 @@ public class GoblinBrains : EnemyBrains
         });
     }
 
-    public ActionBT CreateStealNode()
+    public SequenceBT CreateStealNode()
     {
-        return new ActionBT(() =>
+        SequenceBT ret = new SequenceBT();
+
+        ret.AddNode(new ActionBT(() =>
         {
-            if (action == GoblinAction.RUNNING_AWAY)
-                return NodeStatusBT.FAILURE;
+            if (stealingAction == null)
+            {
+                GameObject __target = gameManager.HouseToSteal;
+                if (__target)
+                {
+                    target         = __target;
+                    stealingAction = new StealingHandler(target);
+                    action         = GoblinAction.STEALING;
+                    return NodeStatusBT.SUCCESS;
+                }
+                else
+                {
+                    action = GoblinAction.RUNNING_AWAY;
+                    return NodeStatusBT.FAILURE;
+                }
+            }
             else
             {
-                NodeStatusBT status = Steal();
+                return NodeStatusBT.SUCCESS;
+            }
+        }));
 
-                switch (status)
+        ret.AddNode(new ActionBT(() =>
+        {
+            if (stealingAction.Door)
+            {
+                if (target != stealingAction.Door)
                 {
-                    case NodeStatusBT.SUCCESS:
-                    case NodeStatusBT.RUNNING:
-                        action = GoblinAction.STEALING;
-                        break;
-                    case NodeStatusBT.FAILURE:
-                        action = GoblinAction.RUNNING_AWAY;
-                        break; 
+                    target = stealingAction.Door;
+                    SetAsAgentTarget(target.transform.position);
+                    Run();
+                }
+                else if (IsTargetAtAttackDistance())
+                {
+                    Stand();
+                    RotateTo(target.transform.position);
+                    fight.Attack();
                 }
 
-                return status;
+                return NodeStatusBT.RUNNING;
             }
-        });
+            else
+            {
+                return NodeStatusBT.SUCCESS;
+            }
+        }));
+
+        ret.AddNode(new ActionBT(() =>
+        {
+            if (stealingAction.StuffPeace)
+            {
+                if (target != stealingAction.StuffPeace)
+                {
+                    target = stealingAction.StuffPeace;
+                    SetAsAgentTarget(target.transform.position);
+                    Run();
+                }
+                else if (IsTargetAtAttackDistance())
+                {
+                    Stand();
+                    RotateTo(target.transform.position);
+                    Destroy(target);
+                    StartCoroutine(WaitFor(2));
+                }
+
+                return NodeStatusBT.RUNNING;
+            }
+            else
+            {
+                print("No stuff, finish");
+                stealingAction.Finish();
+                stealingAction = null;
+                Stand();
+                agent.ResetPath();
+                return NodeStatusBT.SUCCESS;
+            }
+        }));
+
+        return ret;
     }
 
     public ActionBT CreateRunAwayNode()
@@ -280,7 +259,15 @@ public class GoblinBrains : EnemyBrains
         return new ActionBT(() =>
         {
             action = GoblinAction.RUNNING_AWAY;
-            return RunAway();
+            if (Vector3.Distance(transform.position, runAwayPoint.transform.position) <= 10)
+            {
+                return NodeStatusBT.FAILURE;
+            }
+            else
+            {
+                RunAway();
+                return NodeStatusBT.RUNNING;
+            }
         });
     }
 
@@ -291,7 +278,15 @@ public class GoblinBrains : EnemyBrains
             if (action == GoblinAction.RUNNING_AWAY)
                 return NodeStatusBT.FAILURE;
             else
-                return AttackPlayer();
+            {
+                if (IsPlayerAtAttackDistance())
+                {
+                    AttackPlayer();
+                    return NodeStatusBT.RUNNING;
+                }
+                else
+                    return NodeStatusBT.FAILURE;
+            }
         });
     }
 
@@ -302,9 +297,24 @@ public class GoblinBrains : EnemyBrains
             if (action == GoblinAction.RUNNING_AWAY)
                 return NodeStatusBT.FAILURE;
             else
-                return GoToPlayer();
+            {
+                GoToPlayer();
+                return NodeStatusBT.RUNNING;
+            }
         });
     }
+
+    /*public ActionBT CreateWanderNode()
+    {
+        return new ActionBT(() =>
+        {
+            state = GoblinAction.WANDERING;
+            if (agent.remainingDistance < 1)
+            {
+
+            }
+        });
+    }*/
 
     public void ForceRunAway()
     {

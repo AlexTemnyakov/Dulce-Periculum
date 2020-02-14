@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectorBT : CompositeBT
+public class SequenceBT : CompositeBT
 {
     public override NodeStatusBT Execute()
     {
@@ -12,12 +12,12 @@ public class SelectorBT : CompositeBT
 
             switch (status)
             {
-                case NodeStatusBT.SUCCESS:
+                case NodeStatusBT.FAILURE:
                 case NodeStatusBT.RUNNING:
                     return status;
             }
         }
 
-        return NodeStatusBT.FAILURE;
+        return NodeStatusBT.SUCCESS;
     }
 }
