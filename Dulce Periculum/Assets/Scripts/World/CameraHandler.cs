@@ -77,7 +77,6 @@ public class CameraHandler : MonoBehaviour
             dir = Quaternion.Euler(v) * (position - (player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET));
             if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, dir, out hit, dist, LayerMask.GetMask("Buildings", "Terrain")))
             {
-                print(hit.transform.gameObject.layer);
                 newPos = hit.point - dir.normalized * 2;
                 break;
             }

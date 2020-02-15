@@ -128,8 +128,8 @@ public class EnemyBrains : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Goblin, a problem with the navmesh.");
-            Debug.Break();
+            Debug.LogError("Enemy, a problem with the navmesh.");
+            //Debug.Break();
         }
     }
 

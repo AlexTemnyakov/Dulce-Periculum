@@ -879,7 +879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GOBLIN_PREFAB: {fileID: 4837174957831810008, guid: fe3759e25e2fec24da33196ba7f6b3da,
     type: 3}
-  START_COUNT_OF_GOBLINS: 1
+  START_COUNT_OF_GOBLINS: 2
   runAwayPoint: {fileID: 721375671}
 --- !u!4 &446277894
 Transform:
@@ -1331,7 +1331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721375671}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1577.976, y: 89.36, z: 227.64}
+  m_LocalPosition: {x: 1577.976, y: 89.36, z: 384.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3647,7 +3647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 182358, guid: c98af42ce7aec0543a054d041fe33418, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 443350, guid: c98af42ce7aec0543a054d041fe33418, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4077,7 +4077,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143620568}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e6ee71813e1303e4cb8254dd48304712, type: 3}

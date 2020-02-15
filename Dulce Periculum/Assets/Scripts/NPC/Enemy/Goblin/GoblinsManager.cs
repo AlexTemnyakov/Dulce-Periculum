@@ -36,7 +36,7 @@ public class GoblinsManager : MonoBehaviour
             instance.transform.parent = transform;
 
             brains              = instance.GetComponent<GoblinBrains>();
-            brains.runAwayPoint = runAwayPoint;
+            brains.basePoint = runAwayPoint;
 
             // One half attacks the player, other half attacks the village.
             if (i < START_COUNT_OF_GOBLINS / 2)
@@ -55,9 +55,9 @@ public class GoblinsManager : MonoBehaviour
 
     private IEnumerator CheckGoblins()
     {
-        int              stealersCount    = 0;
+        /*int              stealersCount    = 0;
         int              runningAwayCount = 0;
-        List<GameObject> attackers        = new List<GameObject>();
+        List<GameObject> attackers        = new List<GameObject>();*/
 
         for (int i = goblins.Count - 1; i >= 0; i--)
         {
@@ -65,20 +65,20 @@ public class GoblinsManager : MonoBehaviour
             {
                 goblins.RemoveAt(i);
             }
-            else
+            /*else
             {
                 if (goblins[i].GetComponent<GoblinBrains>().Type == GoblinType.ATTACKER)
                     attackers.Add(goblins[i]);
                 if (goblins[i].GetComponent<GoblinBrains>().Type == GoblinType.STEALER)
                     stealersCount++;
-                if (goblins[i].GetComponent<GoblinBrains>().Action == GoblinAction.RUNNING_AWAY)
+                if (goblins[i].GetComponent<GoblinBrains>().Action == GoblinAction.RUNNING_TO_BASE)
                     runningAwayCount++;
-            }
+            }*/
 
             yield return null;
         }
 
-        if (stealersCount == runningAwayCount)
+        /*if (stealersCount == runningAwayCount)
         {
             foreach (GameObject g in attackers)
             {
@@ -87,6 +87,6 @@ public class GoblinsManager : MonoBehaviour
 
                 yield return null;
             }
-        }
+        }*/
     }
 }

@@ -19,9 +19,8 @@ public class InverterBT : NodeBT
                 return NodeStatusBT.FAILURE;
             case NodeStatusBT.FAILURE:
                 return NodeStatusBT.SUCCESS;
-            case NodeStatusBT.RUNNING:
-            default:
-                return NodeStatusBT.RUNNING;
         }
+
+        return NodeStatusBT.RUNNING;
     }
 }
