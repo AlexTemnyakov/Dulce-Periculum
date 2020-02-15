@@ -8,12 +8,16 @@ public class Inventory : MonoBehaviour
 
     public void Add(GameObject o)
     {
+        o.transform.SetParent(gameObject.transform);
         o.SetActive(false);
         items.Add(o);
     }
 
     public void DropAll()
     {
+        if (items.Count <= 0)
+            return;
+
         int angle = 360 / items.Count;
 
         for (int i = items.Count; i >= 0; i--)
@@ -24,6 +28,7 @@ public class Inventory : MonoBehaviour
             position = transform.position + shift;
             position = position + Vector3.down * Utils.GetHeight(position);
 
+            items[i].transform.parent   = null;
             items[i].transform.position = position;
             items[i].SetActive(true);
 

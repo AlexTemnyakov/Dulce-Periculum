@@ -237,7 +237,7 @@ public class GoblinBrains : EnemyBrains
                     target = stealingAction.StuffPeace;
                     SetAsAgentTarget(target.transform.position);
                 }
-                else if (IsTargetAtAttackDistance())
+                else if (IsTargetAtInteractionDistance())
                 {
                     Stand();
                     RotateTo(target.transform.position);
@@ -245,7 +245,9 @@ public class GoblinBrains : EnemyBrains
                     StartCoroutine(WaitFor(2));
                 }
                 else
+                {
                     Run();
+                }
 
                 return NodeStatusBT.RUNNING;
             }

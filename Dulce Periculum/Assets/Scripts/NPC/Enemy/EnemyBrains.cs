@@ -11,7 +11,7 @@ public class EnemyBrains : MonoBehaviour
     public    float        VISIBILITY;
     public    float        VISION_ANGLE;
     public    float        ATTACK_DIST;
-    public    float        INTERACT_DIST;
+    public    float        INTERACTION_DIST;
     public    float        ROTATION_SPEED;
     public    float        NEW_TARGET_DIST;
 
@@ -103,18 +103,7 @@ public class EnemyBrains : MonoBehaviour
         }
         else
         {
-            RaycastHit hit;
-
-            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.green, INTERACT_DIST);
-
-            if (Physics.Raycast(transform.position, target.transform.position - transform.position, out hit, INTERACT_DIST, LayerMask.GetMask("Buildings")))
-            {
-                return hit.transform.gameObject == target;
-            }
-            else
-            {
-                return false;
-            }
+            return Vector3.Distance(transform.position, target.transform.position) <= INTERACTION_DIST;
         }
     }
 
