@@ -4,91 +4,203 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class VillagerBrains : MonoBehaviour
+public class VillagerBrains : CreatureBrains
 {
-    public float         MAX_DIST_FROM_START;
-    public float         SPEED;
-    public float         ACCELERATION;
+    public float           RUN_AWAY_TIME;
 
-    private NavMeshAgent agent;
-    private Animator     animator;
-    private Vector3      startPoint;
-    private Vector3      targetPoint;
+    private bool           inittialized       = false;
+    private float          runAwayTimeCurrent = 0;
+    private Animator       animator;
+    private VillagerHealth health; 
+    private GameObject     basePoint;
+    private CompositeBT    behaviour;
+    private Vector3        targetPoint        = Vector3.zero;
+    private GameObject     closeEnemy         = null;
 
     void Start()
     {
-        NavMeshHit hit;
-
-        agent       = GetComponent<NavMeshAgent>();
         animator    = GetComponent<Animator>();
+        health      = GetComponent<VillagerHealth>();
         agent.speed = SPEED;
-        startPoint  = transform.position;
-
-        if (NavMesh.SamplePosition(startPoint, out hit, 10, NavMesh.AllAreas))
-        {
-            startPoint = hit.position;
-            agent.SetDestination(CreateTargetPoint());
-            Walk();
-        }
-        else
-        {
-            Debug.LogError("Villager, a problem with the navmesh.");
-            Destroy(gameObject);
-        }
     }
 
     void Update()
     {
-        if (agent.remainingDistance < 1)
-        {
-            agent.SetDestination(CreateTargetPoint());
+        if (!inittialized)
+            return;
 
-            Walk();
-        }
+        behaviour.Execute();
     }
 
-    private Vector3 CreateTargetPoint()
+    public void Initialize()
     {
-        int        angle;
-        Vector3    vector;
-        Vector3    targetPoint;
-        NavMeshHit hit;
+        SelectorBT subtree;
 
-        targetPoint = startPoint;
+        behaviour = new SelectorBT();
+        subtree   = new SelectorBT();
 
-        angle       = Random.Range(0, 360);
-        vector      = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 1) * 20;
-        targetPoint = transform.position + vector;
+        subtree.AddNode(CreateRunAwayNode());
+        subtree.AddNode(CreateWanderNode());
 
-        if (NavMesh.SamplePosition(targetPoint, out hit, 10, NavMesh.AllAreas))
-        {
-            if (Vector3.Distance(startPoint, hit.position) < MAX_DIST_FROM_START)
-                targetPoint = hit.position;
-        }
-        else
-        {
-            Debug.LogError("Vilalger, a problem with the navmesh, he can not find a new position.");
-        }
+        behaviour.AddNode(CreateDieNode());
+        behaviour.AddNode(new InverterBT(CreateWaitNode()));
+        behaviour.AddNode(subtree);
 
-        return targetPoint;
+        inittialized = true;
     }
 
-    private void Run()
+    override protected void Run()
     {
         agent.speed = SPEED * ACCELERATION;
         animator.SetFloat("Speed", agent.speed);
     }
 
-    private void Walk()
+    override protected void Walk()
     {
         agent.speed = SPEED;
         animator.SetFloat("Speed", agent.speed);
     }
 
-    private void Stand()
+    override protected void Stand()
     {
-        agent.ResetPath();
         agent.speed = 0;
         animator.SetFloat("Speed", agent.speed);
+    }
+
+    private IEnumerator IsEnemyNear()
+    {
+        foreach (GameObject o in gameManager.Enemies)
+        {
+            if (Vector3.Distance(transform.position, o.transform.position) <= VISIBILITY)
+            {
+                closeEnemy = o;
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        closeEnemy = null;
+    }
+
+    private ActionBT CreateDieNode()
+    {
+        return new ActionBT(() =>
+        {
+            if (!health.IsAlive())
+            {
+                agent.ResetPath();
+                Stand();
+                return NodeStatusBT.SUCCESS;
+            }
+            else
+                return NodeStatusBT.FAILURE;
+        });
+    }
+
+    private ActionBT CreateWaitNode()
+    {
+        return new ActionBT(() =>
+        {
+            if (waiting)
+            {
+                Stand();
+                return NodeStatusBT.RUNNING;
+            }
+            else
+                return NodeStatusBT.SUCCESS;
+        });
+    }
+
+    private ActionBT CreateRunAwayNode()
+    {
+        return new ActionBT(() =>
+        {
+            StartCoroutine(IsEnemyNear());
+
+            if (closeEnemy)
+            {
+                Vector3 dir;
+
+                runAwayTimeCurrent = RUN_AWAY_TIME;
+                dir                = transform.position - closeEnemy.transform.position;
+                targetPoint        = transform.position + dir.normalized * 5;
+
+                SetAsAgentTarget(targetPoint);
+                Run();
+
+                return NodeStatusBT.RUNNING;
+            }
+            else
+            {
+                runAwayTimeCurrent = 0;
+                return NodeStatusBT.FAILURE;
+            }
+        });
+    }
+
+    /*private ActionBT CreateGoToBaseNode()
+    {
+        return new ActionBT(() =>
+        {
+            if (runAwayTimeCurrent <= 0 && Vector3.Distance(transform.position, basePoint.transform.position) > MAX_DIST_FROM_START)
+            {
+                if (targetPoint != basePoint.transform.position)
+                {
+                    targetPoint = basePoint.transform.position;
+                    SetAsAgentTarget(targetPoint);
+                }
+                else
+                {
+                    Run();
+                }
+
+                return NodeStatusBT.RUNNING;
+            }
+            else
+            {
+                return NodeStatusBT.FAILURE;
+            }
+        });
+    }*/
+
+    private ActionBT CreateWanderNode()
+    {
+        return new ActionBT(() =>
+        {
+            if (runAwayTimeCurrent > 0)
+                runAwayTimeCurrent -= Time.deltaTime;
+
+            if (agent.remainingDistance < 1)
+            {
+                Vector3 newTargetPoint = CreateTargetPoint();
+                if (runAwayTimeCurrent <= 0 && Vector3.Distance(newTargetPoint, basePoint.transform.position) > MAX_DIST_FROM_START)
+                {
+                    SetAsAgentTarget(basePoint.transform.position);
+                }
+                else
+                {
+                    SetAsAgentTarget(newTargetPoint);
+                }
+            }
+            else
+            {
+                Walk();
+            }
+
+            return NodeStatusBT.RUNNING;
+        });
+    }
+
+    public GameObject BasePoint
+    {
+        get
+        {
+            return basePoint;
+        }
+        set
+        {
+            basePoint = value;
+        }
     }
 }

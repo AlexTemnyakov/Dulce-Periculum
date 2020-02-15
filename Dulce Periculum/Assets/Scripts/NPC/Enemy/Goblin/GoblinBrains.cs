@@ -7,8 +7,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Animator))]
 public class GoblinBrains : EnemyBrains
 {
-    public  GameObject basePoint;
-
     private const int HIT_TYPES_COUNT = 2;
 
     // Components.
@@ -17,6 +15,7 @@ public class GoblinBrains : EnemyBrains
     private CreatureHealth  health;
     private GoblinFight     fight;
     // Information for remembering at the start.
+    private GameObject      basePoint;
     private Vector3         startPoint;
     // Stealing.
     private StealingHandler stealingAction = null;
@@ -42,14 +41,16 @@ public class GoblinBrains : EnemyBrains
         if (!initialized)
             return;
 
-        switch (behaviour.Execute())
+        behaviour.Execute();
+
+        /*switch (behaviour.Execute())
         {
             case NodeStatusBT.SUCCESS:
             case NodeStatusBT.RUNNING:
                 return;
             case NodeStatusBT.FAILURE:
                 return;
-        }
+        }*/
     }
 
     public void Initialize(GoblinType __type)
@@ -369,6 +370,18 @@ public class GoblinBrains : EnemyBrains
         get
         {
             return type;
+        }
+    }
+
+    public GameObject BasePoint
+    {
+        get
+        {
+            return basePoint;
+        }
+        set
+        {
+            basePoint = value;
         }
     }
 }

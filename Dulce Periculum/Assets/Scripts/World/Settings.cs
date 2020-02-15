@@ -6,6 +6,7 @@ public class Settings : MonoBehaviour
 {
     public float PLAYER_HEALTH;
     public float GOBLIN_HEALTH;
+    public float VILLAGER_HEALTH;
 
     void Start()
     {

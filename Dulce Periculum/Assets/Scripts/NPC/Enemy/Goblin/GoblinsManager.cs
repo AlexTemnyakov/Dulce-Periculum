@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GoblinsManager : MonoBehaviour
 {
-    public  GameObject       GOBLIN_PREFAB;
-    public  int              START_COUNT_OF_GOBLINS;
+    public  GameObject       goblinPrefab;
+    public  int              startCountOfGoblins;
     public  GameObject       runAwayPoint;
 
     private const
@@ -15,14 +15,14 @@ public class GoblinsManager : MonoBehaviour
 
     void Awake()
     {
-        int angle = 360 / START_COUNT_OF_GOBLINS;
+        int angle = 360 / startCountOfGoblins;
 
-        if (START_COUNT_OF_GOBLINS > MAX_COUNT_OF_GOBLINS)
-            START_COUNT_OF_GOBLINS = MAX_COUNT_OF_GOBLINS;
+        if (startCountOfGoblins > MAX_COUNT_OF_GOBLINS)
+            startCountOfGoblins = MAX_COUNT_OF_GOBLINS;
 
         goblins = new List<GameObject>();
 
-        for (int i = 0; i < START_COUNT_OF_GOBLINS; i++)
+        for (int i = 0; i < startCountOfGoblins; i++)
         {
             Vector3      position, shift;
             GameObject   instance;
@@ -32,14 +32,14 @@ public class GoblinsManager : MonoBehaviour
             position = transform.position + shift;
             position = position + Vector3.down * Utils.GetHeight(position);
 
-            instance                  = Instantiate(GOBLIN_PREFAB, position, Quaternion.identity);
+            instance                  = Instantiate(goblinPrefab, position, Quaternion.identity);
             instance.transform.parent = transform;
 
-            brains              = instance.GetComponent<GoblinBrains>();
-            brains.basePoint = runAwayPoint;
+            brains           = instance.GetComponent<GoblinBrains>();
+            brains.BasePoint = runAwayPoint;
 
             // One half attacks the player, other half attacks the village.
-            if (i < START_COUNT_OF_GOBLINS / 2)
+            if (i < startCountOfGoblins / 2)
                 brains.Initialize(GoblinType.ATTACKER);
             else
                 brains.Initialize(GoblinType.STEALER);

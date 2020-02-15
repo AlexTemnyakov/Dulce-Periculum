@@ -3,28 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyBrains : MonoBehaviour
+public class EnemyBrains : CreatureBrains
 {
-    public    float        SPEED;
-    public    float        ACCELERATION;
-    public    float        MAX_DIST_FROM_START;
-    public    float        VISIBILITY;
-    public    float        VISION_ANGLE;
-    public    float        ATTACK_DIST;
-    public    float        INTERACTION_DIST;
-    public    float        ROTATION_SPEED;
-    public    float        NEW_TARGET_DIST;
+    public    float      ATTACK_DIST;
+    public    float      INTERACTION_DIST;
 
-    protected bool         waiting     = false;
-    protected GameManager  gameManager;
-    protected NavMeshAgent agent;
-    protected GameObject   target      = null;
-
-    void Awake()
-    {
-        gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
-        agent       = GetComponent<NavMeshAgent>();
-    }
+    protected GameObject target            = null;
 
     void Update()
     {
@@ -105,64 +89,5 @@ public class EnemyBrains : MonoBehaviour
         {
             return Vector3.Distance(transform.position, target.transform.position) <= INTERACTION_DIST;
         }
-    }
-
-    protected void SetAsAgentTarget(Vector3 position)
-    {
-        NavMeshHit hit;
-
-        if (NavMesh.SamplePosition(position, out hit, 10, NavMesh.AllAreas))
-        {
-            agent.SetDestination(hit.position);
-        }
-        else
-        {
-            Debug.LogError("Enemy, a problem with the navmesh.");
-            //Debug.Break();
-        }
-    }
-
-    protected Vector3 CreateTargetPoint()
-    {
-        int     angle;
-        Vector3 vector;
-        Vector3 targetPoint;
-
-        angle       = Random.Range(0, 360);
-        vector      = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 1) * NEW_TARGET_DIST;
-        targetPoint = transform.position + vector;
-
-        return targetPoint;
-    }
-
-    protected void RotateTo(Vector3 point)
-    {
-        Vector3 dir;
-
-        dir               = point - transform.position;
-        dir.y             = transform.forward.y;
-        transform.forward = Vector3.Lerp(transform.forward, dir.normalized, Time.deltaTime * ROTATION_SPEED);
-    }
-
-    virtual protected void Run()
-    {
-        agent.speed = SPEED * ACCELERATION;
-    }
-
-    virtual protected void Walk()
-    {
-        agent.speed = SPEED;
-    }
-
-    virtual protected void Stand()
-    {
-        agent.speed = 0;
-    }
-
-    protected  IEnumerator WaitFor(float seconds)
-    {
-        waiting = true;
-        yield return new WaitForSeconds(seconds);
-        waiting = false;
     }
 }
