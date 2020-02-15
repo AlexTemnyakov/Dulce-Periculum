@@ -31,7 +31,8 @@ public class StealingHandler
     {
         get
         {
-            return door;
+            // If there is a door and it is closed.
+            return door && door.GetComponent<Door>().Closed ? door : null;
         }
     }
 

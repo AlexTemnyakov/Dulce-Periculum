@@ -10,15 +10,6 @@ public class CameraHandler : MonoBehaviour
     private const
             float      CHANGE_POS_SPEED     = 0.1f;
 
-    // How long the object should shake for.
-    public float shakeDurationStart;
-    private float shakeDuration = 0f;
-
-    // Amplitude of the shake. A larger value shakes the camera harder.
-    public float shakeAmount = 0.7f;
-    public float decreaseFactor = 1.0f;
-
-
     private GameObject player;
     private Vector3    newPos;
 
@@ -45,8 +36,8 @@ public class CameraHandler : MonoBehaviour
         if (IsInsideObject())
         {
             _dist   /= 2;
-            _height /= 2;
-            _angle  /= 2;
+            _height /= 1.5f;
+            _angle  /= 1.5f;
         }
 
         dir                 = player.transform.forward.normalized;

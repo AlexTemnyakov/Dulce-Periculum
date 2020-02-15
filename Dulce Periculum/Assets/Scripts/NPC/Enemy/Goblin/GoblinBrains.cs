@@ -150,6 +150,7 @@ public class GoblinBrains : EnemyBrains
             {
                 agent.ResetPath();
                 Stand();
+                GetComponent<Inventory>().DropAll();
                 return NodeStatusBT.SUCCESS;
             }
             else
@@ -240,7 +241,7 @@ public class GoblinBrains : EnemyBrains
                 {
                     Stand();
                     RotateTo(target.transform.position);
-                    Destroy(target);
+                    GetComponent<Inventory>().Add(target);
                     StartCoroutine(WaitFor(2));
                 }
                 else
