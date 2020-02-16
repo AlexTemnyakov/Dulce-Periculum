@@ -50,7 +50,7 @@ public class VillagersManager : MonoBehaviour
     {
         for (int i = villagers.Count - 1; i >= 0; i--)
         {
-            if (i < 0)
+            if (villagers.Count <= 0)
                 break;
 
             if (!villagers[i] || !villagers[i].activeInHierarchy)

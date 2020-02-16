@@ -55,38 +55,17 @@ public class GoblinsManager : MonoBehaviour
 
     private IEnumerator CheckGoblins()
     {
-        /*int              stealersCount    = 0;
-        int              runningAwayCount = 0;
-        List<GameObject> attackers        = new List<GameObject>();*/
-
         for (int i = goblins.Count - 1; i >= 0; i--)
         {
+            if (goblins.Count <= 0)
+                break;
+
             if (!goblins[i] || !goblins[i].activeInHierarchy)
             {
                 goblins.RemoveAt(i);
             }
-            /*else
-            {
-                if (goblins[i].GetComponent<GoblinBrains>().Type == GoblinType.ATTACKER)
-                    attackers.Add(goblins[i]);
-                if (goblins[i].GetComponent<GoblinBrains>().Type == GoblinType.STEALER)
-                    stealersCount++;
-                if (goblins[i].GetComponent<GoblinBrains>().Action == GoblinAction.RUNNING_TO_BASE)
-                    runningAwayCount++;
-            }*/
 
             yield return null;
         }
-
-        /*if (stealersCount == runningAwayCount)
-        {
-            foreach (GameObject g in attackers)
-            {
-                if (g && g.activeInHierarchy)
-                    g.GetComponent<GoblinBrains>().ForceRunAway();
-
-                yield return null;
-            }
-        }*/
     }
 }

@@ -10,11 +10,6 @@ public class EnemyBrains : CreatureBrains
 
     protected GameObject target            = null;
 
-    void Update()
-    {
-
-    }
-
     protected float DistanceToPlayer() { return Vector3.Distance(transform.position, gameManager.Player.transform.position); }
 
     protected bool IsPlayerVisible()

@@ -16,7 +16,6 @@ public class GoblinBrains : EnemyBrains
     private GoblinFight     fight;
     // Information for remembering at the start.
     private GameObject      basePoint;
-    private Vector3         startPoint;
     // Stealing.
     private StealingHandler stealingAction = null;
     //Behaviour.
@@ -33,24 +32,14 @@ public class GoblinBrains : EnemyBrains
         health      = GetComponent<CreatureHealth>();
         fight       = GetComponent<GoblinFight>();
         agent.speed = SPEED ;
-        startPoint  = transform.position;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!initialized)
             return;
 
         behavior.Execute();
-
-        /*switch (behaviour.Execute())
-        {
-            case NodeStatusBT.SUCCESS:
-            case NodeStatusBT.RUNNING:
-                return;
-            case NodeStatusBT.FAILURE:
-                return;
-        }*/
     }
 
     public void Initialize(GoblinType __type)
@@ -96,7 +85,7 @@ public class GoblinBrains : EnemyBrains
     public void Initialize(CompositeBT __behaviour)
     {
         type        = GoblinType.CUSTOM;
-        behavior   = __behaviour;
+        behavior    = __behaviour;
         initialized = true;
     }
 
@@ -151,7 +140,7 @@ public class GoblinBrains : EnemyBrains
             {
                 agent.ResetPath();
                 Stand();
-                GetComponent<Inventory>().DropAll();
+                StartCoroutine(GetComponent<Inventory>().DropAll());
                 return NodeStatusBT.SUCCESS;
             }
             else

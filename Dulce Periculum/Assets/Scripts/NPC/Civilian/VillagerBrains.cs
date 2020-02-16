@@ -28,10 +28,16 @@ public class VillagerBrains : CreatureBrains
 
     void Update()
     {
-        if (!initialized)
+        /*if (!initialized)
             return;
 
-        Debug.DrawLine(transform.position, targetPoint, Color.green);
+        behavior.Execute();*/
+    }
+
+    void FixedUpdate()
+    {
+        if (!initialized)
+            return;
 
         behavior.Execute();
     }
@@ -73,11 +79,16 @@ public class VillagerBrains : CreatureBrains
 
     private IEnumerator IsEnemyNear()
     {
-        foreach (GameObject o in gameManager.Enemies)
+        for (int i = gameManager.Enemies.Count - 1; i >= 0; i--)
         {
-            if (Vector3.Distance(transform.position, o.transform.position) <= VISIBILITY)
+            if (gameManager.Enemies.Count <= 0)
+                yield break;
+            if (!gameManager.Enemies[i] || !gameManager.Enemies[i].activeInHierarchy)
+                continue;
+
+            if (Vector3.Distance(transform.position, gameManager.Enemies[i].transform.position) <= VISIBILITY)
             {
-                closeEnemy = o;
+                closeEnemy = gameManager.Enemies[i];
                 yield break;
             }
 

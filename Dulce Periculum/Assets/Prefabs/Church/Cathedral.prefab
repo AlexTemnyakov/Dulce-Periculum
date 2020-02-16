@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 1619763310707617347}
   - component: {fileID: 1619763310698611107}
   - component: {fileID: 1619763310222676952}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cathedral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1619763310707617347
@@ -49,7 +49,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619763310708109921}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 6d67fd78499b97640be95e3ea0b4416f, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
@@ -67,23 +67,23 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619763310708109921}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0648c2a79b70e544bb5b93e8ad9f4383, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 0.1
-  MinDistance: 3
-  MaxDistance: 200
+  DopplerLevel: 0
+  MinDistance: 10
+  MaxDistance: 60
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -91,23 +91,41 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.16666667
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -6.002399
+      outSlope: -6.002399
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.33333334
+      value: 0.5
+      inSlope: -1.5005997
+      outSlope: -1.5005997
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5818278
+      value: 0.17817688
+      inSlope: -0.6956293
+      outSlope: -0.6956293
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.49998808
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.16673319
+      outSlope: -0.16673319
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -131,7 +149,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.083333336
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -167,12 +185,13 @@ GameObject:
   - component: {fileID: 1619763310707617345}
   - component: {fileID: 1619763310704750179}
   - component: {fileID: 1619763310705847459}
-  m_Layer: 0
+  - component: {fileID: 1000857830}
+  m_Layer: 10
   m_Name: Cathedral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617345
 Transform:
@@ -235,6 +254,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1000857830
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619763310708109923}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 6d67fd78499b97640be95e3ea0b4416f, type: 3}
 --- !u!1 &1619763310708109925
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,12 +279,12 @@ GameObject:
   - component: {fileID: 1619763310707617349}
   - component: {fileID: 1619763310704750183}
   - component: {fileID: 1619763310705847463}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617349
 Transform:
@@ -324,12 +357,12 @@ GameObject:
   - component: {fileID: 1619763310707617351}
   - component: {fileID: 1619763310704750177}
   - component: {fileID: 1619763310705847457}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617351
 Transform:
@@ -402,12 +435,12 @@ GameObject:
   - component: {fileID: 1619763310707617353}
   - component: {fileID: 1619763310704750187}
   - component: {fileID: 1619763310705847467}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617353
 Transform:
@@ -480,12 +513,12 @@ GameObject:
   - component: {fileID: 1619763310707617355}
   - component: {fileID: 1619763310704750181}
   - component: {fileID: 1619763310705847461}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617355
 Transform:
@@ -558,12 +591,12 @@ GameObject:
   - component: {fileID: 1619763310707617357}
   - component: {fileID: 1619763310704750191}
   - component: {fileID: 1619763310705847471}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617357
 Transform:
@@ -636,12 +669,12 @@ GameObject:
   - component: {fileID: 1619763310707617359}
   - component: {fileID: 1619763310704750185}
   - component: {fileID: 1619763310705847465}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617359
 Transform:
@@ -714,12 +747,12 @@ GameObject:
   - component: {fileID: 1619763310707617361}
   - component: {fileID: 1619763310704750195}
   - component: {fileID: 1619763310705847475}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617361
 Transform:
@@ -792,12 +825,12 @@ GameObject:
   - component: {fileID: 1619763310707617363}
   - component: {fileID: 1619763310704750189}
   - component: {fileID: 1619763310705847469}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ivy07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1619763310707617363
 Transform:

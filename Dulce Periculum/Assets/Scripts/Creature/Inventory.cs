@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public  GameObject       inventory;
+
     private List<GameObject> items = new List<GameObject>();
 
     public void Add(GameObject o)
     {
-        o.transform.SetParent(gameObject.transform);
+        o.transform.SetParent(inventory.transform);
         o.SetActive(false);
         items.Add(o);
     }
 
-    public void DropAll()
+    public IEnumerator DropAll()
     {
         if (items.Count <= 0)
-            return;
+            yield break;
 
         int angle = 360 / items.Count;
 
-        for (int i = items.Count; i >= 0; i--)
+        inventory.transform.parent = null;
+
+        for (int i = items.Count - 1; i >= 0; i--)
         {
             Vector3 position, shift;
 
@@ -33,6 +37,10 @@ public class Inventory : MonoBehaviour
             items[i].SetActive(true);
 
             items.RemoveAt(i);
+
+            yield return null;
         }
+
+        Destroy(inventory);
     }
 }
