@@ -40,6 +40,7 @@ https://assetstore.unity.com/packages/audio/sound-fx/foley/blood-sfx-pack-16107
 https://assetstore.unity.com/packages/vfx/shaders/lux-physically-based-shader-framework-16000
 https://assetstore.unity.com/packages/3d/props/gold-items-vol-1-106955
 https://assetstore.unity.com/packages/3d/props/medieval-gold-14162
+https://assetstore.unity.com/packages/3d/environments/historic/lowpoly-medieval-buildings-58289
 
 https://freesound.org
 

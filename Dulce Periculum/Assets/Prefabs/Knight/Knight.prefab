@@ -630,7 +630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   COOLDOWN_TIME: 1
-  HIDE_SWORD_TIME: 5
+  HIDE_SWORD_TIME: 25
   SWORD: {fileID: 2139242281}
 --- !u!136 &2044958651909700277
 CapsuleCollider:

@@ -19,7 +19,7 @@ public class CameraHandler : MonoBehaviour
         ChangePosition();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         ChangePosition();
     }
@@ -56,8 +56,8 @@ public class CameraHandler : MonoBehaviour
     {
         Vector3[]  pointsToCheck = {
                                             Vector3.zero,
-                                        new Vector3(0, -10, 0),
-                                        new Vector3(0, 10, 0)
+                                        new Vector3(0, -15, 0),
+                                        new Vector3(0, 15, 0)
                                     };
         Vector3    newPos = position;
         Vector3    dir;
