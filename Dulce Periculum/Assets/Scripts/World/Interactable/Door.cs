@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Door : Interactable
 {
-    public  float      HEALTH;
+    public float         HEALTH;
+    public MaterialSound THIS_MATERIAL;
 
     private bool       closed;
     private bool       moving;
@@ -56,7 +57,7 @@ public class Door : Interactable
         {
             HEALTH -= w.DAMAGE;
             w.hit   = false;
-            //other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
+            other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
             print("Hit, damage=" + w.DAMAGE + ", health=" + HEALTH);
         }
     }

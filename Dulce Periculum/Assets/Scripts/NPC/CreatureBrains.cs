@@ -28,7 +28,7 @@ public abstract class CreatureBrains : MonoBehaviour
     {
         NavMeshHit hit;
 
-        if (NavMesh.SamplePosition(position, out hit, 10, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(position, out hit, 20, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
         }

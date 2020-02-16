@@ -19,15 +19,15 @@ public class VillagersManager : MonoBehaviour
 
         villagers = new List<GameObject>();
 
-        for (int i = 0, j = 0, k = 0; i <= startCountOfVillagers; i = i + 1, j = (j + 1) % spawnPoints.Length, k = (k + 1) % villagersPrefabs.Length)
+        for (int i = 0, j = 0, k = 0; i < startCountOfVillagers; i = i + 1, j = (j + 1) % spawnPoints.Length, k = (k + 1) % villagersPrefabs.Length)
         {
             Vector3        position, shift;
             GameObject     instance;
             VillagerBrains brains;
 
-            shift    = Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(1, 0, 1) * 5;
-            position = spawnPoints[j].transform.position + shift;
-            position = position + Vector3.down * Utils.GetHeight(position);
+            shift      = Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(1, 0, 1) * 10;
+            position   = spawnPoints[j].transform.position + shift;
+            position.y = Utils.GetTerrainHeight(position.x, position.z);
 
             instance                  = Instantiate(villagersPrefabs[k], position, Quaternion.identity);
             instance.transform.parent = transform;

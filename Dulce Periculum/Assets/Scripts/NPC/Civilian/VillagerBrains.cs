@@ -7,13 +7,15 @@ using UnityEngine.AI;
 public class VillagerBrains : CreatureBrains
 {
     public float           RUN_AWAY_TIME;
+    public float           SAFE_DISTANCE;
 
-    private bool           inittialized       = false;
+    private bool           initialized        = false;
+    private bool           runningAway        = false;
     private float          runAwayTimeCurrent = 0;
     private Animator       animator;
     private VillagerHealth health; 
     private GameObject     basePoint;
-    private CompositeBT    behaviour;
+    private CompositeBT    behavior;
     private Vector3        targetPoint        = Vector3.zero;
     private GameObject     closeEnemy         = null;
 
@@ -26,27 +28,29 @@ public class VillagerBrains : CreatureBrains
 
     void Update()
     {
-        if (!inittialized)
+        if (!initialized)
             return;
 
-        behaviour.Execute();
+        Debug.DrawLine(transform.position, targetPoint, Color.green);
+
+        behavior.Execute();
     }
 
     public void Initialize()
     {
         SelectorBT subtree;
 
-        behaviour = new SelectorBT();
-        subtree   = new SelectorBT();
+        behavior = new SelectorBT();
+        subtree  = new SelectorBT();
 
-        subtree.AddNode(CreateRunAwayNode());
+        subtree.AddNode(CreateRunAwaySubtree());
         subtree.AddNode(CreateWanderNode());
 
-        behaviour.AddNode(CreateDieNode());
-        behaviour.AddNode(new InverterBT(CreateWaitNode()));
-        behaviour.AddNode(subtree);
+        behavior.AddNode(CreateDieNode());
+        behavior.AddNode(new InverterBT(CreateWaitNode()));
+        behavior.AddNode(subtree);
 
-        inittialized = true;
+        initialized = true;
     }
 
     override protected void Run()
@@ -112,7 +116,7 @@ public class VillagerBrains : CreatureBrains
         });
     }
 
-    private ActionBT CreateRunAwayNode()
+    private ActionBT CreateNewRunAwayPointNode()
     {
         return new ActionBT(() =>
         {
@@ -123,46 +127,68 @@ public class VillagerBrains : CreatureBrains
                 Vector3 dir;
 
                 runAwayTimeCurrent = RUN_AWAY_TIME;
-                dir                = transform.position - closeEnemy.transform.position;
-                targetPoint        = transform.position + dir.normalized * 5;
 
-                SetAsAgentTarget(targetPoint);
-                Run();
+                dir = transform.position - closeEnemy.transform.position;
 
-                return NodeStatusBT.RUNNING;
+                if (Vector3.Distance(agent.destination, closeEnemy.transform.position) < SAFE_DISTANCE)
+                {
+                    targetPoint   = transform.position + dir.normalized * (SAFE_DISTANCE * 1.5f);
+                    targetPoint.y = Utils.GetTerrainHeight(targetPoint);
+                    SetAsAgentTarget(targetPoint);
+                    targetPoint   = agent.destination;
+                }
+
+                return NodeStatusBT.SUCCESS;
             }
             else
             {
-                runAwayTimeCurrent = 0;
-                return NodeStatusBT.FAILURE;
+                //return NodeStatusBT.FAILURE;
+                return NodeStatusBT.SUCCESS;
             }
         });
     }
 
-    /*private ActionBT CreateGoToBaseNode()
+    private ActionBT CreateRunAwayNode()
     {
         return new ActionBT(() =>
         {
-            if (runAwayTimeCurrent <= 0 && Vector3.Distance(transform.position, basePoint.transform.position) > MAX_DIST_FROM_START)
+            // If runAwayTimeCurrent > 0 and 
+            // if the distance to the destination > NEW_TARGET_DIST * 2,
+            // it means that he is running away now.
+            // So run to the destination.
+            if (runAwayTimeCurrent > 0)
             {
-                if (targetPoint != basePoint.transform.position)
+                //runAwayTimeCurrent -= Time.deltaTime;
+
+                if (agent.remainingDistance > NEW_TARGET_DIST * 2)
                 {
-                    targetPoint = basePoint.transform.position;
-                    SetAsAgentTarget(targetPoint);
+                    Run();
+                    return NodeStatusBT.RUNNING;
                 }
                 else
                 {
-                    Run();
+                    return NodeStatusBT.SUCCESS;
                 }
-
-                return NodeStatusBT.RUNNING;
             }
             else
             {
-                return NodeStatusBT.FAILURE;
+                //return NodeStatusBT.FAILURE;
+                return NodeStatusBT.SUCCESS;
             }
         });
-    }*/
+    }
+
+    private SequenceBT CreateRunAwaySubtree()
+    {
+        SequenceBT ret;
+
+        ret = new SequenceBT();
+
+        ret.AddNode(CreateNewRunAwayPointNode());
+        ret.AddNode(new InverterBT(CreateRunAwayNode()));
+
+        return ret;
+    }
 
     private ActionBT CreateWanderNode()
     {
@@ -171,17 +197,18 @@ public class VillagerBrains : CreatureBrains
             if (runAwayTimeCurrent > 0)
                 runAwayTimeCurrent -= Time.deltaTime;
 
+            // Near to the destination, create a new destination.
             if (agent.remainingDistance < 1)
             {
-                Vector3 newTargetPoint = CreateTargetPoint();
-                if (runAwayTimeCurrent <= 0 && Vector3.Distance(newTargetPoint, basePoint.transform.position) > MAX_DIST_FROM_START)
+                targetPoint = CreateTargetPoint();
+
+                // If this villager hasn't run away and it is to far from the base, go to to base. Otherwise go to the created point.
+                if (runAwayTimeCurrent <= 0 && Vector3.Distance(targetPoint, basePoint.transform.position) > MAX_DIST_FROM_START)
                 {
-                    SetAsAgentTarget(basePoint.transform.position);
+                    targetPoint = basePoint.transform.position;
                 }
-                else
-                {
-                    SetAsAgentTarget(newTargetPoint);
-                }
+
+                SetAsAgentTarget(targetPoint);
             }
             else
             {

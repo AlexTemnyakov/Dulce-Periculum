@@ -28,9 +28,9 @@ public class GoblinsManager : MonoBehaviour
             GameObject   instance;
             GoblinBrains brains;
 
-            shift    = Quaternion.Euler(0, angle * i, 0) * new Vector3(1, 0, 1) * 20;
-            position = transform.position + shift;
-            position = position + Vector3.down * Utils.GetHeight(position);
+            shift      = Quaternion.Euler(0, angle * i, 0) * new Vector3(1, 0, 1) * 20;
+            position   = transform.position + shift;
+            position.y = Utils.GetTerrainHeight(position.x, position.z);
 
             instance                  = Instantiate(goblinPrefab, position, Quaternion.identity);
             instance.transform.parent = transform;

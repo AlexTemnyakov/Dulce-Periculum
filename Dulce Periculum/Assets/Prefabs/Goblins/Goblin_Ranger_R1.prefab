@@ -139,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   METAL_METAL: {fileID: 8300000, guid: 0caaff8243d125b48bf954c103b3e1f6, type: 3}
   METAL_CREATURE: {fileID: 8300000, guid: 0caaff8243d125b48bf954c103b3e1f6, type: 3}
+  METAL_WOOD: {fileID: 8300000, guid: 0caaff8243d125b48bf954c103b3e1f6, type: 3}
 --- !u!114 &895909355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,14 +870,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SPEED: 1
   ACCELERATION: 4
-  MAX_DIST_FROM_START: 30
   VISIBILITY: 60
   VISION_ANGLE: 90
+  NEW_TARGET_DIST: 20
+  ROTATION_SPEED: 10
+  MAX_DIST_FROM_START: 30
   ATTACK_DIST: 2.6
   INTERACTION_DIST: 3
-  ROTATION_SPEED: 10
-  NEW_TARGET_DIST: 20
-  basePoint: {fileID: 0}
 --- !u!114 &8785595111705885491
 MonoBehaviour:
   m_ObjectHideFlags: 0

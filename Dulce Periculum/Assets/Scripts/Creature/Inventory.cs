@@ -24,9 +24,9 @@ public class Inventory : MonoBehaviour
         {
             Vector3 position, shift;
 
-            shift    = Quaternion.Euler(0, angle * i, 0) * new Vector3(1, 0, 1) * 2;
-            position = transform.position + shift;
-            position = position + Vector3.down * Utils.GetHeight(position);
+            shift      = Quaternion.Euler(0, angle * i, 0) * new Vector3(1, 0, 1) * 2;
+            position   = transform.position + shift;
+            position.y = Utils.GetTerrainHeight(position.x, position.z);
 
             items[i].transform.parent   = null;
             items[i].transform.position = position;

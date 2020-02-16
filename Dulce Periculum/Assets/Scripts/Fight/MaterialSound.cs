@@ -2,5 +2,6 @@
 {
     METAL,
     CREATURE,
+    WOOD,
     NONE
 }

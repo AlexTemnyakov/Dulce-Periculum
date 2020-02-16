@@ -20,7 +20,7 @@ public class GoblinBrains : EnemyBrains
     // Stealing.
     private StealingHandler stealingAction = null;
     //Behaviour.
-    private CompositeBT     behaviour      = null;  
+    private CompositeBT     behavior       = null;  
     private bool            initialized    = false;
     private GoblinType      type           = GoblinType.STEALER;
 
@@ -41,7 +41,7 @@ public class GoblinBrains : EnemyBrains
         if (!initialized)
             return;
 
-        behaviour.Execute();
+        behavior.Execute();
 
         /*switch (behaviour.Execute())
         {
@@ -62,15 +62,15 @@ public class GoblinBrains : EnemyBrains
             {
                 SequenceBT subtree;
 
-                behaviour = new SelectorBT();
+                behavior = new SelectorBT();
                 subtree   = new SequenceBT();
 
                 subtree.AddNode(CreateDefeatGoblinsSubtree());
                 subtree.AddNode(CreateWanderSubtree());
 
-                behaviour.AddNode(CreateDieNode());
-                behaviour.AddNode(new InverterBT(CreateWaitNode()));
-                behaviour.AddNode(subtree);
+                behavior.AddNode(CreateDieNode());
+                behavior.AddNode(new InverterBT(CreateWaitNode()));
+                behavior.AddNode(subtree);
             }
             break;
 
@@ -78,15 +78,15 @@ public class GoblinBrains : EnemyBrains
             {
                 SequenceBT subtree;
 
-                behaviour = new SelectorBT();
+                behavior = new SelectorBT();
                 subtree   = new SequenceBT();
 
                 subtree.AddNode(new InverterBT(CreateStealSubtree()));
                 subtree.AddNode(CreateWanderSubtree());
 
-                behaviour.AddNode(CreateDieNode());
-                behaviour.AddNode(new InverterBT(CreateWaitNode()));
-                behaviour.AddNode(subtree);
+                behavior.AddNode(CreateDieNode());
+                behavior.AddNode(new InverterBT(CreateWaitNode()));
+                behavior.AddNode(subtree);
             }
             break;
         }
@@ -96,7 +96,7 @@ public class GoblinBrains : EnemyBrains
     public void Initialize(CompositeBT __behaviour)
     {
         type        = GoblinType.CUSTOM;
-        behaviour   = __behaviour;
+        behavior   = __behaviour;
         initialized = true;
     }
 

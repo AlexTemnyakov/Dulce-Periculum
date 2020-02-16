@@ -1841,14 +1841,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c10704972af36f499de56936db2daa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SPEED: 2
-  ACCELERATION: 2
+  SPEED: 1.5
+  ACCELERATION: 4
   VISIBILITY: 60
   VISION_ANGLE: 90
   NEW_TARGET_DIST: 10
   ROTATION_SPEED: 10
-  MAX_DIST_FROM_START: 10
-  RUN_AWAY_TIME: 10
+  MAX_DIST_FROM_START: 20
+  RUN_AWAY_TIME: 120
+  SAFE_DISTANCE: 60
 --- !u!114 &-4501345904381730096
 MonoBehaviour:
   m_ObjectHideFlags: 0

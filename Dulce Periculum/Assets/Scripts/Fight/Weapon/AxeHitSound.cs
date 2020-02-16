@@ -6,6 +6,7 @@ public class AxeHitSound : HitSound
 {
     public AudioClip METAL_METAL;
     public AudioClip METAL_CREATURE;
+    public AudioClip METAL_WOOD;
 
     override public void PlayHitSound(MaterialSound other)
     {
@@ -16,6 +17,9 @@ public class AxeHitSound : HitSound
                 break;
             case MaterialSound.CREATURE:
                 audioSource.PlayOneShot(METAL_CREATURE);
+                break;
+            case MaterialSound.WOOD:
+                audioSource.PlayOneShot(METAL_WOOD);
                 break;
         }
     }
