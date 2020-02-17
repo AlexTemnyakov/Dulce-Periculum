@@ -12,16 +12,32 @@ public class CameraHandler : MonoBehaviour
 
     private GameObject player;
     private Vector3    newPos;
+    private float      currentAngle;
+    private float      minAngle;
+    private float      maxAngle;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player       = GameObject.FindGameObjectWithTag("Player");
+        currentAngle = ANGLE;
+        minAngle     = ANGLE - 5;
+        maxAngle     = ANGLE + 5;
         ChangePosition();
     }
 
     void FixedUpdate()
     {
+        //ChangeAngle();
         ChangePosition();
+    }
+
+    private void ChangeAngle()
+    {
+        currentAngle -= Input.GetAxis("Mouse Y") * 0.01f;
+        if (currentAngle < minAngle)
+            currentAngle = minAngle;
+        else if (currentAngle > maxAngle)
+            currentAngle = maxAngle;
     }
 
     private void ChangePosition()
@@ -31,7 +47,7 @@ public class CameraHandler : MonoBehaviour
                    tmp;
         float      _dist    = DIST_FROM_PLAYER,
                    _height  = HEIGHT,
-                   _angle   = ANGLE;
+                   _angle   = currentAngle;
 
         if (IsInsideObject())
         {

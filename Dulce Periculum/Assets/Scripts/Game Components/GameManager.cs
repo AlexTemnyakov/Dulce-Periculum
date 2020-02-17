@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         StartCoroutine(CheckEnemies());
-        //StartCoroutine(CheckHouses());
         StartCoroutine(CheckHousesToSteal());
     }
 

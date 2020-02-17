@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class ButtonHandler : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
     [Range(0, 1)]
-    public  float  MAX_ALPHA;
+    public    float  MAX_ALPHA;
     [Range(0, 1)]
-    public  float  MIN_ALPHA;
+    public    float  MIN_ALPHA;
     [Range(0, 10)]
-    public  float  ALPHA_CHANGING_SPEED;
+    public    float  ALPHA_CHANGING_SPEED;
 
-    private Button button;
-    private bool   mouseOver = false;
+    protected Button button;
+    protected bool   mouseOver = false;
 
     void Start()
     {
@@ -41,6 +41,8 @@ public class ButtonHandler : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
                 button.image.color = color;
             }
         }
+
+        print(color.a);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
