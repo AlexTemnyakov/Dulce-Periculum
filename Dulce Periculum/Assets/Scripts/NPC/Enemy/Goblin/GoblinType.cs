@@ -2,5 +2,6 @@
 {
     STEALER,
     ATTACKER,
+    BASE_DEFENDER,
     CUSTOM
 }

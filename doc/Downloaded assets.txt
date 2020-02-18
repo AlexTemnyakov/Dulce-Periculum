@@ -41,6 +41,8 @@ https://assetstore.unity.com/packages/vfx/shaders/lux-physically-based-shader-fr
 https://assetstore.unity.com/packages/3d/props/gold-items-vol-1-106955
 https://assetstore.unity.com/packages/3d/props/medieval-gold-14162
 https://assetstore.unity.com/packages/3d/environments/historic/lowpoly-medieval-buildings-58289
+https://assetstore.unity.com/packages/3d/environments/fantasy/mega-fantasy-props-pack-87811
+
 
 https://freesound.org
 

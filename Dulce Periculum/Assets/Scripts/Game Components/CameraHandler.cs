@@ -27,13 +27,14 @@ public class CameraHandler : MonoBehaviour
 
     void FixedUpdate()
     {
-        //ChangeAngle();
+        if (Input.GetMouseButton(1))
+            ChangeAngle();
         ChangePosition();
     }
 
     private void ChangeAngle()
     {
-        currentAngle -= Input.GetAxis("Mouse Y") * 0.01f;
+        currentAngle = Mathf.Lerp(currentAngle, currentAngle - Input.GetAxis("Mouse Y"), 0.2f);
         if (currentAngle < minAngle)
             currentAngle = minAngle;
         else if (currentAngle > maxAngle)

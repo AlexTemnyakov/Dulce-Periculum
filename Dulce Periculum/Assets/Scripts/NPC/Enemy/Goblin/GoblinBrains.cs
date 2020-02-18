@@ -68,7 +68,7 @@ public class GoblinBrains : EnemyBrains
                 SequenceBT subtree;
 
                 behavior = new SelectorBT();
-                subtree   = new SequenceBT();
+                subtree  = new SequenceBT();
 
                 subtree.AddNode(new InverterBT(CreateStealSubtree()));
                 subtree.AddNode(CreateWanderSubtree());
@@ -78,6 +78,15 @@ public class GoblinBrains : EnemyBrains
                 behavior.AddNode(subtree);
             }
             break;
+
+            case GoblinType.BASE_DEFENDER:
+            {
+                behavior = new SelectorBT();
+
+                behavior.AddNode(CreateDieNode());
+                behavior.AddNode(new InverterBT(CreateWaitNode()));
+                behavior.AddNode(CreateWanderSubtree());
+            } break;
         }
         initialized = true;
     }
