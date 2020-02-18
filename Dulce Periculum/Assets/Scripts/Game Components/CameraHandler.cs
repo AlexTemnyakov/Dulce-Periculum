@@ -27,8 +27,8 @@ public class CameraHandler : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetMouseButton(1))
-            ChangeAngle();
+        //if (Input.GetMouseButton(1))
+        //    ChangeAngle();
         ChangePosition();
     }
 
@@ -50,7 +50,7 @@ public class CameraHandler : MonoBehaviour
                    _height  = HEIGHT,
                    _angle   = currentAngle;
 
-        if (IsInsideObject())
+        if (IsInsideObject()/* || IsCameraInsideObject()*/)
         {
             _dist   /= 2;
             _height /= 1.5f;
@@ -104,6 +104,25 @@ public class CameraHandler : MonoBehaviour
         foreach (Vector3 d in directions)
         {
             if (Physics.Raycast(player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, d, out hit, DIST_FROM_PLAYER * 10f, LayerMask.GetMask("Buildings")))
+            {
+                count += 1;
+            }
+        }
+
+        return count >= directions.Length ? true : false;
+    }
+
+    private bool IsCameraInsideObject()
+    {
+        Vector3[] directions = { Quaternion.Euler(-20, 0, 0) * transform.up,
+                                  transform.up,
+                                  -transform.up };
+        RaycastHit hit;
+        int count = 0;
+
+        foreach (Vector3 d in directions)
+        {
+            if (Physics.Raycast(transform.position, d, out hit, DIST_FROM_PLAYER * 10f, LayerMask.GetMask("Buildings")))
             {
                 count += 1;
             }
