@@ -48,11 +48,14 @@ public class VillagersManager : MonoBehaviour
 
     private IEnumerator CheckVillagers()
     {
+        if (villagers.Count == 0)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
         for (int i = villagers.Count - 1; i >= 0; i--)
         {
-            if (villagers.Count <= 0)
-                break;
-
             if (!villagers[i] || !villagers[i].activeInHierarchy)
             {
                 villagers.RemoveAt(i);
