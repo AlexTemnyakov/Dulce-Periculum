@@ -10,10 +10,19 @@ public class EnemyBrains : CreatureBrains
 
     protected GameObject target            = null;
 
-    protected float DistanceToPlayer() { return Vector3.Distance(transform.position, gameManager.Player.transform.position); }
+    protected float DistanceToPlayer()
+    {
+        if (!gameManager.Player)
+            return int.MaxValue;
+        else
+            return Vector3.Distance(transform.position, gameManager.Player.transform.position);
+    }
 
     protected bool IsPlayerVisible()
     {
+        if (!gameManager.Player)
+            return false;
+
         RaycastHit hit;
         Vector3    playerDirection = gameManager.Player.transform.position - transform.position;
 

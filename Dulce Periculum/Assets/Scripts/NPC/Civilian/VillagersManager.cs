@@ -4,46 +4,42 @@ using UnityEngine;
 
 public class VillagersManager : MonoBehaviour
 {
-    public GameObject[] villagersPrefabs;
-    public GameObject[] spawnPoints;
-    public int          startCountOfVillagers;
+    private GameObject[]     spawnPoints;
+    private List<GameObject> villagers   = new List<GameObject>();
 
-    private const int MAX_COUNT_OF_VILLAGERS = 10;
-
-    private List<GameObject> villagers;
-
-    void Awake()
+    void Update()
     {
-        if (startCountOfVillagers > MAX_COUNT_OF_VILLAGERS)
-            startCountOfVillagers = MAX_COUNT_OF_VILLAGERS;
+        StartCoroutine(CheckVillagers());
+    }
 
-        villagers = new List<GameObject>();
+    public void Initialize(VillagerSquadData data)
+    {
+        transform.tag = "Villagers Manager";
+        spawnPoints   = data.spawnPoints;
 
-        for (int i = 0, j = 0, k = 0; i < startCountOfVillagers; i = i + 1, j = (j + 1) % spawnPoints.Length, k = (k + 1) % villagersPrefabs.Length)
+        for (int i = 0; i < spawnPoints.Length; i++)
+            spawnPoints[i].transform.parent = transform;
+
+        for (int i = 0, j = 0, k = 0; i < data.startCountOfVillagers; i = i + 1, j = (j + 1) % data.spawnPoints.Length, k = (k + 1) % data.villagersPrefabs.Length)
         {
             Vector3        position, shift;
             GameObject     instance;
             VillagerBrains brains;
 
             shift      = Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(1, 0, 1) * 10;
-            position   = spawnPoints[j].transform.position + shift;
+            position   = data.spawnPoints[j].transform.position + shift;
             position.y = Utils.GetTerrainHeight(position.x, position.z);
 
-            instance                  = Instantiate(villagersPrefabs[k], position, Quaternion.identity);
+            instance                  = Instantiate(data.villagersPrefabs[k], position, Quaternion.identity);
             instance.transform.parent = transform;
 
             brains           = instance.GetComponent<VillagerBrains>();
-            brains.BasePoint = spawnPoints[j];
+            brains.BasePoint = data.spawnPoints[j];
 
             brains.Initialize();
 
             villagers.Add(instance);
         }
-    }
-
-    void Update()
-    {
-        StartCoroutine(CheckVillagers());
     }
 
     private IEnumerator CheckVillagers()
@@ -62,6 +58,22 @@ public class VillagersManager : MonoBehaviour
             }
 
             yield return null;
+        }
+    }
+
+    public List<GameObject> Villagers
+    {
+        get
+        {
+            return villagers;
+        }
+    }
+
+    public GameObject[] SpawnPoints
+    {
+        get
+        {
+            return spawnPoints;
         }
     }
 }

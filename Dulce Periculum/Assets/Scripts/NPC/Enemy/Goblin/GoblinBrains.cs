@@ -26,7 +26,6 @@ public class GoblinBrains : EnemyBrains
 
     void Start()
     {
-        //goblinsManager = gameObject.GetComponentInParent<GoblinsManager>();
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
         animator    = GetComponent<Animator>();
         health      = GetComponent<CreatureHealth>();
@@ -356,8 +355,15 @@ public class GoblinBrains : EnemyBrains
 
         ret.AddNode(new ActionBT(() =>
         {
-            GoToPlayer();
-            return NodeStatusBT.RUNNING;
+            if (gameManager.Player)
+            {
+                GoToPlayer();
+                return NodeStatusBT.RUNNING;
+            }
+            else
+            {
+                return NodeStatusBT.SUCCESS;
+            }
         }));
 
         return ret;

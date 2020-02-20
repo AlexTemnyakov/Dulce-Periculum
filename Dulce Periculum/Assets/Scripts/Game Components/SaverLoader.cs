@@ -3,41 +3,129 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SaverLoader
+public class SaverLoader : MonoBehaviour
 {
     private const string FILENAME   = "savedata_";
     private const string FOLDERNAME = "out";
+    private       string PATH       = FOLDERNAME + "\\" + FILENAME;
 
-    //private BinaryWriter writer;
-    //private BinaryReader reader;
+    // Instruments.
+    private BinaryWriter writer;
+    private BinaryReader reader;
+
+    // Data for saving.
+    GameObject       player            = null;
+    List<GameObject> houses            = new List<GameObject>();
+    List<GameObject> goblinsManagers   = new List<GameObject>();
+    List<GameObject> villagersManagers = new List<GameObject>();
 
     public void SaveGame(int slotNum)
     {
+        string __path = PATH + slotNum.ToString();
+
         if (!Directory.Exists(FOLDERNAME))
             Directory.CreateDirectory(FOLDERNAME);
 
-        BinaryWriter     writer            = new BinaryWriter(File.Open(FOLDERNAME + "\\" + FILENAME, FileMode.CreateNew));
-        var              binaryFormatter   = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-        string           __filename        = FILENAME + slotNum.ToString();
-        GameObject       player            = GameObject.FindGameObjectWithTag("Player"); 
-        List<GameObject> houses            = new List<GameObject>();
-        List<GameObject> goblinsManagers   = new List<GameObject>();
-        List<GameObject> villagersManagers = new List<GameObject>();
+        writer = new BinaryWriter(File.Open(__path, FileMode.OpenOrCreate));
+        player = GameObject.FindGameObjectWithTag("Player"); 
 
         houses.AddRange(GameObject.FindGameObjectsWithTag("Village"));
         goblinsManagers.AddRange(GameObject.FindGameObjectsWithTag("Goblins Manager"));
         villagersManagers.AddRange(GameObject.FindGameObjectsWithTag("Villagers Manager"));
 
-        WriteToBinaryFile<GameObject>("qqq", player);
+        WriteVector3(player.transform.position);
+        WriteVector3(player.transform.forward);
 
-        player = ReadFromBinaryFile<GameObject>("qqq");
+        if (goblinsManagers.Count > 0)
+        {
+            writer.Write(goblinsManagers.Count);
+            foreach (GameObject gm in goblinsManagers)
+            {
+                if (gm.GetComponent<GoblinsManager>().Goblins.Count > 0)
+                {
+                    writer.Write(gm.GetComponent<GoblinsManager>().Goblins.Count);
+                    WriteVector3(gm.GetComponent<GoblinsManager>().BasePoint.transform.position);
+                    foreach (GameObject goblin in gm.GetComponent<GoblinsManager>().Goblins)
+                    {
+                        WriteVector3(goblin.transform.position);
+                        WriteVector3(goblin.transform.forward);
+                        print(goblin.GetComponent<GoblinBrains>().Type.ToString());
+                        writer.Write(goblin.GetComponent<GoblinBrains>().Type.ToString());
+                    }
+                }
+                else
+                {
+                    writer.Write(0);
+                }
+            }
+        }
+        else
+        {
+            writer.Write(0);
+        }
+
+        if (villagersManagers.Count > 0)
+        {
+            writer.Write(villagersManagers.Count);
+            foreach (GameObject vm in villagersManagers)
+            {
+                if (vm.GetComponent<VillagersManager>().Villagers.Count > 0)
+                {
+                    writer.Write(vm.GetComponent<VillagersManager>().Villagers.Count);
+                    writer.Write(vm.GetComponent<VillagersManager>().SpawnPoints.Length);
+                    foreach (GameObject spawnPoint in vm.GetComponent<VillagersManager>().SpawnPoints)
+                        WriteVector3(spawnPoint.transform.position);
+                    foreach (GameObject vilager in vm.GetComponent<VillagersManager>().Villagers)
+                    {
+                        WriteVector3(vilager.transform.position);
+                        WriteVector3(vilager.transform.forward);
+                    }
+                }
+                else
+                {
+                    writer.Write(0);
+                }
+            }
+        }
+        else
+        {
+            writer.Write(0);
+        }
+
+
+
+
+        writer.Close();
+        writer = null;
     }
 
+    public void LoadGame(int slotNum)
+    {
+        GameSetUper gameSetUper = GetComponent<GameSetUper>();
+        string      __path      = PATH + slotNum.ToString();
+
+        if (!Directory.Exists(FOLDERNAME) || !File.Exists(__path))
+            return;
+
+        reader = new BinaryReader(File.Open(__path, FileMode.Open, FileAccess.Read));
 
 
 
+        reader.Close();
+        reader = null;
+    }
 
+    private void WriteVector3(Vector3 v)
+    {
+        writer.Write(v.x);
+        writer.Write(v.y);
+        writer.Write(v.z);
+    }
 
+    private Vector3 ReadVector3()
+    {
+        return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+    }
 
 
 
@@ -74,5 +162,25 @@ public class SaverLoader
             var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
             return (T)binaryFormatter.Deserialize(stream);
         }
+    }
+}
+
+[System.Serializable]
+class SerializedVector3
+{
+    private float x;
+    private float y;
+    private float z;
+
+    public SerializedVector3(Vector3 v)
+    {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
+
+    public Vector3 ToVector3()
+    {
+        return new Vector3(x, y, z);
     }
 }

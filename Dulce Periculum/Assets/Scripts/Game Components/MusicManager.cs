@@ -34,14 +34,18 @@ public class MusicManager : MonoBehaviour
 
     private IEnumerator FindEnemiesNearPlayer()
     {
-        GameObject player = gameManager.Player;
+        if (!gameManager.Player)
+        {
+            enemyNearPlayer = false;
+            yield break;
+        }
 
         for (int i = 0; i < gameManager.Enemies.Count; i++)
         {
             if (!gameManager.Enemies[i] || !gameManager.Enemies[i].activeInHierarchy)
                 continue;
 
-            if (Vector3.Distance(player.transform.position, gameManager.Enemies[i].transform.position) < MUSIC_DIST)
+            if (Vector3.Distance(gameManager.Player.transform.position, gameManager.Enemies[i].transform.position) < MUSIC_DIST)
             {
                 enemyNearPlayer = true;
                 break;

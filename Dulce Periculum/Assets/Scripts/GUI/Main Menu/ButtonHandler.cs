@@ -10,7 +10,7 @@ public class ButtonHandler : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
     public    float  MAX_ALPHA;
     [Range(0, 1)]
     public    float  MIN_ALPHA;
-    [Range(0, 10)]
+    [Range(0, 1)]
     public    float  ALPHA_CHANGING_SPEED;
 
     protected Button button;
@@ -29,7 +29,7 @@ public class ButtonHandler : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
         {
             if (color.a < MAX_ALPHA)
             {
-                color.a            = Mathf.Lerp(color.a, MAX_ALPHA, Time.deltaTime * ALPHA_CHANGING_SPEED);
+                color.a            = Mathf.Lerp(color.a, MAX_ALPHA, ALPHA_CHANGING_SPEED);
                 button.image.color = color;
             }
         }
@@ -37,12 +37,10 @@ public class ButtonHandler : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
         {
             if (color.a > MIN_ALPHA)
             {
-                color.a            = Mathf.Lerp(color.a, MIN_ALPHA, Time.deltaTime * ALPHA_CHANGING_SPEED);
+                color.a            = Mathf.Lerp(color.a, MIN_ALPHA, ALPHA_CHANGING_SPEED);
                 button.image.color = color;
             }
         }
-
-        print(color.a);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

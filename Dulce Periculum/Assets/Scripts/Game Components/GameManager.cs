@@ -10,50 +10,48 @@ public class GameManager : MonoBehaviour
     private List<GameObject> enemies           = new List<GameObject>();
     private List<GameObject> goblinsManagers   = new List<GameObject>();
     private List<GameObject> villagersManagers = new List<GameObject>();
+    private InGameGUI        inGameGUI;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
         // Find all buildings in the village.
         houses.AddRange(GameObject.FindGameObjectsWithTag("Village"));
         foreach (GameObject g in houses)
             if (g.GetComponent<House>())
                 housesToSteal.Add(g);
+
         // Find all enemies.
         enemies.AddRange(GameObject.FindGameObjectsWithTag("Goblin"));
         goblinsManagers.AddRange(GameObject.FindGameObjectsWithTag("Goblins Manager"));
+
         villagersManagers.AddRange(GameObject.FindGameObjectsWithTag("Villagers Manager"));
 
-        if (!player)
-            Debug.LogError("There is no object with the tag Player");
+        inGameGUI = GetComponentInChildren<InGameGUI>();
     }
 
     void Update()
     {
-        StartCoroutine(CheckEnemies());
+        StartCoroutine(CheckGoblinSquads());
         StartCoroutine(CheckHousesToSteal());
-    }
 
-    private IEnumerator CheckHouses()
-    {
-        for (int i = houses.Count - 1; i >= 0; i--)
-        {
-            if (!houses[i] || !houses[i].activeInHierarchy)
-            {
-                houses.RemoveAt(i);
-            }
+        /*if (goblinsManagers.Count == 0)
+            inGameGUI.GoToWinMenu();
+        else*/ if (!player)
+            inGameGUI.GoToLoseMenu();
 
-            yield return null;
-        }
+        if (Input.GetKeyDown(KeyCode.P))
+            inGameGUI.GoToPauseMenu();
     }
 
     private IEnumerator CheckHousesToSteal()
     {
+        if (housesToSteal.Count == 0)
+            yield break;
+
         for (int i = housesToSteal.Count - 1; i >= 0; i--)
         {
-            if (i >= housesToSteal.Count)
-                break;
-
             if (!housesToSteal[i] || !housesToSteal[i].activeInHierarchy || housesToSteal[i].GetComponent<House>().Stealed)
             {
                 housesToSteal.RemoveAt(i);
@@ -65,11 +63,30 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CheckEnemies()
     {
+        if (enemies.Count == 0)
+            yield break;
+
         for (int i = enemies.Count - 1; i >= 0; i--)
         {
             if (!enemies[i] || !enemies[i].activeInHierarchy)
             {
                 enemies.RemoveAt(i);
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator CheckGoblinSquads()
+    {
+        if (goblinsManagers.Count == 0)
+            yield break;
+
+        for (int i = goblinsManagers.Count - 1; i >= 0; i--)
+        {
+            if (!goblinsManagers[i] || !goblinsManagers[i].activeInHierarchy)
+            {
+                goblinsManagers.RemoveAt(i);
             }
 
             yield return null;
@@ -83,7 +100,7 @@ public class GameManager : MonoBehaviour
             if (houses == null || houses.Count == 0)
                 return null;
 
-            return houses[Random.Range(0, houses.Count - 1)];
+            return houses[Random.Range(0, houses.Count)];
         }
     }
 

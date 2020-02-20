@@ -14,6 +14,7 @@ public class GoblinsManager : MonoBehaviour
 
     public void Initialize(GoblinSquadData data)
     {
+        transform.tag              = "Goblins Manager";
         transform.position         = data.basePoint.transform.position;
         basePoint                  = data.basePoint;
         basePoint.transform.parent = transform;
@@ -63,6 +64,22 @@ public class GoblinsManager : MonoBehaviour
             brains.Initialize(type);
 
             goblins.Add(instance);
+        }
+    }
+
+    public List<GameObject> Goblins
+    {
+        get
+        {
+            return goblins;
+        }
+    }
+
+    public GameObject BasePoint
+    {
+        get
+        {
+            return BasePoint;
         }
     }
 }
