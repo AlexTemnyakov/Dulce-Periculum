@@ -10,7 +10,7 @@ public class GoblinBrains : EnemyBrains
     private const int HIT_TYPES_COUNT = 2;
 
     // Components.
-    //private GoblinsManager goblinsManager;
+    private GoblinVoice     voice;
     private Animator        animator;
     private CreatureHealth  health;
     private GoblinFight     fight;
@@ -27,6 +27,7 @@ public class GoblinBrains : EnemyBrains
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
+        voice       = GetComponent<GoblinVoice>(); 
         animator    = GetComponent<Animator>();
         health      = GetComponent<CreatureHealth>();
         fight       = GetComponent<GoblinFight>();
@@ -144,7 +145,7 @@ public class GoblinBrains : EnemyBrains
     {
         return new ActionBT(() =>
         {
-            if (!health.IsAlive())
+            if (!health.IsAlive)
             {
                 agent.ResetPath();
                 Stand();
@@ -162,6 +163,7 @@ public class GoblinBrains : EnemyBrains
         {
             if (waiting)
             {
+                voice.MakeNormalSound();
                 Stand();
                 return NodeStatusBT.RUNNING;
             }
@@ -181,6 +183,7 @@ public class GoblinBrains : EnemyBrains
                 GameObject __target = gameManager.HouseToSteal;
                 if (__target)
                 {
+                    voice.MakeNormalSound();
                     target         = __target;
                     stealingAction = new StealingHandler(target);
                     return NodeStatusBT.SUCCESS;
@@ -216,7 +219,10 @@ public class GoblinBrains : EnemyBrains
                     fight.Attack();
                 }
                 else
+                {
+                    voice.MakeNormalSound();
                     Run();
+                }
 
                 return NodeStatusBT.RUNNING;
             }
@@ -245,6 +251,7 @@ public class GoblinBrains : EnemyBrains
                 else
                 {
                     Run();
+                    voice.MakeNormalSound();
                 }
 
                 return NodeStatusBT.RUNNING;
@@ -291,6 +298,7 @@ public class GoblinBrains : EnemyBrains
             }
             else
             {
+                voice.MakeNormalSound();
                 RunToBase();
                 return NodeStatusBT.RUNNING;
             }
@@ -300,6 +308,7 @@ public class GoblinBrains : EnemyBrains
         {
             if (IsPlayerVisible())
             {
+                voice.MakeNormalSound();
                 GoToPlayer();
                 return NodeStatusBT.RUNNING;
             }
@@ -325,6 +334,7 @@ public class GoblinBrains : EnemyBrains
             }
             else
             {
+                voice.MakeNormalSound();
                 Walk();
             }
 
@@ -357,6 +367,7 @@ public class GoblinBrains : EnemyBrains
         {
             if (gameManager.Player)
             {
+                voice.MakeNormalSound();
                 GoToPlayer();
                 return NodeStatusBT.RUNNING;
             }

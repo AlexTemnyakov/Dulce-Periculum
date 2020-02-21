@@ -16,7 +16,7 @@ public class CreatureHealth : MonoBehaviour
 
     void Update()
     {
-        if (!IsAlive())
+        if (!IsAlive)
             Die();
     }
 
@@ -35,13 +35,32 @@ public class CreatureHealth : MonoBehaviour
         }
     }
 
-    public bool IsAlive()
-    {
-        return currentHealth > 0;
-    }
-
-    private void Die()
+    protected virtual void Die()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsAlive
+    {
+        get
+        {
+            return currentHealth > 0;
+        }
+    }
+
+    public float CurrentHealth
+    {
+        get
+        {
+            return currentHealth;
+        }
+    }
+
+    public float MaximumHealth
+    {
+        get
+        {
+            return maxHealth;
+        }
     }
 }

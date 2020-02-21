@@ -13,7 +13,7 @@ public class GoblinHealth : CreatureHealth
 
     void Update()
     {
-        if (!IsAlive())
+        if (!IsAlive)
         {
             Animator a = GetComponent<Animator>();
             a.SetTrigger("Death");

@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1;
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         // Find all buildings in the village.

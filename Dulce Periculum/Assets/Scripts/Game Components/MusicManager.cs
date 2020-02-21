@@ -34,7 +34,7 @@ public class MusicManager : MonoBehaviour
 
     private IEnumerator FindEnemiesNearPlayer()
     {
-        if (!gameManager.Player)
+        if (!gameManager.Player || gameManager.Enemies.Count == 0)
         {
             enemyNearPlayer = false;
             yield break;

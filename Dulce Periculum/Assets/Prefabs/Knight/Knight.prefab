@@ -488,7 +488,6 @@ GameObject:
   - component: {fileID: 2186354939020130647}
   - component: {fileID: 1560791160711985034}
   - component: {fileID: 3120333523345264497}
-  - component: {fileID: 8832248913770310056}
   - component: {fileID: 5162907013266594897}
   - component: {fileID: 8054434812637739824}
   - component: {fileID: 4951746645864394180}
@@ -548,7 +547,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.7
   m_SkinWidth: 0.08
@@ -587,20 +586,6 @@ MonoBehaviour:
   COOLDOWN_TIME: 1
   HIDE_SWORD_TIME: 25
   SWORD: {fileID: 6210670965738157707}
---- !u!136 &8832248913770310056
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831573513906261374}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.4
-  m_Height: 2.1
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &5162907013266594897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,6 +612,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   THIS_MATERIAL: 0
+  HILL_START_TIME: 60
+  HILL_SPEED_LOW: 0.005
+  HILL_SPEED_HIGH: 0.3
 --- !u!54 &4951746645864394180
 Rigidbody:
   m_ObjectHideFlags: 0

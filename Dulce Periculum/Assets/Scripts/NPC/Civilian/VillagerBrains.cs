@@ -102,7 +102,7 @@ public class VillagerBrains : CreatureBrains
     {
         return new ActionBT(() =>
         {
-            if (!health.IsAlive())
+            if (!health.IsAlive)
             {
                 agent.ResetPath();
                 Stand();
