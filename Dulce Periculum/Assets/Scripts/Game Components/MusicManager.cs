@@ -45,17 +45,17 @@ public class MusicManager : MonoBehaviour
             if (!gameManager.Enemies[i] || !gameManager.Enemies[i].activeInHierarchy)
                 continue;
 
+            //print(gameManager.Enemies[i]);
+            //print(gameManager.Enemies[i] + " " + (Vector3.Distance(gameManager.Player.transform.position, gameManager.Enemies[i].transform.position) < MUSIC_DIST));
             if (Vector3.Distance(gameManager.Player.transform.position, gameManager.Enemies[i].transform.position) < MUSIC_DIST)
             {
                 enemyNearPlayer = true;
-                break;
-            }
-            else
-            {
-                enemyNearPlayer = false;
+                yield break; 
             }
 
             yield return null;
         }
+
+        enemyNearPlayer = false;
     }
 }

@@ -6,6 +6,7 @@ public class Door : Interactable
 {
     public float         HEALTH;
     public MaterialSound THIS_MATERIAL;
+    public GameObject    CENTER;
 
     private bool       closed;
     private bool       moving;
@@ -52,6 +53,9 @@ public class Door : Interactable
 
     public void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Player"))
+            return;
+
         Weapon w = other.GetComponent<Weapon>();
         if (w && w.hit)
         {

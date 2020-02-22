@@ -24,11 +24,13 @@ public class EnemyBrains : CreatureBrains
             return false;
 
         RaycastHit hit;
+        // Ignore terrain.
+        LayerMask  mask = ~(1 << LayerMask.NameToLayer("Terrain"));
         Vector3    playerDirection = gameManager.Player.transform.position - transform.position;
 
-        if (Physics.Raycast(transform.position, playerDirection + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, out hit, VISIBILITY))
+        if (Physics.Raycast(transform.position, playerDirection + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET, out hit, VISIBILITY, mask))
         {
-            if (hit.transform.gameObject == gameManager.Player && Vector3.Angle(playerDirection, transform.forward) <= VISION_ANGLE)
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") && Vector3.Angle(playerDirection, transform.forward) <= VISION_ANGLE)
                 return true;
         }
 

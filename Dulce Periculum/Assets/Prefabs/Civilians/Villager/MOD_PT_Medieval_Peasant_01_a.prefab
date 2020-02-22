@@ -1765,6 +1765,7 @@ GameObject:
   - component: {fileID: 5874495456556773207}
   - component: {fileID: 7680390586658270093}
   - component: {fileID: -4501345904381730096}
+  - component: {fileID: 5385650225020574199}
   m_Layer: 13
   m_Name: MOD_PT_Medieval_Peasant_01_a
   m_TagString: Villager
@@ -1863,6 +1864,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   THIS_MATERIAL: 1
+--- !u!136 &5385650225020574199
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032007200623501343}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.9
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.87, z: 0}
 --- !u!1 &6032025699589438897
 GameObject:
   m_ObjectHideFlags: 0

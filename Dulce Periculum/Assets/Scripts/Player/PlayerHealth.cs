@@ -37,14 +37,27 @@ public class PlayerHealth : CreatureHealth
         if (gameObject.layer == other.gameObject.layer)
             return;
 
-        Weapon w = other.GetComponent<Weapon>();
-        if (w && w.hit)
+        if (other.CompareTag("Weapon"))
         {
-            currentHealth -= w.DAMAGE;
-            w.hit          = false;
-            timeAfterHit   = 0;
-            other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
-            print("Hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
+            Weapon w = other.GetComponent<Weapon>();
+            if (w && w.hit)
+            {
+                currentHealth -= w.DAMAGE;
+                w.hit          = false;
+                timeAfterHit   = 0;
+                other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
+                print("Hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
+            }
+        }
+        else if (other.CompareTag("Magic"))
+        {
+            Magic m = other.GetComponent<Magic>();
+            if (m)
+            {
+                currentHealth -= m.DAMAGE;
+                print("Magic hit, damage=" + m.DAMAGE + ", health=" + currentHealth);
+                Destroy(other.gameObject);
+            }
         }
     }
 

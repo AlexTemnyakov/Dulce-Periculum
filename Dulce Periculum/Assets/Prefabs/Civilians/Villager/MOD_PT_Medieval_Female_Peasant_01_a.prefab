@@ -1261,6 +1261,7 @@ GameObject:
   - component: {fileID: 359017219}
   - component: {fileID: 359017220}
   - component: {fileID: 8825515350040034413}
+  - component: {fileID: 517161228036399807}
   m_Layer: 13
   m_Name: MOD_PT_Medieval_Female_Peasant_01_a
   m_TagString: Villager
@@ -1359,6 +1360,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   THIS_MATERIAL: 1
+--- !u!136 &517161228036399807
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971429235709355948}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.9
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.87, z: 0}
 --- !u!1 &3971618356855658358
 GameObject:
   m_ObjectHideFlags: 0

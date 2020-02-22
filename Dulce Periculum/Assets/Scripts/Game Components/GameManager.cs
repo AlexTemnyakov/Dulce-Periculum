@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
         // Find all enemies.
         enemies.AddRange(GameObject.FindGameObjectsWithTag("Goblin"));
+        enemies.AddRange(GameObject.FindGameObjectsWithTag("Ghost"));
         goblinsManagers.AddRange(GameObject.FindGameObjectsWithTag("Goblins Manager"));
 
         villagersManagers.AddRange(GameObject.FindGameObjectsWithTag("Villagers Manager"));

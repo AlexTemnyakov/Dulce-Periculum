@@ -29,7 +29,7 @@ public class GoblinFight : Fight
 
             hitNum = (hitNum + 1) % HIT_TYPES_COUNT;
 
-            AXE.GetComponent<Weapon>().WaitForCooldown(COOLDOWN_TIME);
+            StartCoroutine(AXE.GetComponent<Weapon>().WaitForCooldown(COOLDOWN_TIME));
 
             voice.MakeAttackSound();
         }

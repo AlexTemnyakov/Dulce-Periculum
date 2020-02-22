@@ -79,10 +79,14 @@ public class VillagerBrains : CreatureBrains
 
     private IEnumerator IsEnemyNear()
     {
+        if (gameManager.Enemies.Count == 0)
+        {
+            closeEnemy = null;
+            yield break;
+        }
+
         for (int i = gameManager.Enemies.Count - 1; i >= 0; i--)
         {
-            if (gameManager.Enemies.Count <= 0)
-                yield break;
             if (!gameManager.Enemies[i] || !gameManager.Enemies[i].activeInHierarchy)
                 continue;
 
@@ -135,7 +139,10 @@ public class VillagerBrains : CreatureBrains
 
             if (closeEnemy)
             {
-                Vector3 dir;
+                Vector3   dir;
+                Vector3[] angles = { new Vector3(0, 0, 0),
+                                     new Vector3(0, 90, 0),
+                                     new Vector3(0, 270, 0) };
 
                 runAwayTimeCurrent = RUN_AWAY_TIME;
 
@@ -143,7 +150,7 @@ public class VillagerBrains : CreatureBrains
 
                 if (Vector3.Distance(agent.destination, closeEnemy.transform.position) < SAFE_DISTANCE)
                 {
-                    targetPoint   = transform.position + dir.normalized * (SAFE_DISTANCE * 1.5f);
+                    targetPoint   = transform.position + Quaternion.Euler(angles[Random.Range(0, angles.Length)]) * dir.normalized * (SAFE_DISTANCE * 1.5f);
                     targetPoint.y = Utils.GetTerrainHeight(targetPoint);
                     SetAsAgentTarget(targetPoint);
                     targetPoint   = agent.destination;

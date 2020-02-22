@@ -9,7 +9,11 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/[Aa]ssets/Downloaded/
+# /[Aa]ssets/Downloaded/
+/[Bu]uild/
+# There are some large unused textures.
+/[Aa]ssets/Downloaded/Terrain Texture Pack/TerrainTextures
+/[Aa]ssets/Downloaded/Ignored
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 ! [Aa]ssets/**/*.meta

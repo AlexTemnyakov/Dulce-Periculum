@@ -17,6 +17,9 @@ TagManager:
   - Villager
   - Goblins Manager
   - Villagers Manager
+  - Weapon
+  - Magic
+  - Ghost
   layers:
   - Default
   - TransparentFX

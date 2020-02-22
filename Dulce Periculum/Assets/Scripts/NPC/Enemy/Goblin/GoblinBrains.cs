@@ -52,7 +52,7 @@ public class GoblinBrains : EnemyBrains
                 SequenceBT subtree;
 
                 behavior = new SelectorBT();
-                subtree   = new SequenceBT();
+                subtree  = new SequenceBT();
 
                 subtree.AddNode(CreateDefeatGoblinsSubtree());
                 subtree.AddNode(CreateWanderSubtree());
@@ -88,6 +88,7 @@ public class GoblinBrains : EnemyBrains
                 behavior.AddNode(CreateWanderSubtree());
             } break;
         }
+
         initialized = true;
     }
 

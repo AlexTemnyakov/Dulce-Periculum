@@ -1285,6 +1285,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 1923071658354862, guid: 36e0a3f9235e1db4287a37e6e3f84e9f, type: 3}
+      propertyPath: m_TagString
+      value: Weapon
+      objectReference: {fileID: 0}
     - target: {fileID: 4321598026206268, guid: 36e0a3f9235e1db4287a37e6e3f84e9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.05752444
