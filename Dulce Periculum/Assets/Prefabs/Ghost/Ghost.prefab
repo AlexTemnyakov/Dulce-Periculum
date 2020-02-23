@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1846146346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1846146347}
+  m_Layer: 9
+  m_Name: Base
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1846146347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846146346}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3354462127579107670}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3350900172634402712
 GameObject:
   m_ObjectHideFlags: 0
@@ -16451,6 +16481,7 @@ Transform:
   - {fileID: 3354462130070244112}
   - {fileID: 3354462129506259248}
   - {fileID: 3354462129419711866}
+  - {fileID: 1846146347}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16464,7 +16495,7 @@ Animator:
   m_GameObject: {fileID: 3350900176019885158}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: be5995a9158bda9459c22d48acd79a3f, type: 3}
-  m_Controller: {fileID: 9100000, guid: 700d9bf6b23d6c7478ef89bf23dd2558, type: 2}
+  m_Controller: {fileID: 9100000, guid: a0ec8242faa5ede42948eb12cd1c9780, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -16508,7 +16539,7 @@ MonoBehaviour:
   MAX_DIST_FROM_START: 40
   ATTACK_DIST: 40
   INTERACTION_DIST: 3
-  basePoint: {fileID: 0}
+  basePoint: {fileID: 1846146346}
 --- !u!114 &3351597817508201616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16522,7 +16553,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   COOLDOWN_TIME: 5
-  FIREBALL_1: {fileID: 100004, guid: 670f42438d1386e4db67d684e5b32fcd, type: 3}
+  FIREBALLS:
+  - {fileID: 100004, guid: 670f42438d1386e4db67d684e5b32fcd, type: 3}
+  - {fileID: 100002, guid: ac3cadb8cc56fd94db140b9d4e9484c0, type: 3}
 --- !u!195 &3351597817508201631
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class MusicManager : MonoBehaviour
     public  float       MUSIC_DIST;
 
     private bool        enemyNearPlayer = false;
+    private bool        villageNearPlayer = false;
     private GameManager gameManager;
     private AudioSource source;
     private Music       music;

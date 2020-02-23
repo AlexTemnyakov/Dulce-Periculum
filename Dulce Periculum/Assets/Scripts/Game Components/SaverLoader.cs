@@ -64,7 +64,7 @@ public class SaverLoader : MonoBehaviour
             writer.Write(0);
         }
 
-        if (villagersManagers.Count > 0)
+        /*if (villagersManagers.Count > 0)
         {
             writer.Write(villagersManagers.Count);
             foreach (GameObject vm in villagersManagers)
@@ -87,7 +87,7 @@ public class SaverLoader : MonoBehaviour
                 }
             }
         }
-        else
+        else*/
         {
             writer.Write(0);
         }

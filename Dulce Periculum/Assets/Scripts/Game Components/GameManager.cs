@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> goblinsManagers   = new List<GameObject>();
     private List<GameObject> villagersManagers = new List<GameObject>();
     private InGameGUI        inGameGUI;
+    private bool             winMenuShowed     = false;
 
     void Start()
     {
@@ -39,9 +40,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckGoblinSquads());
         StartCoroutine(CheckHousesToSteal());
 
-        /*if (goblinsManagers.Count == 0)
-            inGameGUI.GoToWinMenu();
-        else*/ if (!player)
+        if (goblinsManagers.Count == 0 && !winMenuShowed)
+        {
+            winMenuShowed = true;
+            StartCoroutine(inGameGUI.ShowWinMenu());
+        }
+        else if (!player)
             inGameGUI.GoToLoseMenu();
 
         if (Input.GetKeyDown(KeyCode.P))

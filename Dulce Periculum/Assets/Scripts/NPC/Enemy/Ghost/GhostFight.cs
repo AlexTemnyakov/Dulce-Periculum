@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GhostFight : Fight
 {
-    public GameObject FIREBALL_1;
+    public GameObject[] FIREBALLS;
 
     private Animator animator;
     private bool     waitingForCooldown = false;
@@ -42,5 +42,13 @@ public class GhostFight : Fight
     public bool IsWaitingForCooldown()
     {
         return waitingForCooldown;
+    }
+
+    public GameObject Fireball
+    {
+        get
+        {
+            return FIREBALLS[Random.Range(0, FIREBALLS.Length)];
+        }
     }
 }

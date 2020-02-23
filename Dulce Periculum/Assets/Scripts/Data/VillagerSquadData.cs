@@ -4,6 +4,6 @@
 public class VillagerSquadData
 {
     public GameObject[] villagersPrefabs;
-    public GameObject[] spawnPoints;
+    public GameObject   basePoint;
     public int          startCountOfVillagers;
 }

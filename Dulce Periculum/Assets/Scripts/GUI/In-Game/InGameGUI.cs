@@ -85,10 +85,67 @@ public class InGameGUI : MonoBehaviour
         pauseMenuObject.SetActive(false);
     }
 
-    public void GoToWinMenu()
+    public IEnumerator ShowWinMenu()
     {
-        PauseGame();
+        Image img      = winMenuObject.GetComponent<Image>();
+        Text  text     = winMenuObject.GetComponentInChildren<Text>();
+        Color tmp;
+        float alphaMax = img.color.a;
+        float time;
+
+        tmp       = img.color;
+        tmp.a     = 0;
+        img.color = tmp;
+
+        tmp        = text.color;
+        tmp.a      = 0;
+        text.color = tmp;
+
         winMenuObject.SetActive(true);
+
+        time = 0;
+        while (time < 1)
+        {
+            tmp       = img.color;
+            tmp.a     = Mathf.Lerp(0, alphaMax, time);
+            img.color = tmp;
+
+            tmp        = text.color;
+            tmp.a      = Mathf.Lerp(0, 1, time);
+            text.color = tmp;
+
+            time += Time.deltaTime / 5;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(5);
+
+        time = 0;
+        while (time < 1)
+        {
+            tmp       = img.color;
+            tmp.a     = Mathf.Lerp(alphaMax, 0, time);
+            img.color = tmp;
+
+            tmp        = text.color;
+            tmp.a      = Mathf.Lerp(1, 0, time);
+            text.color = tmp;
+
+            time += Time.deltaTime / 5;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        winMenuObject.SetActive(false);
+
+        tmp       = img.color;
+        tmp.a     = alphaMax;
+        img.color = tmp;
+
+        tmp        = text.color;
+        tmp.a      = 1;
+        text.color = tmp;
     }
 
     public void GoToLoseMenu()

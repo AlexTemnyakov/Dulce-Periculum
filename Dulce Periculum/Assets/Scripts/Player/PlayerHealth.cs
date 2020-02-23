@@ -55,6 +55,7 @@ public class PlayerHealth : CreatureHealth
             if (m)
             {
                 currentHealth -= m.DAMAGE;
+                timeAfterHit   = 0;
                 print("Magic hit, damage=" + m.DAMAGE + ", health=" + currentHealth);
                 Destroy(other.gameObject);
             }

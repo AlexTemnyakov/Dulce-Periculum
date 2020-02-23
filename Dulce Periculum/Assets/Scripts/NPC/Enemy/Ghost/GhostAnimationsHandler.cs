@@ -22,7 +22,7 @@ public class GhostAnimationsHandler : MonoBehaviour
     {
         GameObject instance;
 
-        instance = Instantiate(fight.FIREBALL_1, transform.position + Vector3.up + transform.forward, Quaternion.identity);
+        instance = Instantiate(fight.Fireball, transform.position + Vector3.up + transform.forward, Quaternion.identity);
 
         instance.GetComponent<Magic>().Initialize(gameManager.Player.transform.position + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET - transform.position);
     }

@@ -20,9 +20,9 @@ public class Magic : MonoBehaviour
 
         timeAfterStart += Time.deltaTime;
 
-        /*if (timeAfterStart >= LIFETIME)
+        if (timeAfterStart >= LIFETIME)
             Destroy(gameObject);
-        else*/
+        else
             transform.Translate(direction * SPEED);
     }
 
@@ -30,5 +30,15 @@ public class Magic : MonoBehaviour
     {
         direction   = __direction;
         initialized = true;
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        int otherLayer = collision.gameObject.layer;
+
+        if (otherLayer == LayerMask.NameToLayer("Player"))
+            return;
+        else
+            Destroy(gameObject);
     }
 }

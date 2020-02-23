@@ -76,7 +76,7 @@ public class IntroductionVideo : MonoBehaviour
 
             time += Time.deltaTime / showTime;
 
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
         textObj.SetActive(false);
