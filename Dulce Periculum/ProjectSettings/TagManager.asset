@@ -5,9 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Interactable
-  - Enemy
   - Village
-  - Fire
   - AI Utils
   - Utils
   - Settings

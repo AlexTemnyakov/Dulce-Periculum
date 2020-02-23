@@ -8,27 +8,36 @@ public class MusicManager : MonoBehaviour
 
     private bool        enemyNearPlayer = false;
     private GameManager gameManager;
-    private AudioSource audioSource;
+    private AudioSource source;
+    private Music       music;
     private float       maxVolume;
 
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
-        audioSource = Camera.main.GetComponent<AudioSource>();
-        maxVolume   = audioSource.volume;
+        source      = Camera.main.GetComponent<AudioSource>();
+        source.loop = false;
+        music       = GetComponent<Music>();
+        maxVolume   = source.volume;
     }
 
     void Update()
     {
+        if (!source.isPlaying)
+        {
+            source.clip = music.Song;
+            source.Play();
+        }
+
         StartCoroutine(FindEnemiesNearPlayer());
 
         if (enemyNearPlayer)
         {
-            audioSource.volume = Mathf.Lerp(audioSource.volume, 0, Time.deltaTime);
+            source.volume = Mathf.Lerp(source.volume, 0, Time.deltaTime);
         }
         else
         {
-            audioSource.volume = Mathf.Lerp(audioSource.volume, maxVolume, Time.deltaTime);
+            source.volume = Mathf.Lerp(source.volume, maxVolume, Time.deltaTime);
         }
     }
 
@@ -45,8 +54,6 @@ public class MusicManager : MonoBehaviour
             if (!gameManager.Enemies[i] || !gameManager.Enemies[i].activeInHierarchy)
                 continue;
 
-            //print(gameManager.Enemies[i]);
-            //print(gameManager.Enemies[i] + " " + (Vector3.Distance(gameManager.Player.transform.position, gameManager.Enemies[i].transform.position) < MUSIC_DIST));
             if (Vector3.Distance(gameManager.Player.transform.position, gameManager.Enemies[i].transform.position) < MUSIC_DIST)
             {
                 enemyNearPlayer = true;
