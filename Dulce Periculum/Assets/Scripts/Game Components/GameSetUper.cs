@@ -8,8 +8,6 @@ public class GameSetUper : MonoBehaviour
     public GoblinSquadData[]   goblinSquadsData;
     public VillagerSquadData[] villagerSquadData;
 
-    public
-
     void Awake()
     {
         GameObject playerInstance;
@@ -34,10 +32,7 @@ public class GameSetUper : MonoBehaviour
             squad.AddComponent<VillagersManager>();
             squad.GetComponent<VillagersManager>().Initialize(villagerSquadData[i]);
         }
-    }
 
-    void Update()
-    {
-        
+        Destroy(gameObject);
     }
 }

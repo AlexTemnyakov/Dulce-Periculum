@@ -15,7 +15,7 @@ public class GhostAnimationsHandler : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void Spell()
