@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private CustomInput      input;
+    private InGameGUI        inGameGUI;
     private GameObject       player;
     private List<GameObject> houses            = new List<GameObject>();
     private List<GameObject> housesToSteal     = new List<GameObject>();
     private List<GameObject> enemies           = new List<GameObject>();
     private List<GameObject> goblinsManagers   = new List<GameObject>();
     private List<GameObject> villagersManagers = new List<GameObject>();
-    private InGameGUI        inGameGUI;
     private bool             winMenuShowed     = false;
 
     void Start()
     {
         Time.timeScale = 1;
+
+        input     = GetComponent<CustomInput>();
+        inGameGUI = GetComponentInChildren<InGameGUI>();
 
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -31,8 +35,6 @@ public class GameManager : MonoBehaviour
         goblinsManagers.AddRange(GameObject.FindGameObjectsWithTag("Goblins Manager"));
 
         villagersManagers.AddRange(GameObject.FindGameObjectsWithTag("Villagers Manager"));
-
-        inGameGUI = GetComponentInChildren<InGameGUI>();
     }
 
     void Update()
@@ -151,6 +153,14 @@ public class GameManager : MonoBehaviour
         get
         {
             return villagersManagers;
+        }
+    }
+
+    public CustomInput CustomInput
+    {
+        get
+        {
+            return input;
         }
     }
 }

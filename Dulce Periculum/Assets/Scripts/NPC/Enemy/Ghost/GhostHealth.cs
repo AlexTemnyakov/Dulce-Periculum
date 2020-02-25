@@ -28,9 +28,9 @@ public class GhostHealth : CreatureHealth
         Weapon w = other.GetComponent<Weapon>();
         if (w && w.hit)
         {
-            currentHealth -= w.DAMAGE;
+            currentHealth -= w.Damage;
             w.hit          = false;
-            print(gameObject + " hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
+            print(gameObject + " hit, damage=" + w.Damage + ", health=" + currentHealth);
         }
     }
 }

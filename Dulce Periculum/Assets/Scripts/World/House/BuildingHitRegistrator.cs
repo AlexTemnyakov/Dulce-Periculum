@@ -32,7 +32,7 @@ public class BuildingHitRegistrator : MonoBehaviour
             //HEALTH -= w.DAMAGE;
             w.hit   = true;
 
-            buildingHealth.Hit(this, w.DAMAGE);
+            buildingHealth.Hit(this, w.Damage);
         }
     }
 }

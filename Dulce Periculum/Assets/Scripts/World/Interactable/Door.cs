@@ -59,10 +59,10 @@ public class Door : Interactable
         Weapon w = other.GetComponent<Weapon>();
         if (w && w.hit)
         {
-            HEALTH -= w.DAMAGE;
+            HEALTH -= w.Damage;
             w.hit   = false;
             other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
-            print("Hit, damage=" + w.DAMAGE + ", health=" + HEALTH);
+            print("Hit, damage=" + w.Damage + ", health=" + HEALTH);
         }
     }
 

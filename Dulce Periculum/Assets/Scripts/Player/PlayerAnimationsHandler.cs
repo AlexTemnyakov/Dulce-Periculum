@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class PlayerAnimationsHandler : MonoBehaviour
 {
+    private GameManager gameManager;
     private PlayerFight fight;
     private Sword       sword;
 
     void Start()
     {
-        fight = GetComponent<PlayerFight>();
-        sword = fight.SWORD.GetComponent<Sword>();
+        gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
+        fight       = GetComponent<PlayerFight>();
+        sword       = fight.Sword.GetComponent<Sword>();
     }
 
     public void UnsheatheSwordHandler()
@@ -36,5 +38,25 @@ public class PlayerAnimationsHandler : MonoBehaviour
     public void SwordDisableHandler()
     {
         sword.SwordDisable();
+    }
+
+    public void SwitchFireOffHandler()
+    {
+        sword.SwitchFireOff();
+    }
+
+    public void SwitchFireOnHandler()
+    {
+        sword.SwitchFireOn();
+    }
+
+    public void BlockInput()
+    {
+        gameManager.CustomInput.Block();
+    }
+
+    public void UnblockInput()
+    {
+        gameManager.CustomInput.Unblock();
     }
 }

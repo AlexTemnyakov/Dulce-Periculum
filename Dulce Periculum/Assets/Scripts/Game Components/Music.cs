@@ -19,12 +19,12 @@ public class Music : MonoBehaviour
                 int       retIdx = Random.Range(0, songs.Count);
                 AudioClip ret = songs[retIdx];
 
-                if (currentSong)
-                    songs.Add(currentSong);
+                songs.RemoveAt(retIdx);
 
                 currentSong = ret;
 
-                songs.RemoveAt(retIdx);
+                if (currentSong)
+                    songs.Add(currentSong);
 
                 return ret;
             }

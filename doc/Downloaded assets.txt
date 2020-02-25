@@ -45,6 +45,7 @@ https://assetstore.unity.com/packages/3d/environments/fantasy/mega-fantasy-props
 https://assetstore.unity.com/packages/3d/environments/historic/medieval-buildings-exteriors-72836
 https://assetstore.unity.com/packages/3d/characters/creatures/fantasy-monster-wizard-demo-103037
 https://assetstore.unity.com/packages/vfx/particles/spells/48-particle-effect-pack-13998
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/flames-of-the-phoenix-46176
 
 https://freesound.org
 

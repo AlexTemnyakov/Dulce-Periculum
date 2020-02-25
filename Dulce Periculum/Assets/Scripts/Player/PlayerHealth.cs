@@ -42,11 +42,11 @@ public class PlayerHealth : CreatureHealth
             Weapon w = other.GetComponent<Weapon>();
             if (w && w.hit)
             {
-                currentHealth -= w.DAMAGE;
+                currentHealth -= w.Damage;
                 w.hit          = false;
                 timeAfterHit   = 0;
                 other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
-                print("Hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
+                print("Hit, damage=" + w.Damage + ", health=" + currentHealth);
             }
         }
         else if (other.CompareTag("Magic"))

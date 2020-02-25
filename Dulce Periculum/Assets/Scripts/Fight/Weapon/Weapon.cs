@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public    int  DAMAGE;
+    public    int  Damage;
     [HideInInspector]
     public    bool hit                = true;
 

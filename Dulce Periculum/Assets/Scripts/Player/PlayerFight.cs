@@ -4,28 +4,30 @@ using UnityEngine;
 
 public class PlayerFight : Fight
 {
-    public  float      HIDE_SWORD_TIME;
-    public  GameObject SWORD;
+    public  float      HideSwordTime;
+    public  GameObject Sword;
 
     private const
             int        HIT_TYPES_COUNT  = 4;
 
-    private Animator   animator;
-    private float      deltaTime;
-    private int        hitNum;
+    private GameManager gameManager;
+    private Animator    animator;
+    private float       deltaTime;
+    private int         hitNum;
 
     void Start()
     {
-        animator  = GetComponent<Animator>();
-        deltaTime = 0;
-        hitNum    = 0;
+        gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
+        animator    = GetComponent<Animator>();
+        deltaTime   = 0;
+        hitNum      = 0;
     }
 
     void Update()
     {
-        if (!SWORD.GetComponent<Weapon>().IsWaitingForCooldown())
+        if (!Sword.GetComponent<Weapon>().IsWaitingForCooldown())
         {
-            if (Input.GetMouseButtonDown(0))
+            if (gameManager.CustomInput.GetKeyDown(KeyCode.Mouse0))
             {
                 deltaTime = 0;
                 animator.SetBool("Attacking State", true);
@@ -34,13 +36,13 @@ public class PlayerFight : Fight
 
                 hitNum = (hitNum + 1) % HIT_TYPES_COUNT;
 
-                SWORD.GetComponent<Weapon>().WaitForCooldown(COOLDOWN_TIME);
+                Sword.GetComponent<Weapon>().WaitForCooldown(COOLDOWN_TIME);
             }
             else
             {
                 deltaTime += Time.deltaTime;
 
-                if (deltaTime > HIDE_SWORD_TIME)
+                if (deltaTime > HideSwordTime)
                 {
                     deltaTime = 0;
                     animator.SetBool("Attacking State", false);

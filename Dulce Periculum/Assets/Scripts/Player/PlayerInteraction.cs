@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    public float INTERACTION_DISTANCE;
+    public float InteractionDistance;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward + Vector3.up * Utils.PLAYER_HEIGHT_OFFSET,
-                                                            INTERACTION_DISTANCE - transform.forward.magnitude);
+                                                            InteractionDistance - transform.forward.magnitude);
             foreach (Collider c in hitColliders)
             {
                 if (c.gameObject.CompareTag("Interactable"))

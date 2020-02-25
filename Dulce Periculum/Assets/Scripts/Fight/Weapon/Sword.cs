@@ -4,35 +4,64 @@ using UnityEngine;
 
 public class Sword : Weapon
 {
-    public GameObject SHEATHED;
-    public GameObject UNSHEATHED;
-    public AudioClip  MOVING_SOUND;
-    public AudioClip  SHEATHE_SOUND;
-    public AudioClip  UNSHEATHE_SOUND;
+    public GameObject Sheathed;
+    public GameObject Unsheathed;
+
+    public AudioClip  MovingSound;
+    public AudioClip  SheatheSound;
+    public AudioClip  UnsheatheSound;
+
+    public float      FireOnMaxTime;
+    public float      FireOnCooldown;
+
+    private int            damageDefault;
+    private ParticleSystem particle;
+    private bool           fireOn        = false;
+    private float          fireStart     = float.MaxValue;
 
     void Start()
     {
-        SHEATHED.SetActive(true);
-        UNSHEATHED.SetActive(false);
+        Sheathed.SetActive(true);
+        Unsheathed.SetActive(false);
+
+        damageDefault = Damage;
+        particle      = Unsheathed.GetComponent<ParticleSystem>();
+
+        ParticleSystem.EmissionModule em;
+        em         = particle.emission;
+        em.enabled = false;
+    }
+
+    void Update()
+    {
+        if (fireOn)
+        {
+            fireStart += Time.deltaTime;
+
+            if (fireStart > FireOnMaxTime)
+            {
+                SwitchFireOff();
+            }
+        }
     }
 
     public void UnsheatheSword()
     {
-        SHEATHED.SetActive(false);
-        UNSHEATHED.SetActive(true);
-        UNSHEATHED.GetComponent<AudioSource>().PlayOneShot(UNSHEATHE_SOUND);
+        Sheathed.SetActive(false);
+        Unsheathed.SetActive(true);
+        Unsheathed.GetComponent<AudioSource>().PlayOneShot(UnsheatheSound);
     }
 
     public void SheatheSword()
     {
-        SHEATHED.SetActive(true);
-        UNSHEATHED.SetActive(false);
-        SHEATHED.GetComponent<AudioSource>().PlayOneShot(SHEATHE_SOUND);
+        Sheathed.SetActive(true);
+        Unsheathed.SetActive(false);
+        Sheathed.GetComponent<AudioSource>().PlayOneShot(SheatheSound);
     }
 
     public void SwordSwingSound()
     {
-        UNSHEATHED.GetComponent<AudioSource>().PlayOneShot(MOVING_SOUND);
+        Unsheathed.GetComponent<AudioSource>().PlayOneShot(MovingSound);
     }
 
     public void SwordEnable()
@@ -43,5 +72,33 @@ public class Sword : Weapon
     public void SwordDisable()
     {
         hit = false;
+    }
+
+    public void SwitchFireOn()
+    {
+        ParticleSystem.EmissionModule em;
+        em         = Particle.emission;
+        em.enabled = true;
+        Damage    *= 2;
+        fireOn     = true;
+        fireStart  = 0;
+    }
+
+    public void SwitchFireOff()
+    {
+        ParticleSystem.EmissionModule em;
+        em         = Particle.emission;
+        em.enabled = false;
+        Damage     = damageDefault;
+        fireOn     = false;
+        fireStart  = float.MaxValue;
+    }
+
+    public ParticleSystem Particle
+    {
+        get
+        {
+            return particle;
+        }
     }
 }

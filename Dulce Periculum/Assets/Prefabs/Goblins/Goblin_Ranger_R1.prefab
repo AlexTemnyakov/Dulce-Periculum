@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e7517d28329fb4c8ea41a8ee10e25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DAMAGE: 10
+  Damage: 10
   hit: 0
   AXE: {fileID: 4236613791614775973}
   SWING_SOUND: {fileID: 8300000, guid: a8ad1a44f4e21c748bc49507d6b5b988, type: 3}

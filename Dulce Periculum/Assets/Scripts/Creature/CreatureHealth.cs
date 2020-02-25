@@ -28,10 +28,10 @@ public class CreatureHealth : MonoBehaviour
         Weapon w = other.GetComponent<Weapon>();
         if (w && w.hit)
         {
-            currentHealth -= w.DAMAGE;
+            currentHealth -= w.Damage;
             w.hit          = false;
             other.GetComponent<HitSound>().PlayHitSound(THIS_MATERIAL);
-            print("Hit, damage=" + w.DAMAGE + ", health=" + currentHealth);
+            print("Hit, damage=" + w.Damage + ", health=" + currentHealth);
         }
     }
 

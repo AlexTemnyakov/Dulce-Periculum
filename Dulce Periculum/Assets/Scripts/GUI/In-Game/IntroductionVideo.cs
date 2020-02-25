@@ -5,14 +5,17 @@ using UnityEngine.UI;
 
 public class IntroductionVideo : MonoBehaviour
 {
+    private GameManager  gameManager;
     private GameObject   slide;
     private GameObject[] texts;
-    private float        showTime    = 5f;
+    private float        showTime    = 2f;
     private bool         waiting     = false;
     private int          currentText = -1;
 
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
+
         slide = transform.GetChild(0).gameObject;
         texts = new GameObject[slide.transform.childCount];
         for (int i = 0; i < texts.Length; i++)
@@ -40,6 +43,8 @@ public class IntroductionVideo : MonoBehaviour
     private IEnumerator ShowText()
     {
         waiting = true;
+
+        gameManager.CustomInput.Block();
 
         GameObject textObj = texts[currentText];
         Text       text    = textObj.GetComponent<Text>();
@@ -80,6 +85,8 @@ public class IntroductionVideo : MonoBehaviour
         }
 
         textObj.SetActive(false);
+
+        gameManager.CustomInput.Unblock();
 
         waiting = false;
     }
