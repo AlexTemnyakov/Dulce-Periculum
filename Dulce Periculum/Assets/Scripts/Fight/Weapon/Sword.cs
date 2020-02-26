@@ -16,8 +16,8 @@ public class Sword : Weapon
 
     private int            damageDefault;
     private ParticleSystem particle;
-    private bool           fireOn        = false;
-    private float          fireStart     = float.MaxValue;
+    private float          fireStart;
+    private float          fireCooldownStart;
 
     void Start()
     {
@@ -27,6 +27,9 @@ public class Sword : Weapon
         damageDefault = Damage;
         particle      = Unsheathed.GetComponent<ParticleSystem>();
 
+        fireStart         = 0;
+        fireCooldownStart = 0;
+
         ParticleSystem.EmissionModule em;
         em         = particle.emission;
         em.enabled = false;
@@ -34,15 +37,13 @@ public class Sword : Weapon
 
     void Update()
     {
-        if (fireOn)
-        {
-            fireStart += Time.deltaTime;
+        if (fireStart > 0)
+            fireStart -= Time.deltaTime;
+        else
+            SwitchFireOff();
 
-            if (fireStart > FireOnMaxTime)
-            {
-                SwitchFireOff();
-            }
-        }
+        if (fireCooldownStart > 0)
+            fireCooldownStart -= Time.deltaTime;
     }
 
     public void UnsheatheSword()
@@ -76,29 +77,31 @@ public class Sword : Weapon
 
     public void SwitchFireOn()
     {
-        ParticleSystem.EmissionModule em;
-        em         = Particle.emission;
-        em.enabled = true;
-        Damage    *= 2;
-        fireOn     = true;
-        fireStart  = 0;
+        if (fireCooldownStart <= 0)
+        {
+            ParticleSystem.EmissionModule em;
+            em                = particle.emission;
+            em.enabled        = true;
+            Damage           *= 2;
+            fireStart         = FireOnMaxTime;
+            fireCooldownStart = FireOnCooldown;
+        }
     }
 
     public void SwitchFireOff()
     {
         ParticleSystem.EmissionModule em;
-        em         = Particle.emission;
-        em.enabled = false;
-        Damage     = damageDefault;
-        fireOn     = false;
-        fireStart  = float.MaxValue;
+        em                = particle.emission;
+        em.enabled        = false;
+        Damage            = damageDefault;
+        fireStart         = 0;
     }
 
-    public ParticleSystem Particle
+    public bool isFireOn
     {
         get
         {
-            return particle;
+            return particle.emission.enabled;
         }
     }
 }

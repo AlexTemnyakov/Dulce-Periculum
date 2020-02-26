@@ -1923,7 +1923,8 @@ MonoBehaviour:
   MovingSound: {fileID: 8300000, guid: 52fa067c25c5c401b811eb86d142287e, type: 3}
   SheatheSound: {fileID: 8300000, guid: 1e1f9ae893727714a84e0c2c522a9259, type: 3}
   UnsheatheSound: {fileID: 8300000, guid: 1e1f9ae893727714a84e0c2c522a9259, type: 3}
-  FireOnMaxTime: 40
+  FireOnMaxTime: 20
+  FireOnCooldown: 60
 --- !u!198 &557568214
 ParticleSystem:
   m_ObjectHideFlags: 0
