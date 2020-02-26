@@ -6,18 +6,19 @@ public abstract class CompositeBT : NodeBT
 {
     protected List<NodeBT> nodes = new List<NodeBT>();
 
-    public CompositeBT()
+    public CompositeBT(List<NodeBT> __nodes = null)
     {
-
-    }
-
-    public CompositeBT(List<NodeBT> __nodes)
-    {
-        nodes = __nodes;
+        if (__nodes != null)
+            nodes = __nodes;
     }
 
     public void AddNode(NodeBT n)
     {
         nodes.Add(n);
+    }
+
+    public void AddNodes(List<NodeBT> __nodes)
+    {
+        nodes.AddRange(__nodes);
     }
 }

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SucceederBT : NodeBT
+public class SucceederBT : DecoratorBT
 {
-    private NodeBT node;
-
     public SucceederBT(NodeBT __node)
     {
         node = __node;

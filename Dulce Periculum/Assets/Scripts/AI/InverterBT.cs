@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InverterBT : NodeBT
+public class InverterBT : DecoratorBT
 {
-    private NodeBT node;
-
     public InverterBT(NodeBT __node)
     {
         node = __node;
