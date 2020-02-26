@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class IntroductionVideo : MonoBehaviour
 {
     private GameManager  gameManager;
-    private GameObject   slide;
+    //private GameObject   slide;
     private GameObject[] texts;
     private float        showTime    = 2f;
     private bool         waiting     = false;
@@ -16,11 +16,11 @@ public class IntroductionVideo : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
 
-        slide = transform.GetChild(0).gameObject;
-        texts = new GameObject[slide.transform.childCount];
+        //slide = transform.GetChild(0).gameObject;
+        texts = new GameObject[transform.childCount];
         for (int i = 0; i < texts.Length; i++)
-            texts[i] = slide.transform.GetChild(i).gameObject;
-        slide.SetActive(true);
+            texts[i] = transform.GetChild(i).gameObject;
+        //slide.SetActive(true);
     }
 
     void Update()
@@ -95,7 +95,7 @@ public class IntroductionVideo : MonoBehaviour
     {
         waiting = true;
 
-        Image img = slide.GetComponent<Image>();
+        Image img = GetComponent<Image>();
         Color tmp = img.color;
         float time;
 

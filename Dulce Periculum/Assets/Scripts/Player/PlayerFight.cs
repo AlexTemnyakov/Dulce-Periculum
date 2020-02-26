@@ -29,14 +29,20 @@ public class PlayerFight : Fight
         {
             if (gameManager.CustomInput.GetKeyDown(KeyCode.Mouse0))
             {
-                deltaTime = 0;
-                animator.SetBool("Attacking State", true);
-                animator.SetTrigger("Attack");
-                animator.SetInteger("Hit", hitNum);
+                if (!animator.GetBool("Attacking State"))
+                {
+                    deltaTime = 0;
+                    animator.SetBool("Attacking State", true);
+                }
+                else
+                {
+                    animator.SetTrigger("Attack");
+                    animator.SetInteger("Hit", hitNum);
 
-                hitNum = (hitNum + 1) % HIT_TYPES_COUNT;
+                    hitNum = (hitNum + 1) % HIT_TYPES_COUNT;
 
-                Sword.GetComponent<Weapon>().WaitForCooldown(COOLDOWN_TIME);
+                    Sword.GetComponent<Weapon>().WaitForCooldown(COOLDOWN_TIME);
+                }
             }
             else
             {

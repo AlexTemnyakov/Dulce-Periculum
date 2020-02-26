@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         else if (!player)
             inGameGUI.GoToLoseMenu();
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             inGameGUI.GoToPauseMenu();
     }
 
